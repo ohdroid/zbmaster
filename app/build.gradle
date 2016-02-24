@@ -11,7 +11,11 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "String", "BMOB_APP_KEY", "\"3218855793fc97dbc5a38b5f531e6cc8\""
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
