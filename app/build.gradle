@@ -6,6 +6,7 @@ def keystorePropertiesFile = rootProject.file("appkey.properties");
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
+
 android {
     compileSdkVersion 'Google Apis:Google Apis:23'
     buildToolsVersion "23.0.1"
