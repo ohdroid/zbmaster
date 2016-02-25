@@ -1,23 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
-
-    ext.whoami = 'test'
-
-    extensions.add("whoami","test")
-//    loadProperties()
-
-//    ext.app_key_info =("appkey.properties")
-//
-//
-//    loadProperties()
-//
-//    fun loadProperties(){
-//        def pro = new Properties()
-//        def file =  new File("appkey.properties")
-//        file.withInputStream {stream->pro.load(stream)}
-//        print pro.bmob_application_key
-//    }
 
     repositories {
         jcenter()
