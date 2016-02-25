@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 //get key info
-def keystorePropertiesFile = rootProject.file("appskey.properties");
+def keystorePropertiesFile = rootProject.file("appkeys.properties");
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
