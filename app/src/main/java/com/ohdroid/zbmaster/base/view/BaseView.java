@@ -8,5 +8,5 @@ import android.content.Context;
  * 1.目前的功能为获取context
  */
 public interface BaseView {
-    Context getContext();
+//    Context getContext();
 }

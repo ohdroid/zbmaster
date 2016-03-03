@@ -1,6 +1,14 @@
 package com.ohdroid.zbmaster.base.view;
 
+import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.ohdroid.zbmaster.di.AppModule;
+import com.ohdroid.zbmaster.di.PerActivityModule;
+import com.ohdroid.zbmaster.login.di.DaggerLoginActivityComponent;
+import com.ohdroid.zbmaster.login.di.LoginActivityComponent;
+import com.ohdroid.zbmaster.login.di.LoginActivityModule;
 
 /**
  * Created by ohdroid on 2016/2/23.
@@ -9,4 +17,9 @@ import android.support.v7.app.AppCompatActivity;
  */
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
+    @Override
+    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onCreate(savedInstanceState, persistentState);
+
+    }
 }
