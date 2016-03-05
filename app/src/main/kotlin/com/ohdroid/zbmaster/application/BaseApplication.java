@@ -5,6 +5,7 @@ import android.app.Application;
 import com.ohdroid.zbmaster.BuildConfig;
 import com.ohdroid.zbmaster.di.AppModule;
 import com.ohdroid.zbmaster.di.ApplicationComponent;
+import com.ohdroid.zbmaster.di.ApplicationModule;
 import com.ohdroid.zbmaster.di.DaggerApplicationComponent;
 
 import cn.bmob.v3.Bmob;
@@ -20,7 +21,7 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Bmob.initialize(this, BuildConfig.BMOB_APP_KEY);
-        appComponent = DaggerApplicationComponent.builder().appModule(new AppModule(this)).build();
+        appComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
     }
 
 

@@ -4,11 +4,7 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.ohdroid.zbmaster.di.AppModule;
-import com.ohdroid.zbmaster.di.PerActivityModule;
-import com.ohdroid.zbmaster.login.di.DaggerLoginActivityComponent;
-import com.ohdroid.zbmaster.login.di.LoginActivityComponent;
-import com.ohdroid.zbmaster.login.di.LoginActivityModule;
+import com.ohdroid.zbmaster.application.BaseView;
 
 /**
  * Created by ohdroid on 2016/2/23.

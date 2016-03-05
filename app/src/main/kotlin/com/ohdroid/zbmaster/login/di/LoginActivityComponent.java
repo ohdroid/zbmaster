@@ -7,6 +7,7 @@ import com.ohdroid.zbmaster.di.exannotation.PerActivity;
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter;
 import com.ohdroid.zbmaster.login.presenter.imp.LoginPresenterImp;
 import com.ohdroid.zbmaster.login.view.LoginActivity;
+import com.ohdroid.zbmaster.login.view.LoginFragment;
 
 import dagger.Component;
 
@@ -15,12 +16,14 @@ import dagger.Component;
  */
 @PerActivity
 //@Component(dependencies = AppModule.class, modules = {PerActivityModule.class, LoginActivityModule.class})
-@Component(dependencies = AppModule.class, modules = {PerActivityModule.class, LoginModule.class})
+@Component(dependencies = AppModule.class, modules = {LoginModule.class})
 public interface LoginActivityComponent extends AbstractActivityComponent {
 
-    void inject(LoginActivity loginActivity);//注入LoginActivity需要的可注入对象
+//    void inject(LoginActivity loginActivity);//注入LoginActivity需要的可注入对象
 
-    //    TODO 提供登陆presenter
+    void inject(LoginFragment loginFragment);
+
+    //提供登陆presenter
     @PerActivity
     LoginPresenter loginPresenter();
 

@@ -14,7 +14,7 @@ import dagger.Component;
  * activity scope 服务 所以生命周期应该与activity同步
  */
 @PerActivity
-@Component(dependencies = AppModule.class, modules = PerActivityModule.class)
+@Component(dependencies = ApplicationModule.class, modules = PerActivityModule.class)
 public interface PerActivityComponent {
 
     //暴露以供使用

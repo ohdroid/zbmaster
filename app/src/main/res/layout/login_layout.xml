@@ -5,19 +5,24 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/btn_qq_login"
+    <fragment
+        android:id="@+id/fragment_login"
+        android:name="com.ohdroid.zbmaster.login.view.LoginFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="QQ登录"
-        android:textSize="20sp" />
+        android:layout_height="match_parent" />
+    <!--<Button-->
+    <!--android:id="@+id/btn_qq_login"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="QQ登录"-->
+    <!--android:textSize="20sp" />-->
 
-    <Button
-        android:id="@+id/btn_wechat_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="微信登录"
-        android:textSize="20sp" />
+    <!--<Button-->
+    <!--android:id="@+id/btn_wechat_login"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="微信登录"-->
+    <!--android:textSize="20sp" />-->
 
 
 </LinearLayout>

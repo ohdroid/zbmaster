@@ -11,7 +11,7 @@ import dagger.Component;
  * activity 级抽象的共有的入口
  */
 @PerActivity
-@Component(dependencies = AppModule.class, modules = PerActivityModule.class)
+@Component(dependencies = ApplicationModule.class, modules = PerActivityModule.class)
 public interface AbstractActivityComponent {
 
     @PerActivity
