@@ -4,9 +4,6 @@ import android.app.Activity;
 
 import com.ohdroid.zbmaster.di.exannotation.PerActivity;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-
 import dagger.Component;
 
 /**

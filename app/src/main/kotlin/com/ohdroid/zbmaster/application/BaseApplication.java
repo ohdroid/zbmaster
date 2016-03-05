@@ -3,7 +3,6 @@ package com.ohdroid.zbmaster.application;
 import android.app.Application;
 
 import com.ohdroid.zbmaster.BuildConfig;
-import com.ohdroid.zbmaster.di.AppModule;
 import com.ohdroid.zbmaster.di.ApplicationComponent;
 import com.ohdroid.zbmaster.di.ApplicationModule;
 import com.ohdroid.zbmaster.di.DaggerApplicationComponent;

@@ -1,11 +1,8 @@
 package com.ohdroid.zbmaster.di;
 
-import android.app.Application;
 import android.content.Context;
 
 import com.ohdroid.zbmaster.di.exannotation.ForApplication;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;

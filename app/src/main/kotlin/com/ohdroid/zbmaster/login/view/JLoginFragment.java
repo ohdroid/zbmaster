@@ -3,7 +3,7 @@ package com.ohdroid.zbmaster.login.view;
 import android.content.Context;
 
 import com.ohdroid.zbmaster.base.view.BaseFragment;
-import com.ohdroid.zbmaster.di.AppModule;
+import com.ohdroid.zbmaster.di.ApplicationModule;
 import com.ohdroid.zbmaster.login.di.DaggerLoginActivityComponent;
 import com.ohdroid.zbmaster.login.di.LoginActivityComponent;
 import com.ohdroid.zbmaster.login.di.LoginModule;
@@ -19,7 +19,7 @@ public class JLoginFragment extends BaseFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         component = DaggerLoginActivityComponent.builder()
-                .appModule(new AppModule(context.getApplicationContext()))
+                .applicationModule(new ApplicationModule(context.getApplicationContext()))
                 .loginModule(new LoginModule(getActivity()))
                 .build();
 
