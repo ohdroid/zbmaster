@@ -2,6 +2,7 @@ package com.ohdroid.zbmaster.di;
 
 import android.content.Context;
 
+import com.ohdroid.zbmaster.data.DataManager;
 import com.ohdroid.zbmaster.di.exannotation.ForApplication;
 
 import dagger.Module;
