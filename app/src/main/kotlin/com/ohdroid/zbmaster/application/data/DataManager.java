@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.data;
+package com.ohdroid.zbmaster.application.data;
 
 import com.ohdroid.zbmaster.login.data.LoginManager;
 

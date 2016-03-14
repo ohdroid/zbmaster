@@ -4,7 +4,7 @@ import android.content.Context
 import cn.bmob.v3.BmobUser
 import cn.bmob.v3.exception.BmobException
 import cn.bmob.v3.listener.LogInListener
-import com.ohdroid.zbmaster.di.exannotation.ForApplication
+import com.ohdroid.zbmaster.application.di.exannotation.ForApplication
 import com.ohdroid.zbmaster.login.data.bmob.BmobLoginManager
 import com.ohdroid.zbmaster.login.model.AccountInfo
 import javax.inject.Inject

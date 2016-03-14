@@ -3,7 +3,7 @@ package com.ohdroid.zbmaster.login.view;
 import android.content.Context;
 
 import com.ohdroid.zbmaster.base.view.BaseFragment;
-import com.ohdroid.zbmaster.di.ApplicationModule;
+import com.ohdroid.zbmaster.application.di.ApplicationModule;
 import com.ohdroid.zbmaster.login.di.DaggerLoginActivityComponent;
 import com.ohdroid.zbmaster.login.di.LoginActivityComponent;
 import com.ohdroid.zbmaster.login.di.LoginModule;

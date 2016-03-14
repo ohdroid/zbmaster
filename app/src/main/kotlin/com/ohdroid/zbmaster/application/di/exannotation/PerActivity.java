@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.di.exannotation;
+package com.ohdroid.zbmaster.application.di.exannotation;
 
 import javax.inject.Qualifier;
 import javax.inject.Scope;

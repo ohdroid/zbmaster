@@ -3,10 +3,10 @@ package com.ohdroid.zbmaster.login.di;
 import android.app.Activity;
 import android.content.Context;
 
-import com.ohdroid.zbmaster.data.DataManager;
-import com.ohdroid.zbmaster.di.PerActivityModule;
-import com.ohdroid.zbmaster.di.exannotation.ForApplication;
-import com.ohdroid.zbmaster.di.exannotation.PerActivity;
+import com.ohdroid.zbmaster.application.data.DataManager;
+import com.ohdroid.zbmaster.application.di.PerActivityModule;
+import com.ohdroid.zbmaster.application.di.exannotation.ForApplication;
+import com.ohdroid.zbmaster.application.di.exannotation.PerActivity;
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter;
 import com.ohdroid.zbmaster.login.presenter.imp.LoginPresenterImp;
 

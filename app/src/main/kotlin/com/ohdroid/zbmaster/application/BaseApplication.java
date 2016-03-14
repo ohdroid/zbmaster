@@ -3,9 +3,9 @@ package com.ohdroid.zbmaster.application;
 import android.app.Application;
 
 import com.ohdroid.zbmaster.BuildConfig;
-import com.ohdroid.zbmaster.di.ApplicationComponent;
-import com.ohdroid.zbmaster.di.ApplicationModule;
-import com.ohdroid.zbmaster.di.DaggerApplicationComponent;
+import com.ohdroid.zbmaster.application.di.ApplicationComponent;
+import com.ohdroid.zbmaster.application.di.ApplicationModule;
+import com.ohdroid.zbmaster.application.di.DaggerApplicationComponent;
 
 import cn.bmob.v3.Bmob;
 

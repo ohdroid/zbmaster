@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.di.exannotation;
+package com.ohdroid.zbmaster.application.di.exannotation;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

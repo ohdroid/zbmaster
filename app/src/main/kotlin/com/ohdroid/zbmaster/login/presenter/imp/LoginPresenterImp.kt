@@ -1,7 +1,7 @@
 package com.ohdroid.zbmaster.login.presenter.imp
 
 import android.content.Context
-import com.ohdroid.zbmaster.data.DataManager
+import com.ohdroid.zbmaster.application.data.DataManager
 import com.ohdroid.zbmaster.login.data.LoginManager
 import com.ohdroid.zbmaster.login.model.AccountInfo
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter

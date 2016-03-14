@@ -6,7 +6,7 @@ import cn.bmob.v3.BmobUser
 import cn.bmob.v3.exception.BmobException
 import cn.bmob.v3.listener.LogInListener
 import cn.bmob.v3.listener.SaveListener
-import com.ohdroid.zbmaster.di.exannotation.ForApplication
+import com.ohdroid.zbmaster.application.di.exannotation.ForApplication
 import com.ohdroid.zbmaster.login.data.AccountManager
 import com.ohdroid.zbmaster.login.data.LoginManager
 import com.ohdroid.zbmaster.login.model.AccountInfo

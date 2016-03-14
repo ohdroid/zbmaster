@@ -1,8 +1,8 @@
-package com.ohdroid.zbmaster.di;
+package com.ohdroid.zbmaster.application.di;
 
 import android.app.Activity;
 
-import com.ohdroid.zbmaster.di.exannotation.PerActivity;
+import com.ohdroid.zbmaster.application.di.exannotation.PerActivity;
 
 import dagger.Component;
 

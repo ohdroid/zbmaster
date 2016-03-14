@@ -1,8 +1,8 @@
 package com.ohdroid.zbmaster.login.di;
 
-import com.ohdroid.zbmaster.di.AbstractActivityComponent;
-import com.ohdroid.zbmaster.di.ApplicationModule;
-import com.ohdroid.zbmaster.di.exannotation.PerActivity;
+import com.ohdroid.zbmaster.application.di.AbstractActivityComponent;
+import com.ohdroid.zbmaster.application.di.ApplicationModule;
+import com.ohdroid.zbmaster.application.di.exannotation.PerActivity;
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter;
 import com.ohdroid.zbmaster.login.view.LoginFragment;
 

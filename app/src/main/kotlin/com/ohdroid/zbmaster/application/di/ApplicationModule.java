@@ -1,9 +1,8 @@
-package com.ohdroid.zbmaster.di;
+package com.ohdroid.zbmaster.application.di;
 
 import android.content.Context;
 
-import com.ohdroid.zbmaster.data.DataManager;
-import com.ohdroid.zbmaster.di.exannotation.ForApplication;
+import com.ohdroid.zbmaster.application.di.exannotation.ForApplication;
 
 import dagger.Module;
 import dagger.Provides;

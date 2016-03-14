@@ -1,11 +1,9 @@
-package com.ohdroid.zbmaster.di;
+package com.ohdroid.zbmaster.application.di;
 
 import android.content.Context;
-import android.media.AudioManager;
 
-import com.ohdroid.zbmaster.data.DataManager;
-import com.ohdroid.zbmaster.di.exannotation.ForApplication;
-import com.ohdroid.zbmaster.login.data.LoginManager;
+import com.ohdroid.zbmaster.application.data.DataManager;
+import com.ohdroid.zbmaster.application.di.exannotation.ForApplication;
 
 import javax.inject.Singleton;
 
