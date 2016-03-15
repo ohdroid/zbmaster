@@ -8,14 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
 import com.ohdroid.zbmaster.R
-import com.ohdroid.zbmaster.application.data.DataManager
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.login.model.AccountInfo
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter
 import org.jetbrains.anko.support.v4.find
-import javax.inject.Inject
 
 /**
  * Created by ohdroid on 2016/3/5.
