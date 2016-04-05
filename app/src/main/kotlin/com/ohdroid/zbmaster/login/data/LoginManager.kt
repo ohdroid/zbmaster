@@ -13,7 +13,7 @@ import javax.inject.Singleton
 /**
  * Created by ohdroid on 2016/3/14.
  */
-class LoginManager @Inject constructor(@ForApplication val context: Context) {
+class LoginManager @Inject constructor(@ForApplication val context: Context):AccountManager {
 
     var accountManager: AccountManager? = null
 
@@ -22,17 +22,30 @@ class LoginManager @Inject constructor(@ForApplication val context: Context) {
         accountManager = BmobLoginManager(context)
     }
 
-    fun login(userName: String, userPassword: String, logInListener: LoginListener) {
+//    @Override
+//    fun login(userName: String, userPassword: String, logInListener: LoginListener) {
+//
+//        accountManager?.login(userName, userPassword, logInListener)
+//
+//    }
+//
+//    fun regist(accountInfo: AccountInfo, registerListener: LoginListener) {
+//        println("bmob register")
+//        accountManager?.regist(accountInfo, registerListener)
+//    }
 
-        accountManager?.login(userName, userPassword, logInListener)
-
+    override fun login(userName: String, userPassword: String, loginListener: LoginListener) {
+        accountManager?.login(userName, userPassword, loginListener)
     }
 
-    fun regist(accountInfo: AccountInfo, registerListener: LoginListener) {
-        println("bmob register")
-
+    override fun regist(accountInfo: AccountInfo, registerListener: LoginListener) {
         accountManager?.regist(accountInfo, registerListener)
     }
+
+    override fun getUserAccount(): AccountInfo? {
+        return null
+    }
+
 
     interface LoginListener {
         fun onSuccess()

@@ -1,5 +1,6 @@
 package com.ohdroid.zbmaster.application.data;
 
+import com.ohdroid.zbmaster.facesync.data.FaceSyncManager;
 import com.ohdroid.zbmaster.login.data.LoginManager;
 
 import javax.inject.Inject;
@@ -12,12 +13,18 @@ import javax.inject.Singleton;
  */
 public class DataManager {
     private LoginManager loginManager;
+    private FaceSyncManager faceSyncManager;
     @Inject
-    public DataManager(LoginManager loginManager){
+    public DataManager(LoginManager loginManager, FaceSyncManager faceSyncManager){
         this.loginManager = loginManager;
+        this.faceSyncManager = faceSyncManager;
     }
 
     public LoginManager getLoginManger(){
         return this.loginManager;
+    }
+
+    public FaceSyncManager getFaceSyncManager(){
+        return this.faceSyncManager;
     }
 }

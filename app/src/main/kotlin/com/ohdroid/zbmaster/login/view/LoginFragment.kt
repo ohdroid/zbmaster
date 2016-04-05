@@ -10,6 +10,8 @@ import android.widget.Button
 import android.widget.EditText
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.ex.showToast
+import com.ohdroid.zbmaster.base.view.BaseFragment
+import com.ohdroid.zbmaster.facesync.FaceSyncActivity
 import com.ohdroid.zbmaster.login.model.AccountInfo
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter
 import org.jetbrains.anko.support.v4.find
@@ -17,7 +19,7 @@ import org.jetbrains.anko.support.v4.find
 /**
  * Created by ohdroid on 2016/3/5.
  */
-class LoginFragment : JLoginFragment(), LoginView, View.OnClickListener {
+class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
 
 
     val loginBtn: Button by lazy {
@@ -81,10 +83,12 @@ class LoginFragment : JLoginFragment(), LoginView, View.OnClickListener {
     }
 
     override fun loginSuccess() {
-        showToast("login success");
+        //跳转到表情同步页面
+        FaceSyncActivity.launch(context)
     }
 
     override fun loginFailed(errorMessage: String) {
+        showToast(errorMessage)
     }
 
     override fun registerSuccess() {

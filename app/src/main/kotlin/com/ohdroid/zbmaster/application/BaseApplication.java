@@ -2,6 +2,7 @@ package com.ohdroid.zbmaster.application;
 
 import android.app.Application;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.ohdroid.zbmaster.BuildConfig;
 import com.ohdroid.zbmaster.application.di.ApplicationComponent;
 import com.ohdroid.zbmaster.application.di.ApplicationModule;
@@ -21,6 +22,7 @@ public class BaseApplication extends Application {
         super.onCreate();
         Bmob.initialize(this, BuildConfig.BMOB_APP_KEY);
         appComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
+        Fresco.initialize(this);
     }
 
 

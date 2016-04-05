@@ -25,7 +25,7 @@ public class LoginModule extends PerActivityModule {
 
     @Provides
     @PerActivity
-    public LoginPresenter provideLoginPresenter(@ForApplication Context context, DataManager dataManager) {
-        return new LoginPresenterImp(context, dataManager);
+    public LoginPresenter provideLoginPresenter(DataManager dataManager) {
+        return new LoginPresenterImp(provideContext(), dataManager);
     }
 }

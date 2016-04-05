@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">ZBMaster</string>
+
+    <!--home page-->
+    <string name="btn_area_zb">zb_area</string>
+    <string name="btn_area_movie">movie_area</string>
+    <string name="btn_area_face">face_area</string>
+    <string name="btn_area_chat">闲聊区</string>
 </resources>

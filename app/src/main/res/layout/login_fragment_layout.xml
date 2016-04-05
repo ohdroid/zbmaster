@@ -19,6 +19,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
+        android:text="ohdroid"
         android:hint="登录名（账号/邮箱/电话）" />
 
     <EditText
@@ -29,6 +30,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
         android:hint="密码"
+        android:text="123456"
         android:inputType="textPassword" />
 
     <Button
