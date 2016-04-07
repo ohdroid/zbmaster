@@ -45,7 +45,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".homepage.areaface.AreaFaceActivity" />
+        <activity android:name=".homepage.areaface.view.AreaFaceActivity" />
     </application>
 
 </manifest>

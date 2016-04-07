@@ -8,6 +8,8 @@ import com.ohdroid.zbmaster.application.di.exannotation.ForApplication;
 import com.ohdroid.zbmaster.application.di.exannotation.PerActivity;
 import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenter;
 import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenterImp;
+import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter;
+import com.ohdroid.zbmaster.homepage.areaface.presenter.imp.AreaFacePresenterImp;
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter;
 import com.ohdroid.zbmaster.login.presenter.imp.LoginPresenterImp;
 
@@ -23,25 +25,28 @@ public class ActivityModule extends PerActivityModule {
         super(activity);
     }
 
-    //=======================login 模块 start======================================
+    //=======================login 模块======================================
     @Provides
     @PerActivity
     public LoginPresenter provideLoginPresenter(DataManager dataManager) {
         return new LoginPresenterImp(provideContext(), dataManager);
     }
 
-    //=======================login 模块 over======================================
 
-
-    //=======================face sync 模块 start======================================
+    //=======================face sync 模块 ======================================
     @Provides
     @PerActivity
-    public FaceSyncPresenter provideFaceSyncPresenter(@PerActivity Activity activity,DataManager dataManager) {
-        return new FaceSyncPresenterImp(activity,dataManager);
+    public FaceSyncPresenter provideFaceSyncPresenter(@PerActivity Activity activity, DataManager dataManager) {
+        return new FaceSyncPresenterImp(activity, dataManager);
     }
 
 
-    //=======================face sync 模块 over=======================================
+    //=======================face area 模块 =======================================
+    @Provides
+    @PerActivity
+    public AreaFacePresenter provideFaceAreaPresenter(@PerActivity Activity activity) {
+        return new AreaFacePresenterImp(activity);
+    }
 
 
 }

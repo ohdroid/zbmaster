@@ -6,4 +6,15 @@
     <string name="btn_area_movie">movie_area</string>
     <string name="btn_area_face">face_area</string>
     <string name="btn_area_chat">闲聊区</string>
+
+
+    <!--表情区-->
+    <string name="area_face_title">表情区</string>
+    <string name="area_face_detail_btn_favorite">收藏</string>
+    <string name="area_face_detail_btn_share">分享</string>
+    <string name="area_face_detail_btn_download">下载</string>
+    <string name="area_face_detail_btn_close">关闭</string>
+
+    <string name="hint_load_more_data">加载更多数据中#8230</string>
+
 </resources>

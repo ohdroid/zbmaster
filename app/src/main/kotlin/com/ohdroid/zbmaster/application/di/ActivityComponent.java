@@ -3,6 +3,7 @@ package com.ohdroid.zbmaster.application.di;
 import com.ohdroid.zbmaster.application.di.exannotation.PerActivity;
 import com.ohdroid.zbmaster.facesync.FaceSyncFragment;
 import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenter;
+import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter;
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter;
 import com.ohdroid.zbmaster.login.view.LoginFragment;
 
@@ -32,6 +33,11 @@ public interface ActivityComponent extends AbstractActivityComponent {
     @PerActivity
     FaceSyncPresenter faceSyncPresenter();
     //==============================face sync 模块   over==================================
+
+    //==============================face area 模块   start==================================
+    @PerActivity
+    AreaFacePresenter faceAreaPresenter();
+    //==============================face area 模块   over==================================
 
 
 }

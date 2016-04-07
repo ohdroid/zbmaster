@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.base.view.BaseFragment
-import com.ohdroid.zbmaster.homepage.areaface.AreaFaceActivity
+import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceActivity
 import org.jetbrains.anko.support.v4.find
 
 /**
