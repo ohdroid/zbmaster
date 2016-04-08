@@ -42,6 +42,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
     override fun showFaceInfoDetail(faceInfo: FaceInfo) {
         AreaFaceDetailFragment.launch(activity.supportFragmentManager, R.id.face_fragment_container, faceInfo.faceUrl)
+
     }
 
     /**

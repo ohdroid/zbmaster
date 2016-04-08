@@ -12,7 +12,7 @@ import java.util.*
 /**
  * Created by ohdroid on 2016/4/8.
  *
- *presenter层调用，用于向网络请求数据
+ *presenter层调用，用于向网络请求数据，由于同时使用了bmob服务器和七牛服务器,所以这里单独写成类，若是同一API类型可以使用retrofit
  */
 class FaceDataManager {
 
