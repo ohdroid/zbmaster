@@ -60,12 +60,8 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
             //            showEmpty()
             return
         }
-        //        faceListAdapter?.notifyDataSetChanged()
         faceListAdapter?.faceUrls = faces
         faceListAdapter?.notifyDataSetChanged()
-        //        faceListAdapter?.clear()//防止以前有数据未清空
-        //        faceListAdapter?.addAll(faces)
-        //        faces.forEach { f -> println(f.faceTile) }
     }
 
     override fun isHasMoreData(hasMore: Boolean) {
@@ -110,7 +106,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
             faceListAdapter = FaceRecycleViewAdapter(arrayListOf())
             faceListAdapter!!.listener = object : OnRecycleViewItemClickListener {
                 override fun onItemClick(view: View, position: Int) {
-                    println("adapter click: $position")
                     //跳转到表情详情页面
                     presenter.showFaceInfoDetail(position)
                 }
@@ -123,19 +118,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
     inner class FaceRecycleViewAdapter(var faceUrls: MutableList<FaceInfo>) : RecyclerView.Adapter<FaceViewHolder>() {
         var listener: OnRecycleViewItemClickListener? = null
 
-        fun clear() {
-            faceUrls.clear()
-            notifyDataSetChanged()
-        }
-
-        fun addAll(data: MutableList<FaceInfo>) {
-            faceUrls.addAll(data)
-            notifyDataSetChanged()
-        }
-
-
         override fun onBindViewHolder(holder: FaceViewHolder?, position: Int) {
-            //            holder?.itemView?.setOnClickListener({ println(it.toString() + "<<-----view") })
             if (listener != null) {
                 holder?.listener = listener
             }
@@ -194,7 +177,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
             super.onScrolled(recyclerView, dx, dy)
 
             //加载更多的原理是:判断当前显示的内容是否是显示到了recycleview底部
-
             val linearLayoutManager = recyclerView?.layoutManager as LinearLayoutManager//由于gridLayout是继承LinearLayout的所以这里可以强转成LinearLayout
             val itemCount = linearLayoutManager.itemCount
             val lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();

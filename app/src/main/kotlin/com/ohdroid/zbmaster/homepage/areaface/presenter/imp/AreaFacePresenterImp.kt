@@ -2,11 +2,12 @@ package com.ohdroid.zbmaster.homepage.areaface.presenter.imp
 
 import android.content.Context
 import com.ohdroid.zbmaster.application.data.BaseBusiness
+import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.homepage.areaface.data.FaceBusiness
+import com.ohdroid.zbmaster.homepage.areaface.data.FaceDataManager
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
 import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceView
-import java.util.*
 
 /**
  * Created by ohdroid on 2016/4/6.
@@ -17,12 +18,13 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
     var mfaceURLList: MutableList<FaceInfo>? = null
 
     override fun loadFaceList() {
+
         //获取文件列表
         val faceBusiness: FaceBusiness = FaceBusiness();
         faceBusiness.context = context//由于是使用bmob请求数据所以这里必须传入context
-        val params = HashMap<String, String>()//设置为加载静态图
-        params.put("method", "imageMogr2")
-        params.put("format", "jpg")
+        val params = QiniuApi.builder()//使用七牛 API获取静态图片
+                .setImageStatic()
+                .build()
         faceBusiness.requestParams = params
         faceBusiness.execute(BaseBusiness.METHOD_GET, object : BaseBusiness.BaseResultListener<FaceInfo> {
 
@@ -67,9 +69,9 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
         //获取文件列表
         val faceBusiness: FaceBusiness = FaceBusiness();
         faceBusiness.context = context//由于是使用bmob请求数据所以这里必须传入context
-        val params = HashMap<String, String>()//设置为加载静态图
-        params.put("method", "imageMogr2")
-        params.put("format", "jpg")
+        val params = QiniuApi.builder()//使用七牛 API获取静态图片
+                .setImageStatic()
+                .build()
         faceBusiness.startIndex = mfaceURLList!!.size
         faceBusiness.requestParams = params
         faceBusiness.execute(BaseBusiness.METHOD_GET, object : BaseBusiness.BaseResultListener<FaceInfo> {
@@ -101,19 +103,9 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
         if (position < 0 || position >= mfaceURLList!!.size) {
             return
         }
-        //由于采用了七牛的API，这里需要转化成动态的gif图片，要重新构建URL
         val faceInfo: FaceInfo = mfaceURLList!![position]
-
-        println(" dynamic image--->>${getDynamicURL(faceInfo.faceUrl)}")
-        uiView.showFaceInfoDetail(FaceInfo(getDynamicURL(faceInfo.faceUrl), faceInfo.faceTitle))
-    }
-
-    fun getDynamicURL(staticUrl: String): String {
-        if (staticUrl.indexOf("?") <= 0) {
-            //若已经是原始地址那么直接返回
-            return staticUrl
-        }
-        return staticUrl.substring(0, staticUrl.indexOf("?"))
+        //详情图是动态的所以需要重新获取下URL
+        uiView.showFaceInfoDetail(FaceInfo(FaceDataManager.getInstance().getDynamicURL(faceInfo.faceUrl), faceInfo.faceTitle))
     }
 
     override fun attachView(view: AreaFaceView) {

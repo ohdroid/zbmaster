@@ -38,11 +38,6 @@ abstract class BaseBusiness<T> {
      */
     var requestParams: MutableMap<String, String> = HashMap()
 
-    fun addRequestParams(params: Map<String, String>) {
-        requestParams.clear()
-        requestParams.putAll(params)
-    }
-
 
     open fun execute(method: String, listener: BaseResultListener<T>?) {
         this.listener = listener
@@ -65,7 +60,7 @@ abstract class BaseBusiness<T> {
 
 
     /**
-     * 表情数据结果监听器
+     * 数据结果监听器
      */
     interface BaseResultListener<T> {
         fun onSuccess(faces: MutableList<T>?)
