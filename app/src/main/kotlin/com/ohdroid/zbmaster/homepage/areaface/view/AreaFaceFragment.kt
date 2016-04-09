@@ -7,6 +7,8 @@ import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +16,7 @@ import android.widget.TextView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.ex.showToast
+import com.ohdroid.zbmaster.application.view.RecycleViewHeaderFooterAdapter
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
@@ -28,7 +31,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
     val faceList: RecyclerView by lazy { find<RecyclerView>(R.id.rv_face) }
     val freshLayout: SwipeRefreshLayout by lazy { find<SwipeRefreshLayout>(R.id.refresh_layout) }
     var faceListAdapter: FaceRecycleViewAdapter? = null
-
+    var faceListAdapterWrap: RecycleViewHeaderFooterAdapter<FaceViewHolder>? = null
     lateinit var presenter: AreaFacePresenter
 
 
@@ -42,7 +45,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
     override fun showFaceInfoDetail(faceInfo: FaceInfo) {
         AreaFaceDetailFragment.launch(activity.supportFragmentManager, R.id.face_fragment_container, faceInfo.faceUrl)
-
     }
 
     /**
@@ -52,13 +54,12 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
         println("show face info data")
 
-
         if ( freshLayout.isRefreshing) {
             freshLayout.isRefreshing = false
         }
 
         if (faces.size == 0) {
-            //            showEmpty()
+            showEmpty()
             return
         }
         faceListAdapter?.faceUrls = faces
@@ -69,6 +70,9 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         println("set has more data :$hasMore")
         loadMoreListener.canLoadingMore = hasMore
         loadMoreListener.isLoadingMore = false
+        if (!hasMore) {
+            showEmpty()
+        }
     }
 
     val loadMoreListener = object : RecycleViewLoadMoreListener() {
@@ -77,7 +81,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
             presenter.loadMoreFaceInfo()
             showToast(resources.getString(R.string.hint_load_more_data))
         }
-
     }
 
     override fun showMoreFaceInfo(faces: MutableList<FaceInfo>) {
@@ -86,7 +89,14 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
     }
 
     override fun showEmpty() {
-        throw UnsupportedOperationException()
+        println(".........show empty foot..............")
+        val emptyView: TextView = TextView(context)
+        emptyView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        emptyView.setTextColor(R.color.material_grey_100)
+        emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+        emptyView.setText(R.string.hint_empty_data)
+        emptyView.gravity = Gravity.CENTER
+        faceListAdapterWrap?.addFootView(emptyView)
     }
 
 
@@ -113,7 +123,9 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
             }
         }
 
-        faceList.adapter = faceListAdapter
+        //        faceList.adapter = faceListAdapter
+        faceListAdapterWrap = RecycleViewHeaderFooterAdapter<FaceViewHolder>(faceListAdapter)
+        faceList.adapter = faceListAdapterWrap
     }
 
     inner class FaceRecycleViewAdapter(var faceUrls: MutableList<FaceInfo>) : RecyclerView.Adapter<FaceViewHolder>() {
@@ -134,7 +146,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         override fun getItemCount(): Int {
             return faceUrls.size
         }
-
 
     }
 
