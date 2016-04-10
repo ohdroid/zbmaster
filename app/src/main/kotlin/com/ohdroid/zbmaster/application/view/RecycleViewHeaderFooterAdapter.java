@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Created by ohdroid on 2016/4/9.
- * <p>
+ * <p/>
  * 能够添加hear和foot的recycleViewAdapter
  */
 public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
@@ -84,6 +84,20 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
             notifyItemRangeChanged(fromPosition + headerViewsCountCount, toPosition + headerViewsCountCount + itemCount);
         }
     };
+
+    public View getFooterView() {
+        if (mFooterViewHolders.size() == 0) {
+            return null;
+        }
+        return mFooterViewHolders.get(0);
+    }
+
+    public View getHeaderViwe() {
+        if (mHeaderViewHolders.size() == 0) {
+            return null;
+        }
+        return mHeaderViewHolders.get(0);
+    }
 
     public int getHeadersCount() {
         return mHeaderViewHolders.size();
@@ -178,5 +192,66 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
 
     public RecyclerView.Adapter getWrapedAdapter() {
         return mAdapter;
+    }
+
+
+    //=========================内置部分状态的footview=========
+    //内置无网提示(含重置按钮)、空数据提示、无更多数据
+//    public static final int STATE_NO_NET = 10000;
+//    public static final int STATE_NO_DATA = 10001;
+//    public static final int STATE_NO_MORE_DATA = 10002;
+//    public static final int STATE_lOADING_MORE_DATA = 10003;
+//
+//    public void setDataState(int state, Context context) {
+//        System.out.println("set state:" + state);
+//        switch (state) {
+//            case STATE_NO_DATA:
+//                addNoDataFootView("暂无数据", context);
+//                break;
+//            case STATE_NO_MORE_DATA:
+//                addNoMoreDataFootView("无更多数据", context);
+//                break;
+//            case STATE_lOADING_MORE_DATA:
+//                addLoadingMoreDataFootView("加载更多数据中", context);
+//                break;
+//            case STATE_NO_NET:
+//                break;
+//        }
+//    }
+//
+//    public void addNoDataFootView(String str, Context context) {
+//        TextView textView = new TextView(context);
+//        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        textView.setTextColor(Color.GRAY);
+//        textView.setBackgroundColor(Color.GREEN);
+//        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
+//        textView.setText(str);
+//        textView.setGravity(Gravity.CENTER);
+//        addFootView(textView);
+//    }
+//
+//    public void addLoadingMoreDataFootView(String str, Context context) {
+//        TextView textView = new TextView(context);
+//        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//        textView.setText(str);
+//        textView.setTextColor(Color.GRAY);
+//        textView.setBackgroundColor(Color.GREEN);
+//        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
+//        addFootView(textView);
+//    }
+//
+//    public void addNoMoreDataFootView(String str, Context context) {
+//        System.out.println(str + "<<-------------");
+//        TextView textView = new TextView(context);
+//        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+//        textView.setText(str);
+//        textView.setTextColor(Color.GRAY);
+//        textView.setBackgroundColor(Color.GREEN);
+//        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
+//        addFootView(textView);
+//    }
+
+    public void addNoNetFootView() {
+
     }
 }

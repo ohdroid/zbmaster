@@ -13,8 +13,13 @@ class QiniuApi private constructor() {
     companion object {
         @JvmStatic val QINIU_URL_DOMAIN = "http://7xslkd.com2.z0.glb.clouddn.com"
         @JvmStatic val QINIU_ADVANCE_IAMGE_API = "/imageMogr2"
+        @JvmStatic val LOGO_IMAGE_URL = "http://7xslkd.com2.z0.glb.clouddn.com/image/logo/zblogo.png"
 
         @JvmStatic fun builder(): QiniuApi {
+            return QiniuApi()
+        }
+
+        @JvmStatic fun getInstace(): QiniuApi {
             return QiniuApi()
         }
 
@@ -60,6 +65,10 @@ class QiniuApi private constructor() {
      */
     fun build(): MutableMap<String, String> {
         return requestParamters
+    }
+
+    fun getImageUrl(str: String): String {
+        return "$QINIU_URL_DOMAIN/$str"
     }
 
 }

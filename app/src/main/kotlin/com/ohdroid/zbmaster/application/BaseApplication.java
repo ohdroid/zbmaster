@@ -7,6 +7,7 @@ import com.ohdroid.zbmaster.BuildConfig;
 import com.ohdroid.zbmaster.application.di.ApplicationComponent;
 import com.ohdroid.zbmaster.application.di.ApplicationModule;
 import com.ohdroid.zbmaster.application.di.DaggerApplicationComponent;
+import com.tencent.tauth.Tencent;
 
 import cn.bmob.v3.Bmob;
 
@@ -21,8 +22,8 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         Bmob.initialize(this, BuildConfig.BMOB_APP_KEY);
-        appComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
         Fresco.initialize(this);
+        appComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
     }
 
 

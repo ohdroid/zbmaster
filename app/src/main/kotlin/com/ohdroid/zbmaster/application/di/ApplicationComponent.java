@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.ohdroid.zbmaster.application.data.DataManager;
 import com.ohdroid.zbmaster.application.di.exannotation.ForApplication;
+import com.tencent.tauth.Tencent;
 
 import javax.inject.Singleton;
 
@@ -24,4 +25,5 @@ public interface ApplicationComponent {
 
     DataManager dataManger();
 
+    Tencent tencentManager();
 }

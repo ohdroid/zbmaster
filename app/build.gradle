@@ -18,8 +18,11 @@ android {
         versionName "1.0"
 
         buildConfigField "String", "BMOB_APP_KEY", keystoreProperties.bmob_application_key
+
         buildConfigField "String", "QI_NIU_ACCESS_KEY", keystoreProperties.qiniu_access_key
         buildConfigField "String", "QI_NIU_SECRET_KEY", keystoreProperties.qiniu_secret_key
+
+        buildConfigField "String", "QQ_APP_ID", keystoreProperties.qq_app_id
 
     }
 
@@ -68,6 +71,7 @@ dependencies {
     //rx
     compile 'io.reactivex:rxjava:1.1.2'
     compile 'io.reactivex:rxandroid:1.1.0'
+    compile files('libs/open_sdk_r5509_lite.jar')
 }
 buildscript {
     ext.kotlin_version = '1.0.0'

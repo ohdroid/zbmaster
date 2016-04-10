@@ -34,17 +34,16 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
                     println("no face data")
                     return
                 }
+
+                println("init data")
                 mfaceURLList = faces
 
                 for (index in faces.indices) {
                     println(faces[index].faceUrl)
                 }
 
-                if (mfaceURLList!!.size < FaceBusiness.PAGE_LIMIT) {
-                    uiView.isHasMoreData(false)
-                }
                 uiView.showFaceList(mfaceURLList!!)
-                uiView.isHasMoreData(true)
+                uiView.isHasMoreData(mfaceURLList!!.size >= FaceBusiness.PAGE_LIMIT)
             }
 
             override fun onFailed(state: Int, errorMessage: String?) {
@@ -82,13 +81,12 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
                     return
                 }
 
-                println("presenter load more success ${faces.size}")
-                if (FaceBusiness.PAGE_LIMIT > faces.size) {
-                    uiView.isHasMoreData(false)
-                }
-
                 mfaceURLList!!.addAll(faces)
                 uiView.showMoreFaceInfo(faces)
+
+                println("presenter load more success ${faces.size}")
+                uiView.isHasMoreData(FaceBusiness.PAGE_LIMIT <= faces.size)
+
             }
 
             override fun onFailed(state: Int, errorMessage: String?) {
