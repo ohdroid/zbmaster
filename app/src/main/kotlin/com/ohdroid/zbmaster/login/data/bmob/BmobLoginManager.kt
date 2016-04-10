@@ -22,7 +22,7 @@ class BmobLoginManager constructor( val context: Context) : AccountManager {
 
     override fun regist(accountInfo: AccountInfo, registerListener: LoginManager.LoginListener) {
         val user: BmobUser = BmobUser()
-        user.username = accountInfo.uesrName
+        user.username = accountInfo.userName
         user.setPassword(accountInfo.password)
         user.signUp(context, object : SaveListener() {
             override fun onFailure(p0: Int, p1: String?) {

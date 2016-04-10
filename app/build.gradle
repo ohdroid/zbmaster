@@ -45,7 +45,6 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:support-v4:23.2.1'
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:recyclerview-v7:23.2.1'
@@ -71,7 +70,6 @@ dependencies {
     //rx
     compile 'io.reactivex:rxjava:1.1.2'
     compile 'io.reactivex:rxandroid:1.1.0'
-    compile files('libs/open_sdk_r5509_lite.jar')
 }
 buildscript {
     ext.kotlin_version = '1.0.0'

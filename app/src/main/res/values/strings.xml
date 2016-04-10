@@ -2,6 +2,8 @@
     <string name="app_name">ZBMaster</string>
 
     <!--home page-->
+    <string name="menu_spoof">我要开眼</string>
+    <string name="menu_movie">我要姿势</string>
     <string name="btn_area_zb">zb_area</string>
     <string name="btn_area_movie">movie_area</string>
     <string name="btn_area_face">face_area</string>

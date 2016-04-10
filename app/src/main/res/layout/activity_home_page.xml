@@ -1,21 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".homepage.HomePageActivity">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv"
+    <!--<fragment-->
+    <!--android:id="@+id/fragment_homepage"-->
+    <!--android:name="com.ohdroid.zbmaster.homepage.HomePageFragment"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent" />-->
+
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_bottom_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="15sp" />
+        android:orientation="horizontal">
 
-    <fragment
-        android:id="@+id/fragment_homepage"
-        android:name="com.ohdroid.zbmaster.homepage.HomePageFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <TextView
+            android:id="@+id/menu_spoof"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:gravity="center"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:text="@string/menu_spoof" />
+
+        <TextView
+            android:id="@+id/menu_movie"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/ic_launcher"
+            android:gravity="center"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:text="@string/menu_movie" />
+
+    </LinearLayout>
 
 </LinearLayout>

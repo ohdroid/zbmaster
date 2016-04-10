@@ -36,7 +36,7 @@ class LoginPresenterImp constructor(var context: Context, val dataManager: DataM
     }
 
     override fun login(accountInfo: AccountInfo) {
-        dataManager.loginManger.login(accountInfo.uesrName, accountInfo.password, object : LoginManager.LoginListener {
+        dataManager.loginManger.login(accountInfo.userName, accountInfo.password, object : LoginManager.LoginListener {
             override fun onFailed(msg: String) {
                 loginView?.loginFailed(msg)
             }

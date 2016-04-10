@@ -46,7 +46,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".homepage.areaface.view.AreaFaceActivity" />
-
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -60,14 +59,12 @@
                 <data android:scheme="tencent1105231112" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden">
-        </activity>
-
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+        <activity android:name=".homepage.areaface.view.AreaFaceDetailActivity"></activity>
     </application>
 
 </manifest>

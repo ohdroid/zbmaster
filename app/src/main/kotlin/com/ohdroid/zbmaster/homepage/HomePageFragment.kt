@@ -13,7 +13,7 @@ import org.jetbrains.anko.support.v4.find
 /**
  * Created by ohdroid on 2016/4/4.
  */
-class HomePageFragment : BaseFragment(), View.OnClickListener {
+class HomePageFragment : BaseFragment() {
 
     val btnZb: Button by lazy { find<Button>(R.id.btn_area_zb) }
     val btnMovie: Button by lazy { find<Button>(R.id.btn_area_movie) }
@@ -25,19 +25,18 @@ class HomePageFragment : BaseFragment(), View.OnClickListener {
 
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        btnZb.setOnClickListener(this)
-        btnMovie.setOnClickListener(this)
-        btnFace.setOnClickListener(this)
-        btnChat.setOnClickListener(this)
-    }
-
-
-    override fun onClick(v: View?) {
+    val onClickListener: View.OnClickListener = View.OnClickListener { v ->
         when (v?.id) {
             R.id.btn_area_face -> showAreaFace()
         }
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        btnZb.setOnClickListener(onClickListener)
+        btnMovie.setOnClickListener(onClickListener)
+        btnFace.setOnClickListener(onClickListener)
+        btnChat.setOnClickListener(onClickListener)
     }
 
     fun showAreaFace(): Unit {

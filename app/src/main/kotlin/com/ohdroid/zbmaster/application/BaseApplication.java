@@ -7,6 +7,7 @@ import com.ohdroid.zbmaster.BuildConfig;
 import com.ohdroid.zbmaster.application.di.ApplicationComponent;
 import com.ohdroid.zbmaster.application.di.ApplicationModule;
 import com.ohdroid.zbmaster.application.di.DaggerApplicationComponent;
+import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo;
 import com.tencent.tauth.Tencent;
 
 import cn.bmob.v3.Bmob;
@@ -25,7 +26,6 @@ public class BaseApplication extends Application {
         Fresco.initialize(this);
         appComponent = DaggerApplicationComponent.builder().applicationModule(new ApplicationModule(this)).build();
     }
-
 
     public ApplicationComponent getApplicationComponent() {
         return appComponent;

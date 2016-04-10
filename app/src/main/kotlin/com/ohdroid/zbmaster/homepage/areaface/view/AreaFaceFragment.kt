@@ -3,7 +3,9 @@ package com.ohdroid.zbmaster.homepage.areaface.view
 import android.content.Context
 import android.graphics.Color
 import android.net.Uri
+import android.nfc.Tag
 import android.os.Bundle
+import android.support.v4.app.FragmentManager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -38,6 +40,26 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
     lateinit var presenter: AreaFacePresenter
 
 
+    companion object {
+        val TAG: String = "AreaFaceFragment"
+
+
+        fun launch(manager: FragmentManager, containerId: Int) {
+            println("launch $TAG")
+
+            var fragment: AreaFaceFragment? = null
+
+            if (null == manager.findFragmentByTag(TAG)) {
+                fragment = AreaFaceFragment()
+            } else {
+                fragment = manager.findFragmentByTag(TAG) as AreaFaceFragment
+            }
+            manager.beginTransaction()
+                    .replace(containerId, fragment, TAG)
+                    .commit()
+        }
+    }
+
     var footTextView: TextView? = null
 
     override fun onAttach(context: Context?) {
@@ -46,8 +68,10 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         presenter.attachView(this)
     }
 
+
     override fun showFaceInfoDetail(faceInfo: FaceInfo) {
-        AreaFaceDetailFragment.launch(activity.supportFragmentManager, R.id.face_fragment_container, faceInfo.faceUrl)
+        //        AreaFaceDetailFragment.launch(activity.supportFragmentManager, R.id.fragment_container, faceInfo)
+        AreaFaceDetailActivity.launch(context, faceInfo)
     }
 
     /**
@@ -180,7 +204,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
     }
 
-     class FaceViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
+    class FaceViewHolder(itemView: View?) : RecyclerView.ViewHolder(itemView) {
 
         var listener: OnRecycleViewItemClickListener? = null
             set(value) {

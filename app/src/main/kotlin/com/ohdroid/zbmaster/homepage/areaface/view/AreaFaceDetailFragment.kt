@@ -17,6 +17,7 @@ import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.BaseApplication
 import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.base.view.BaseFragment
+import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.tencent.connect.share.QQShare
 import com.tencent.tauth.IUiListener
 import com.tencent.tauth.Tencent
@@ -37,33 +38,34 @@ class AreaFaceDetailFragment : BaseFragment(), View.OnClickListener {
     val btnShare: Button by lazy { find<Button>(R.id.btn_share) }
 
     companion object {
-        fun launch(manager: FragmentManager, containerId: Int, imageUrl: String) {
+        fun launch(manager: FragmentManager, containerId: Int, faceInfo: FaceInfo) {
             val fragment: AreaFaceDetailFragment = AreaFaceDetailFragment()
             val args: Bundle = Bundle()
-            args.putString("imageUrl", imageUrl)
+            args.putParcelable("faceInfo", faceInfo)
             fragment.arguments = args
 
             manager.beginTransaction()
                     .replace(containerId, fragment)
-                    .addToBackStack(null)//加入到回退栈
                     .commit()
         }
     }
 
+    lateinit var faceInfo: FaceInfo
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        faceInfo = arguments.getParcelable("faceInfo")
         return inflater?.inflate(R.layout.fragment_area_face_detail, container, false)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        val imageUrl = arguments.get("imageUrl") as String
-        if (TextUtils.isEmpty(imageUrl)) {
+        if (TextUtils.isEmpty(faceInfo.faceUrl)) {
             return
         }
         bgLayout.setOnClickListener { }//消耗点击事件
 
         //设置为自动播放
         val controller: DraweeController = Fresco.newDraweeControllerBuilder()
-                .setUri(Uri.parse(imageUrl))
+                .setUri(Uri.parse(faceInfo.faceUrl))
                 .setTapToRetryEnabled(true)//点击重播
                 .setAutoPlayAnimations(true)//自动播放
                 .build()
@@ -83,8 +85,12 @@ class AreaFaceDetailFragment : BaseFragment(), View.OnClickListener {
         //tencent 分享
         val params: Bundle = Bundle();
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-        params.putString(QQShare.SHARE_TO_QQ_TITLE,"让你开车？")
-        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, arguments.getString("imageUrl"));
+        if (!TextUtils.isEmpty(faceInfo.faceTitle)) {
+            params.putString(QQShare.SHARE_TO_QQ_TITLE, faceInfo.faceTitle)
+        } else {
+            params.putString(QQShare.SHARE_TO_QQ_TITLE, "来自\"不无聊\"分享")
+        }
+        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, faceInfo.faceUrl);
         params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, QiniuApi.LOGO_IMAGE_URL);
         params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "ZBMaster");
 

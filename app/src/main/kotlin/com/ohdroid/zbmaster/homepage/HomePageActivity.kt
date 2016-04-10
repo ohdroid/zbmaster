@@ -1,61 +1,46 @@
 package com.ohdroid.zbmaster.homepage
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import android.widget.TextView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.base.view.BaseActivity
-import com.ohdroid.zbmaster.utils.QiniuUtils
-import okhttp3.*
+import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceFragment
 import org.jetbrains.anko.find
-import java.io.IOException
 
 /**
  * Created by ohdroid on 2016/4/4.
  */
 class HomePageActivity : BaseActivity() {
 
-    val tv: TextView by lazy { find<TextView>(R.id.tv) }
+    val menuProof: TextView by lazy { find<TextView>(R.id.menu_spoof) }
+    val menuMovie: TextView by lazy { find<TextView>(R.id.menu_movie) }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
+        menuProof.setOnClickListener(menuOnClickListener)
+        menuMovie.setOnClickListener(menuOnClickListener)
+    }
 
-        //        getFileList()
+    val menuOnClickListener = View.OnClickListener {
+        when (it.id) {
+            R.id.menu_movie -> showMoviePage()
+            R.id.menu_spoof -> showSpoofPage()
+        }
+    }
 
-        //        uploadFile();
-//        QiniuUtils.getInstance().uploadFile();
+    fun setCheckedMenuItem(checkMenu: TextView) {
 
     }
 
-
-    fun getFileList() {
-        val key = "ohdroid:image/gif/zl_xz.jpg"
-        val base64EncodeUri = QiniuUtils.getBaseStr(key)
-
-        val encodedEntryURI: String = "/stat/{$base64EncodeUri}"
-        val token: String = QiniuUtils.getManagerAuth(encodedEntryURI)
-
-        tv.text = token
-        Log.d("FILES", token)
-
-        val okhttp: OkHttpClient = OkHttpClient()
-        val requestBuilder: Request.Builder = Request.Builder()
-        requestBuilder.url("http://rs.qiniu.com{$encodedEntryURI}")
-        requestBuilder.addHeader("Content-type", "application/x-www-form-urlencoded")
-        requestBuilder.addHeader("Authorization", "$token")
-        //        requestBuilder.post(RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "test"))
-        okhttp.newCall(requestBuilder.build())
-        okhttp.newCall(requestBuilder.build()).enqueue(object : Callback {
-            override fun onFailure(call: Call?, e: IOException?) {
-                println(e?.message + "<<error>>")
-            }
-
-            override fun onResponse(call: Call?, response: Response?) {
-                println(response?.body().toString() + "<<body>>")
-            }
-        })
-
+    fun showMoviePage() {
     }
 
+    fun showSpoofPage() {
+        println("$supportFragmentManager:${R.id.fragment_container}")
+        AreaFaceFragment.launch(supportFragmentManager, R.id.fragment_container)
+
+    }
 }
