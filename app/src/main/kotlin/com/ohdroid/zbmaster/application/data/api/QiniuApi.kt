@@ -1,6 +1,7 @@
 package com.ohdroid.zbmaster.application.data.api
 
 import android.text.TextUtils
+import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import java.util.*
 
 /**
@@ -69,6 +70,37 @@ class QiniuApi private constructor() {
 
     fun getImageUrl(str: String): String {
         return "$QINIU_URL_DOMAIN/$str"
+    }
+
+
+    /**
+     * 添加七牛静态图API
+     */
+    fun buildQiniuStaticImageApi(requestParams: MutableMap<String, String>?): String {
+        if ( requestParams == null) {
+            return ""
+        }
+
+        //拼接七牛提供的动图转换静态图API
+        //TODO 封装成七牛的API类
+        val sb = StringBuilder()
+        val method: String? = requestParams["method"]
+
+        if (TextUtils.isEmpty(method)) {
+            return ""
+        }
+        sb.append("$method")
+        requestParams.remove("method")
+
+
+        val keys: MutableSet<String> = requestParams.keys
+        for (key in keys) {
+            sb.append("/$key/${requestParams[key]}")
+        }
+
+        println(" 静态图api--->${sb.toString()}")
+        return sb.toString()
+
     }
 
 }

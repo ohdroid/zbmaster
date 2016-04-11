@@ -26,6 +26,7 @@ import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.imp.MovieListPresenterImp
 import org.jetbrains.anko.support.v4.find
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by ohdroid on 2016/4/11.
@@ -104,7 +105,9 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
         }
         mMovieListAdapterWrap = RecycleViewHeaderFooterAdapter(mMovieListAdapter)
         mMovieGifList.adapter = mMovieListAdapterWrap
-        showMovieGifList(datas, false)
+        //        showMovieGifList(datas, false)
+
+        presenter?.showMovieGifList()
     }
 
     class MovieListAdapter(var movieList: MutableList<MovieInfo>) : RecyclerView.Adapter<MovieViewHolder>() {
@@ -229,7 +232,15 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
         }
     }
 
-    override fun showMovieList(faces: MutableList<MovieInfo>, hasMore: Boolean) {
+    override fun showMovieList(movieInfos: MutableList<MovieInfo>, hasMore: Boolean) {
+        if (mFreshLayout.isRefreshing) {
+            mFreshLayout.isRefreshing = false
+        }
+        hideLoadingView()
+
+        mMovieListAdapter?.movieList = movieInfos
+        mMovieListAdapter?.notifyDataSetChanged()
+        loadMoreListener.canLoadingMore = hasMore
     }
 
     override fun showMoreMovieInfo(hasMore: Boolean) {

@@ -4,7 +4,6 @@ import android.content.Context
 import cn.bmob.v3.BmobQuery
 import cn.bmob.v3.listener.FindListener
 import com.ohdroid.zbmaster.application.data.api.QiniuApi
-import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 
 /**
@@ -13,6 +12,13 @@ import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 class MovieDataManager {
     var requestParams: MutableMap<String, String>? = null
 
+
+    companion object {
+        private val manager: MovieDataManager = MovieDataManager()
+        @JvmStatic fun getInstance(): MovieDataManager {
+            return manager
+        }
+    }
 
     fun getMovieList(context: Context, params: MutableMap<String, String>?, pageLimit: Int, skip: Int, findListener: FindListener<MovieInfo>) {
         requestParams = params
@@ -40,8 +46,11 @@ class MovieDataManager {
             return
         }
 
-        QiniuApi.getInstace()
-
+        val qiniuApi = QiniuApi.getInstace().buildQiniuStaticImageApi(requestParams)
+        list.forEach {
+            it.movieUrl = "${it.movieUrl}?$qiniuApi"
+            println("afterchange-->${it.movieUrl}")
+        }
 
     }
 

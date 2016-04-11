@@ -1,7 +1,10 @@
 package com.ohdroid.zbmaster.homepage.areamovie.presenter.imp
 
 import android.content.Context
+import com.ohdroid.zbmaster.application.data.BaseBusiness
+import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
+import com.ohdroid.zbmaster.homepage.areamovie.data.MovieGifListBusiness
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieListView
@@ -13,7 +16,7 @@ class MovieListPresenterImp constructor(var context: Context) : MovieListPresent
 
 
     lateinit var uiView: MovieListView;
-    var mfaceURLList: MutableList<FaceInfo>? = null
+    var mMovieGifList: MutableList<MovieInfo>? = null
 
     override fun showMovieInfoDetail(position: Int) {
         val movieInfo: MovieInfo = MovieInfo("", "title")
@@ -21,6 +24,26 @@ class MovieListPresenterImp constructor(var context: Context) : MovieListPresent
     }
 
     override fun showMovieGifList() {
+        val movieGifListBusiness = MovieGifListBusiness()
+        movieGifListBusiness.context = context
+        movieGifListBusiness.requestParams = QiniuApi.getInstace().setImageStatic().build()
+        movieGifListBusiness.execute(BaseBusiness.METHOD_GET, object : BaseBusiness.BaseResultListener<MovieInfo> {
+            override fun onSuccess(results: MutableList<MovieInfo>?) {
+                if (null == results) {
+                    //TODO show empty view
+                    println("no face data")
+                    return
+                }
+
+                println("init data")
+                mMovieGifList = results
+                uiView.showMovieList(mMovieGifList!!, mMovieGifList!!.size >= MovieGifListBusiness.PAGE_LIMIT)
+            }
+
+            override fun onFailed(state: Int, errorMessage: String?) {
+            }
+
+        })
     }
 
     override fun loadMoreMovieGifList() {

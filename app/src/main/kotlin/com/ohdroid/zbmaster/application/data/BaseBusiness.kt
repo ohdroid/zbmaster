@@ -63,7 +63,7 @@ abstract class BaseBusiness<T> {
      * 数据结果监听器
      */
     interface BaseResultListener<T> {
-        fun onSuccess(faces: MutableList<T>?)
+        fun onSuccess(results: MutableList<T>?)
         fun onFailed(state: Int, errorMessage: String?)
     }
 
