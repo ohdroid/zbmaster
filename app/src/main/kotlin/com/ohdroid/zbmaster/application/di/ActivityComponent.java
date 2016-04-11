@@ -5,6 +5,7 @@ import com.ohdroid.zbmaster.facesync.FaceSyncFragment;
 import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenter;
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter;
 import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceFragment;
+import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter;
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter;
 import com.ohdroid.zbmaster.login.view.LoginFragment;
 
@@ -25,21 +26,21 @@ public interface ActivityComponent extends AbstractActivityComponent {
     @PerActivity
     LoginPresenter loginPresenter();
 
-    //==============================login 模块   over==================================
-
 
     //==============================face sync 模块   start==================================
     void inject(FaceSyncFragment faceSyncFragment);
 
     @PerActivity
     FaceSyncPresenter faceSyncPresenter();
-    //==============================face sync 模块   over==================================
 
     //==============================face area 模块   start==================================
     @PerActivity
     AreaFacePresenter faceAreaPresenter();
 
-    //==============================face area 模块   over==================================
 
+    //==============================movie info 模块==========================================
+
+    @PerActivity
+    MovieListPresenter movieListPresenter();
 
 }

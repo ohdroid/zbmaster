@@ -42,8 +42,8 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
                     println(faces[index].faceUrl)
                 }
 
-                uiView.showFaceList(mfaceURLList!!)
-                uiView.isHasMoreData(mfaceURLList!!.size >= FaceBusiness.PAGE_LIMIT)
+                uiView.showFaceList(mfaceURLList!!, mfaceURLList!!.size >= FaceBusiness.PAGE_LIMIT)
+                //                uiView.isHasMoreData(mfaceURLList!!.size >= FaceBusiness.PAGE_LIMIT)
             }
 
             override fun onFailed(state: Int, errorMessage: String?) {
@@ -59,7 +59,7 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
         }
         //若无原始数据，或者数量不是页数量的整数
         if (mfaceURLList!!.size == 0 || mfaceURLList!!.size % FaceBusiness.PAGE_LIMIT != 0) {
-            uiView.isHasMoreData(false)
+            //            uiView.isHasMoreData(false)
             return
         }
 
@@ -76,16 +76,22 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
         faceBusiness.execute(BaseBusiness.METHOD_GET, object : BaseBusiness.BaseResultListener<FaceInfo> {
 
             override fun onSuccess(faces: MutableList<FaceInfo>?) {
-                if (null == faces) {
-                    uiView.isHasMoreData(false)
+                if (null == faces || faces.size == 0) {
+                    uiView.showMoreFaceInfo(false)
                     return
                 }
 
-                mfaceURLList!!.addAll(faces)
-                uiView.showMoreFaceInfo(faces)
+                mfaceURLList!!.addAll(faces)//添加数据到内存
 
-                println("presenter load more success ${faces.size}")
-                uiView.isHasMoreData(FaceBusiness.PAGE_LIMIT <= faces.size)
+                if (faces.size < FaceBusiness.PAGE_LIMIT) {
+                    //更新UI显示
+                    uiView.showMoreFaceInfo(false)
+                }
+
+
+
+                //                println("presenter load more success ${faces.size}")
+                //                uiView.isHasMoreData(FaceBusiness.PAGE_LIMIT <= faces.size)
 
             }
 

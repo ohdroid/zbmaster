@@ -28,7 +28,11 @@
         </activity>
 
         <!-- login -->
-        <activity android:name=".login.view.LoginActivity">
+        <activity
+            android:name=".login.view.LoginActivity"
+            android:configChanges="orientation"
+            android:exported="false"
+            android:screenOrientation="portrait">
 
             <!-- <intent-filter> -->
             <!-- <action android:name="android.intent.action.MAIN" /> -->
@@ -38,7 +42,10 @@
             <!-- </intent-filter> -->
         </activity>
         <activity android:name=".facesync.FaceSyncActivity" />
-        <activity android:name=".homepage.HomePageActivity">
+        <activity
+            android:name=".homepage.HomePageActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -63,8 +70,20 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
-        <activity android:name=".homepage.areaface.view.AreaFaceDetailActivity"></activity>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".homepage.areaface.view.AreaFaceDetailActivity" />
+        <activity
+            android:name=".homepage.areaface.view.Main3Activity"
+            android:label="test">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity android:name=".homepage.areamovie.view.MovieDetailActivity" />
     </application>
 
 </manifest>

@@ -19,7 +19,7 @@ class FaceBusiness : BaseBusiness<FaceInfo>() {
      * 每个页面显示数量
      */
     companion object {
-        var PAGE_LIMIT = 5
+        val PAGE_LIMIT = 5
     }
 
     override fun byPost() {

@@ -70,6 +70,9 @@ dependencies {
     //rx
     compile 'io.reactivex:rxjava:1.1.2'
     compile 'io.reactivex:rxandroid:1.1.0'
+    //recycle view animator,
+    //    compile 'jp.wasabeef:recyclerview-animators:2.2.1'
+    compile 'junit:junit:4.12'
 }
 buildscript {
     ext.kotlin_version = '1.0.0'

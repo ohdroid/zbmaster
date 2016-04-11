@@ -2,6 +2,7 @@ package com.ohdroid.zbmaster.utils;
 
 import android.content.Context;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Base64;
 
 import com.ohdroid.zbmaster.BuildConfig;
@@ -19,6 +20,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
@@ -163,5 +166,38 @@ public class QiniuUtils {
 
     public void setUploadToken(String uploadToken) {
         this.uploadToken = uploadToken;
+    }
+
+    //==========================七牛 api=======================
+
+    /**
+     * 添加七牛静态图API
+     */
+    public String buildQiniuApi(Map<String, String> requestParams) {
+        if (requestParams == null) {
+            return "";
+        }
+
+        //拼接七牛提供的API
+        StringBuilder sb = new StringBuilder();
+        String method = requestParams.get("method");
+
+        if (TextUtils.isEmpty(method)) {
+            return "";
+        }
+        sb.append("$method");
+        requestParams.remove("method");
+
+
+        Set<String> keys = requestParams.keySet();
+
+        for (String key : keys) {
+            sb.append("/");
+            sb.append(key);
+            sb.append("/");
+            sb.append(requestParams.get(key));
+        }
+
+        return sb.toString();
     }
 }

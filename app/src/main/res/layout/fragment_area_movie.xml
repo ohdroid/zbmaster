@@ -10,7 +10,7 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_face"
+            android:id="@+id/rv_movie"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
@@ -18,11 +18,4 @@
     <include
         android:id="@+id/loading_view"
         layout="@layout/loading_hint_view" />
-    <!--<TextView-->
-    <!--android:id="@+id/loading_view"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="#dedede"-->
-    <!--android:gravity="center"-->
-    <!--android:text="@string/hint_loading" />-->
 </FrameLayout>

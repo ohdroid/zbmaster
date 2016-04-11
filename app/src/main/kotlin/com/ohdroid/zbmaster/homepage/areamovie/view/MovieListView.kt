@@ -1,23 +1,24 @@
-package com.ohdroid.zbmaster.homepage.areaface.view
+package com.ohdroid.zbmaster.homepage.areamovie.view
 
 import com.ohdroid.zbmaster.application.BaseView
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
+import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 
 /**
- * Created by ohdroid on 2016/4/5.
+ * Created by ohdroid on 2016/4/11.
  */
-interface AreaFaceView : BaseView {
+interface MovieListView : BaseView {
 
     /**
      * 显示表情列表
      * @param faces 表情url数组
      */
-    fun showFaceList(faces: MutableList<FaceInfo>, hasMore: Boolean);
+    fun showMovieList(faces: MutableList<MovieInfo>, hasMore: Boolean);
 
     /**
      * 显示更多表情
      */
-    fun showMoreFaceInfo(hasMore: Boolean)
+    fun showMoreMovieInfo(hasMore: Boolean)
 
     /**
      *无数据时，显示空页面
@@ -32,5 +33,5 @@ interface AreaFaceView : BaseView {
     /**
      * 显示表情详细信息
      */
-    fun showFaceInfoDetail(faceInfo: FaceInfo)
+    fun showMovieInfoDetail(movieInfo: MovieInfo)
 }

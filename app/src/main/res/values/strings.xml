@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">ZBMaster</string>
 
+    <string name="hint_load_more">加载更多污妖之力中...</string>
+    <string name="hint_no_more_data">污妖之力已经见底</string>
+    <string name="hint_loading">污妖之力聚集中...</string>
     <!--home page-->
     <string name="menu_spoof">我要开眼</string>
     <string name="menu_movie">我要姿势</string>
@@ -17,7 +20,6 @@
     <string name="area_face_detail_btn_download">下载</string>
     <string name="area_face_detail_btn_close">关闭</string>
 
-    <string name="hint_load_more_data">加载更多数据中...</string>
     <string name="hint_empty_data">empty data</string>
 
 

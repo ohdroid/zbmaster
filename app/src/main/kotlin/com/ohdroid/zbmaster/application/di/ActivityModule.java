@@ -10,6 +10,8 @@ import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenter;
 import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenterImp;
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter;
 import com.ohdroid.zbmaster.homepage.areaface.presenter.imp.AreaFacePresenterImp;
+import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter;
+import com.ohdroid.zbmaster.homepage.areamovie.presenter.imp.MovieListPresenterImp;
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter;
 import com.ohdroid.zbmaster.login.presenter.imp.LoginPresenterImp;
 
@@ -48,5 +50,11 @@ public class ActivityModule extends PerActivityModule {
         return new AreaFacePresenterImp(activity);
     }
 
+    //=======================movie area 模块========================================
+    @Provides
+    @PerActivity
+    public MovieListPresenter provideMovieAreaPresenter(@PerActivity Activity activity) {
+        return new MovieListPresenterImp(activity);
+    }
 
 }

@@ -1,10 +1,12 @@
 package com.ohdroid.zbmaster.homepage.areaface.view
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
 import android.net.Uri
-import android.nfc.Tag
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -17,46 +19,50 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
-import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.application.view.RecycleViewHeaderFooterAdapter
+import com.ohdroid.zbmaster.application.view.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
-import org.jetbrains.anko.padding
 import org.jetbrains.anko.support.v4.find
-import javax.inject.Inject
 
 /**
  * Created by ohdroid on 2016/4/4.
  */
 class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
-
     val faceList: RecyclerView by lazy { find<RecyclerView>(R.id.rv_face) }
     val freshLayout: SwipeRefreshLayout by lazy { find<SwipeRefreshLayout>(R.id.refresh_layout) }
+    val loadingView: View by lazy { find<View>(R.id.loading_view) }
     var faceListAdapter: FaceRecycleViewAdapter? = null
     var faceListAdapterWrap: RecycleViewHeaderFooterAdapter<FaceViewHolder>? = null
 
     lateinit var presenter: AreaFacePresenter
 
 
+    var mRecycleViewFootView: TextView? = null
+
     companion object {
         val TAG: String = "AreaFaceFragment"
 
-
-        fun launch(manager: FragmentManager, containerId: Int) {
+        fun launch(manager: FragmentManager, containerId: Int): Fragment {
             println("launch $TAG")
 
             var fragment: AreaFaceFragment? = null
 
             if (null == manager.findFragmentByTag(TAG)) {
                 fragment = AreaFaceFragment()
+                manager.beginTransaction()
+                        .add(containerId, fragment, TAG)
+                        .commit()
             } else {
                 fragment = manager.findFragmentByTag(TAG) as AreaFaceFragment
+                manager.beginTransaction()
+                        .show(fragment)
+                        .commit()
             }
-            manager.beginTransaction()
-                    .replace(containerId, fragment, TAG)
-                    .commit()
+
+            return fragment
         }
     }
 
@@ -66,68 +72,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         super.onAttach(context)
         presenter = component.faceAreaPresenter();
         presenter.attachView(this)
-    }
-
-
-    override fun showFaceInfoDetail(faceInfo: FaceInfo) {
-        //        AreaFaceDetailFragment.launch(activity.supportFragmentManager, R.id.fragment_container, faceInfo)
-        AreaFaceDetailActivity.launch(context, faceInfo)
-    }
-
-    /**
-     * 初始化显示表情数据
-     */
-    override fun showFaceList(faces: MutableList<FaceInfo>) {
-
-        println("show face info data")
-
-        if ( freshLayout.isRefreshing) {
-            freshLayout.isRefreshing = false
-        }
-
-        if (faces.size == 0) {
-            showEmpty()
-            return
-        }
-        faceListAdapter?.faceUrls = faces
-        faceListAdapter?.notifyDataSetChanged()
-    }
-
-    override fun isHasMoreData(hasMore: Boolean) {
-        println("set has more data :$hasMore:$footTextView")
-        loadMoreListener.canLoadingMore = hasMore
-        loadMoreListener.isLoadingMore = false
-        //        if (!hasMore) {
-        //            //设置footview为更多数据
-        //            setFootTextViewHint("木有更多数据")
-        //        } else {
-        //            setFootTextViewHint("加载更多数据中....")
-        //        }
-    }
-
-    val loadMoreListener = object : RecycleViewLoadMoreListener() {
-        override fun onLoadMoreData() {
-            //loading more data
-            println("loading more data")
-            //            setFootTextViewHint("加载更多数据中....")
-            presenter.loadMoreFaceInfo()
-        }
-    }
-
-    override fun showMoreFaceInfo(faces: MutableList<FaceInfo>) {
-        faceListAdapter?.notifyDataSetChanged()
-    }
-
-    override fun showEmpty() {
-        //        faceListAdapterWrap?.setDataState(RecycleViewHeaderFooterAdapter.STATE_NO_DATA, context)
-        //        println(".........show empty foot..............")
-        //        val emptyView: TextView = TextView(context)
-        //        emptyView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        //        emptyView.setTextColor(R.color.material_grey_100)
-        //        emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
-        //        emptyView.setText(R.string.hint_empty_data)
-        //        emptyView.gravity = Gravity.CENTER
-        //        faceListAdapterWrap?.addFootView(emptyView)
     }
 
 
@@ -156,7 +100,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
             }
         }
 
-        //        faceList.adapter = faceListAdapter
         faceListAdapterWrap = RecycleViewHeaderFooterAdapter<FaceViewHolder>(faceListAdapter)
         faceList.adapter = faceListAdapterWrap
 
@@ -214,6 +157,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         fun setImageViewUrl(imageUrl: String?) {
             if (null == imageUrl) {
                 //TODO 若无地址，那么显示数据异常图标
+                return
             }
 
             val imageView: SimpleDraweeView = itemView.findViewById(R.id.item_image) as SimpleDraweeView
@@ -225,40 +169,98 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         }
     }
 
-    abstract class RecycleViewLoadMoreListener : RecyclerView.OnScrollListener() {
-        /**
-         * 当加载更多事件激活时候，调用此方法
-         */
-        abstract fun onLoadMoreData()
 
-        /**
-         * 是否正在加载更多数据
-         */
-        var isLoadingMore = false
-        /**
-         * 是否触发加载更多数据事件
-         */
-        var canLoadingMore = true
+    override fun onDestroy() {
+        faceListAdapterWrap?.removeFootView()
+        super.onDestroy()
+    }
 
-        override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
 
-            //加载更多的原理是:判断当前显示的内容是否是显示到了recycleview底部
-            val linearLayoutManager = recyclerView?.layoutManager as LinearLayoutManager//由于gridLayout是继承LinearLayout的所以这里可以强转成LinearLayout
-            val itemCount = linearLayoutManager.itemCount
-            val lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
+    //=======================================对presenter暴露的接口==============================================
 
-            if (!canLoadingMore || isLoadingMore || dy < 0) {
-                //不能加载更多，加载中，向上滑，都直接返回
-                return
-            }
+    override fun showErrorView(errorState: Int, errorMessage: String) {
+    }
 
-            if (lastVisibleItemPosition >= itemCount - 1) {
-                isLoadingMore = true
-                //我这里只做了事件触发，而是否记载更多就具体类来实现了
-                onLoadMoreData()
-            }
+    override fun showFaceInfoDetail(faceInfo: FaceInfo) {
+        //        AreaFaceDetailFragment.launch(activity.supportFragmentManager, R.id.fragment_container, faceInfo)
+        AreaFaceDetailActivity.launch(context, faceInfo)
+    }
+
+    /**
+     * 初始化显示表情数据
+     */
+    override fun showFaceList(faces: MutableList<FaceInfo>, hasMore: Boolean) {
+
+        println("show face info data")
+
+        if ( freshLayout.isRefreshing) {
+            freshLayout.isRefreshing = false
         }
 
+        if (loadingView.visibility == View.VISIBLE) {
+            val animator: ObjectAnimator = ObjectAnimator.ofFloat(loadingView, "alpha", 1f, 0f)
+            animator.duration = 250
+            animator.addListener(object : Animator.AnimatorListener {
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    loadingView.visibility = View.INVISIBLE
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                    loadingView.visibility = View.INVISIBLE
+                }
+
+                override fun onAnimationStart(animation: Animator?) {
+                }
+            })
+            animator.start()
+        }
+
+        if (faces.size == 0) {
+            showEmpty()
+            return
+        }
+
+        faceListAdapter?.faceUrls = faces
+        //        faceListAdapter?.notifyDataSetChanged()
+        //由于使用了动画这里要循环更改
+        //        for (index in faces.indices) {
+        //            faceListAdapter?.notifyItemInserted(index)
+        //        }
+        faceListAdapter?.notifyDataSetChanged()
+        loadMoreListener.canLoadingMore = hasMore
     }
+
+
+    val loadMoreListener = object : RecycleViewLoadMoreListener() {
+        override fun onLoadMoreData() {
+            //loading more data
+            setFootTextViewHint(context.resources.getString(R.string.hint_load_more))
+            presenter.loadMoreFaceInfo()
+        }
+    }
+
+    override fun showMoreFaceInfo(hasMore: Boolean) {
+        faceListAdapter?.notifyDataSetChanged()
+        loadMoreListener.canLoadingMore = hasMore//设置是否可以加载更多
+        loadMoreListener.isLoadingMore = false//加载数据完毕
+        if (!hasMore) {
+            setFootTextViewHint(context.resources.getString(R.string.hint_no_more_data))
+        }
+    }
+
+    override fun showEmpty() {
+        //        faceListAdapterWrap?.setDataState(RecycleViewHeaderFooterAdapter.STATE_NO_DATA, context)
+        //        println(".........show empty foot..............")
+        //        val emptyView: TextView = TextView(context)
+        //        emptyView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        //        emptyView.setTextColor(R.color.material_grey_100)
+        //        emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+        //        emptyView.setText(R.string.hint_empty_data)
+        //        emptyView.gravity = Gravity.CENTER
+        //        faceListAdapterWrap?.addFootView(emptyView)
+    }
+
 }

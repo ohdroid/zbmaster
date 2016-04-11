@@ -18,4 +18,5 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseView
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
     }
+
 }
