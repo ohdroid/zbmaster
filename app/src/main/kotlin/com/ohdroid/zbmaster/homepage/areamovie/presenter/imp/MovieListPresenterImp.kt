@@ -31,11 +31,12 @@ class MovieListPresenterImp constructor(var context: Context) : MovieListPresent
             override fun onSuccess(results: MutableList<MovieInfo>?) {
                 if (null == results) {
                     //TODO show empty view
-                    println("no face data")
+                    println("no movie data")
+                    uiView.showEmpty()
                     return
                 }
 
-                println("init data")
+                println("init movie data")
                 mMovieGifList = results
                 uiView.showMovieList(mMovieGifList!!, mMovieGifList!!.size >= MovieGifListBusiness.PAGE_LIMIT)
             }

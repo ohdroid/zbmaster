@@ -1,0 +1,1 @@
+关于模块，先写成静态的，熟悉Kotlin过后再参考homepage模块中areaface子模块写网络请求，七牛的requestparams可以省略
