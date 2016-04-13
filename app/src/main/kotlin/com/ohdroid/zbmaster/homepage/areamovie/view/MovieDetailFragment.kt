@@ -4,19 +4,23 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.TextUtils
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
+import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.application.view.RecycleViewHeaderFooterAdapter
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
@@ -34,6 +38,8 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
 
     val mMovieDetailList: RecyclerView by lazy { find<RecyclerView>(R.id.rv_movie_detail) }
     val mHeadSdv: SimpleDraweeView by lazy { find<SimpleDraweeView>(R.id.sdv_movie) }
+    val mRefreshLayout: SwipeRefreshLayout by lazy { find<SwipeRefreshLayout>(R.id.srf_layout) }
+
     var mMovieAdapter: MovieDetailAdapter? = null
     var mMovieDetailAdapterWrap: RecycleViewHeaderFooterAdapter<MovieDetailViewHolder>? = null
     var mMovieComment: MutableList<MovieComment>? = null
@@ -41,6 +47,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     val mBtnFavorite: Button by lazy { find<Button>(R.id.btn_favorite) }
     val mBtnSend: Button by lazy { find<Button>(R.id.btn_send) }
     val mBtnShare: Button by lazy { find<Button>(R.id.btn_share) }
+    val mEtComment: EditText by lazy { find<EditText>(R.id.et_comment) }
 
     val mBtnOnClickListener: View.OnClickListener = View.OnClickListener { v ->
         when (v?.id) {
@@ -55,7 +62,11 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     fun sendCommment() {
         //直接跳转
         //        LoginActivity.launch(context)
-        presenter.addComment("我是评论", movieInfo)
+        if (TextUtils.isEmpty(mEtComment.text)) {
+            showToast(getString(R.string.hint_no_comment_input))
+            return
+        }
+        presenter.addComment(mEtComment.text.toString(), movieInfo)
     }
 
     companion object {
@@ -93,6 +104,8 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         presenter.attachView(this)
         //        presenter.initMovieInfo(arguments.getSerializable("movieInfo") as MovieInfo)
 
+        mRefreshLayout.setOnRefreshListener { presenter.getMovieCommentList() }
+
         mBtnSend.setOnClickListener(mBtnOnClickListener)
 
         mMovieDetailList.layoutManager = LinearLayoutManager(context)
@@ -112,6 +125,8 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
                 .setAutoPlayAnimations(true)//自动播放
                 .build()
         mHeadSdv.controller = controller
+
+        presenter.getMovieCommentList()
 
     }
 
@@ -172,6 +187,9 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     //=================================presneter 暴露接口===================================
 
     override fun showComment(commentList: MutableList<MovieComment>, isHasMore: Boolean) {
+        if (mRefreshLayout.isRefreshing) {
+            mRefreshLayout.isRefreshing = false
+        }
         mMovieAdapter?.movieComments = commentList
         mMovieAdapter?.notifyDataSetChanged()
 

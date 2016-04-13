@@ -1,6 +1,7 @@
 package com.ohdroid.zbmaster.homepage.areamovie.presenter.imp
 
 import android.content.Context
+import cn.bmob.v3.listener.FindListener
 import cn.bmob.v3.listener.SaveListener
 import com.ohdroid.zbmaster.application.data.DataManager
 import com.ohdroid.zbmaster.homepage.areamovie.data.MovieCommentBusiness
@@ -32,7 +33,7 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
     }
 
 
-    override fun addComment(commentStr: String,attachMovie:MovieInfo) {
+    override fun addComment(commentStr: String, attachMovie: MovieInfo) {
 
         println("==============loginmanager====>${dataManager.loginManger}")
         val userAccount = dataManager.loginManger.getUserAccount()
@@ -67,7 +68,22 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
     }
 
     override fun getMovieCommentList() {
-        throw UnsupportedOperationException()
+        val movieCommentBusiness = MovieCommentBusiness()
+        movieCommentBusiness.context = context
+        movieCommentBusiness.getCommentList(object : FindListener<MovieComment>() {
+            override fun onSuccess(p0: MutableList<MovieComment>?) {
+                if (null == p0) {
+                    uiView.showEmptComment()
+                    return
+                }
+                uiView.showComment(p0, true)
+            }
+
+            override fun onError(p0: Int, p1: String?) {
+                //                uiView.er
+            }
+
+        })
     }
 
     override fun getMoreMovieCommentList() {

@@ -9,12 +9,20 @@
         android:layout_width="match_parent"
         android:layout_height="160dp" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_movie_detail"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srf_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1" />
+        android:layout_weight="1">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_movie_detail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="8dp" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <LinearLayout
         android:id="@+id/layout_comment_edit"

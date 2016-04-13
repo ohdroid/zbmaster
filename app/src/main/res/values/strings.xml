@@ -22,5 +22,7 @@
 
     <string name="hint_empty_data">empty data</string>
 
+    <!--movie区-->
+    <string name="hint_no_comment_input">请输入评论后再发送OK?</string>
 
 </resources>

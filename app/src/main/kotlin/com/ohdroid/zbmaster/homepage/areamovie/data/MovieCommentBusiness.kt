@@ -1,6 +1,8 @@
 package com.ohdroid.zbmaster.homepage.areamovie.data
 
 import android.content.Context
+import cn.bmob.v3.BmobQuery
+import cn.bmob.v3.listener.FindListener
 import cn.bmob.v3.listener.SaveListener
 import com.ohdroid.zbmaster.application.data.BaseBusiness
 import com.ohdroid.zbmaster.application.data.api.BmobDataManager
@@ -25,6 +27,10 @@ class MovieCommentBusiness : BaseBusiness<MovieComment>() {
 
     fun addComment(saveListener: SaveListener?, comment: MovieComment) {
         BmobDataManager.getInstance().addItem(context!!, comment, saveListener)
+    }
+
+    fun getCommentList(findListener: FindListener<MovieComment>) {
+        BmobDataManager.getInstance().findItemList(context!!, null, findListener)
     }
 
 }
