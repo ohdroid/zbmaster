@@ -14,7 +14,7 @@ import java.io.File
 /**
  * Created by ohdroid on 2016/3/22.
  */
-class FaceSyncPresenterImp constructor(@PerActivity context: Context, dataManager: DataManager) : FaceSyncPresenter {
+class FaceSyncPresenterImp constructor( context: Context, dataManager: DataManager) : FaceSyncPresenter {
 
     lateinit var faceSyncView: FaceSyncView
     val faceSyncManager: FaceSyncManager = dataManager.faceSyncManager

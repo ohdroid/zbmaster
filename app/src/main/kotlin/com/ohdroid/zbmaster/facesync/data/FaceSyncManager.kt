@@ -7,20 +7,22 @@ import com.ohdroid.zbmaster.application.di.exannotation.ForApplication
 import com.ohdroid.zbmaster.facesync.data.bmob.BmobFileSyncManager
 import java.io.File
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * Created by ohdroid on 2016/3/22.
  */
-class FaceSyncManager @Inject constructor(@ForApplication context: Context) : IFaceSyncManager {
+@Singleton
+class FaceSyncManager : IFaceSyncManager {
 
-
+    lateinit var context: Context
     lateinit var bmobFileSyncManger: BmobFileSyncManager
 
-    init {
-        //构建bmob 文件上传器
+    @Inject
+    constructor(@ForApplication context: Context) {
+        this.context = context
         bmobFileSyncManger = BmobFileSyncManager(context)
     }
-
 
     override fun uploadFaceFile(uploadFileListener: UploadBatchListener) {
         val files: Array<String>? = getUploadFileList() ?: return

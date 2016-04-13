@@ -19,9 +19,9 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
     ArrayList<View> mHeaderViewHolders;
     ArrayList<View> mFooterViewHolders;
 
-    static final ArrayList<View> EMPTY_HEAD_LIST =
+    final ArrayList<View> EMPTY_HEAD_LIST =
             new ArrayList<>();
-    static final ArrayList<View> EMPTY_FOOT_LIST =
+    final ArrayList<View> EMPTY_FOOT_LIST =
             new ArrayList<>();
 
     private RecyclerView.Adapter<VH> mAdapter;

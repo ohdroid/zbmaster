@@ -4,7 +4,9 @@ import android.content.Context
 import cn.bmob.v3.BmobUser
 import cn.bmob.v3.exception.BmobException
 import cn.bmob.v3.listener.LogInListener
+import cn.bmob.v3.listener.SaveListener
 import com.ohdroid.zbmaster.application.di.exannotation.ForApplication
+import com.ohdroid.zbmaster.application.di.exannotation.PerActivity
 import com.ohdroid.zbmaster.login.data.bmob.BmobLoginManager
 import com.ohdroid.zbmaster.login.model.AccountInfo
 import javax.inject.Inject
@@ -13,29 +15,21 @@ import javax.inject.Singleton
 /**
  * Created by ohdroid on 2016/3/14.
  */
-class LoginManager @Inject constructor(@ForApplication val context: Context):AccountManager {
-
+@Singleton
+class LoginManager : AccountManager {
+    lateinit var context: Context
     var accountManager: AccountManager? = null
 
-    init {
+    @Inject
+    constructor(@ForApplication context: Context) {
+        this.context = context
         println("init Login manager")
         accountManager = BmobLoginManager(context)
     }
 
-//    @Override
-//    fun login(userName: String, userPassword: String, logInListener: LoginListener) {
-//
-//        accountManager?.login(userName, userPassword, logInListener)
-//
-//    }
-//
-//    fun regist(accountInfo: AccountInfo, registerListener: LoginListener) {
-//        println("bmob register")
-//        accountManager?.regist(accountInfo, registerListener)
-//    }
 
-    override fun login(userName: String, userPassword: String, loginListener: LoginListener) {
-        accountManager?.login(userName, userPassword, loginListener)
+    override fun login(accountInfo: AccountInfo, saveListener: SaveListener) {
+        accountManager?.login(accountInfo, saveListener)
     }
 
     override fun regist(accountInfo: AccountInfo, registerListener: LoginListener) {
@@ -43,7 +37,7 @@ class LoginManager @Inject constructor(@ForApplication val context: Context):Acc
     }
 
     override fun getUserAccount(): AccountInfo? {
-        return null
+        return accountManager?.getUserAccount()
     }
 
 

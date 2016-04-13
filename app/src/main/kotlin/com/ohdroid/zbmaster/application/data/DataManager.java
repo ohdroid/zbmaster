@@ -11,6 +11,7 @@ import javax.inject.Singleton;
  * <p/>
  * 所有数据总管家
  */
+@Singleton
 public class DataManager {
     private LoginManager loginManager;
     private FaceSyncManager faceSyncManager;
@@ -19,6 +20,8 @@ public class DataManager {
     public DataManager(LoginManager loginManager, FaceSyncManager faceSyncManager) {
         this.loginManager = loginManager;
         this.faceSyncManager = faceSyncManager;
+
+        System.out.println("===========data manager init==================");
     }
 
     public LoginManager getLoginManger() {
@@ -28,14 +31,6 @@ public class DataManager {
     public FaceSyncManager getFaceSyncManager() {
         return this.faceSyncManager;
 
-    }
-
-    class MyTask implements Runnable {
-
-        @Override
-        public void run() {
-
-        }
     }
 
 

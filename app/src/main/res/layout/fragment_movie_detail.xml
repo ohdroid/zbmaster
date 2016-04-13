@@ -4,9 +4,55 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_movie"
+        android:layout_width="match_parent"
+        android:layout_height="160dp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_movie_detail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:id="@+id/layout_comment_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
+
+        <EditText
+            android:id="@+id/et_comment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_weight="1"
+            android:maxLines="4" />
+
+        <Button
+            android:id="@+id/btn_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="收藏" />
+
+        <Button
+            android:id="@+id/btn_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="分享" />
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="发送" />
+
+    </LinearLayout>
 
 </LinearLayout>

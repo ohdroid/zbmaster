@@ -3,7 +3,10 @@ package com.ohdroid.zbmaster.application.di;
 import android.content.Context;
 
 import com.ohdroid.zbmaster.BuildConfig;
+import com.ohdroid.zbmaster.application.data.DataManager;
 import com.ohdroid.zbmaster.application.di.exannotation.ForApplication;
+import com.ohdroid.zbmaster.facesync.data.FaceSyncManager;
+import com.ohdroid.zbmaster.login.data.LoginManager;
 import com.tencent.tauth.Tencent;
 
 import javax.inject.Singleton;
@@ -35,5 +38,12 @@ public class ApplicationModule {
     public Tencent provideTencent(@ForApplication Context context) {
         return Tencent.createInstance(BuildConfig.QQ_APP_ID, context);
     }
+
+//    @Provides
+//    @Singleton
+//    public DataManager provideDataManager(LoginManager loginManager, FaceSyncManager faceSyncManager) {
+//        System.out.println("new data manager<<=====================================");
+//        return new DataManager(loginManager, faceSyncManager);
+//    }
 
 }

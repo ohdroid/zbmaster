@@ -2,6 +2,7 @@ package com.ohdroid.zbmaster.homepage.areamovie.view
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -23,10 +24,8 @@ import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areaface.view.OnRecycleViewItemClickListener
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
-import com.ohdroid.zbmaster.homepage.areamovie.presenter.imp.MovieListPresenterImp
 import org.jetbrains.anko.support.v4.find
 import java.util.*
-import javax.inject.Inject
 
 /**
  * Created by ohdroid on 2016/4/11.
@@ -83,16 +82,12 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        //下拉刷新
+        mFreshLayout.setOnRefreshListener { presenter?.showMovieGifList() }
+        mFreshLayout.setColorSchemeColors(Color.parseColor("#FF9966"), Color.parseColor("#FF6666"), Color.parseColor("#FFCCCC"))
+
+
         mMovieGifList.layoutManager = LinearLayoutManager(context)
-
-        datas.add(MovieInfo("http://7xslkd.com2.z0.glb.clouddn.com/image/gif/005zXVmagw1f1ctjte2g2g30fk06ekjm%20%281%29.gif?imageMogr2/format/jpg", "看着都痛"))
-        datas.add(MovieInfo("http://7xslkd.com2.z0.glb.clouddn.com/image/gif/005zXVmagw1f1ctjte2g2g30fk06ekjm%20%281%29.gif?imageMogr2/format/jpg", "看着都痛"))
-        datas.add(MovieInfo("http://7xslkd.com2.z0.glb.clouddn.com/image/gif/005zXVmagw1f1ctjte2g2g30fk06ekjm%20%281%29.gif?imageMogr2/format/jpg", "看着都痛"))
-        datas.add(MovieInfo("http://7xslkd.com2.z0.glb.clouddn.com/image/gif/005zXVmagw1f1ctjte2g2g30fk06ekjm%20%281%29.gif?imageMogr2/format/jpg", "看着都痛"))
-        datas.add(MovieInfo("http://7xslkd.com2.z0.glb.clouddn.com/image/gif/005zXVmagw1f1ctjte2g2g30fk06ekjm%20%281%29.gif?imageMogr2/format/jpg", "看着都痛"))
-        datas.add(MovieInfo("http://7xslkd.com2.z0.glb.clouddn.com/image/gif/005zXVmagw1f1ctjte2g2g30fk06ekjm%20%281%29.gif?imageMogr2/format/jpg", "看着都痛"))
-        datas.add(MovieInfo("http://7xslkd.com2.z0.glb.clouddn.com/image/gif/005zXVmagw1f1ctjte2g2g30fk06ekjm%20%281%29.gif?imageMogr2/format/jpg", "看着都痛"))
-
         mMovieGifList.addOnScrollListener(loadMoreListener)
         if (null == mMovieListAdapter) {
             mMovieListAdapter = MovieListAdapter(datas)
@@ -103,9 +98,9 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
                 }
             }
         }
+
         mMovieListAdapterWrap = RecycleViewHeaderFooterAdapter(mMovieListAdapter)
         mMovieGifList.adapter = mMovieListAdapterWrap
-        //        showMovieGifList(datas, false)
 
         presenter?.showMovieGifList()
     }
@@ -156,7 +151,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
         override fun onLoadMoreData() {
             //loading more data
             setFootTextViewHint(context.resources.getString(R.string.hint_load_more))
-            //            presenter.loadMoreFaceInfo()
+            presenter?.loadMoreMovieGifList()
         }
     }
 
@@ -207,31 +202,6 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
 
     //===========================对presenter层暴露的接口==================================
 
-
-    fun showMovieGifList(movieList: MutableList<MovieInfo>, hasMore: Boolean) {
-        if (mFreshLayout.isRefreshing) {
-            mFreshLayout.isRefreshing = false
-        }
-        hideLoadingView()
-
-        mMovieListAdapter?.movieList = movieList
-        mMovieListAdapter?.notifyDataSetChanged()
-        loadMoreListener.canLoadingMore = hasMore
-    }
-
-    fun showMoreMovieGifList(hasMore: Boolean) {
-        mMovieListAdapter?.notifyDataSetChanged()
-
-        loadMoreListener.canLoadingMore = hasMore
-        loadMoreListener.isLoadingMore = false
-
-        if (hasMore) {
-            setFootTextViewHint(resources.getString(R.string.hint_load_more))
-        } else {
-            setFootTextViewHint(resources.getString(R.string.hint_no_more_data))
-        }
-    }
-
     override fun showMovieList(movieInfos: MutableList<MovieInfo>, hasMore: Boolean) {
         if (mFreshLayout.isRefreshing) {
             mFreshLayout.isRefreshing = false
@@ -244,6 +214,16 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     }
 
     override fun showMoreMovieInfo(hasMore: Boolean) {
+        mMovieListAdapter?.notifyDataSetChanged()
+
+        loadMoreListener.canLoadingMore = hasMore
+        loadMoreListener.isLoadingMore = false
+
+        if (hasMore) {
+            setFootTextViewHint(resources.getString(R.string.hint_load_more))
+        } else {
+            setFootTextViewHint(resources.getString(R.string.hint_no_more_data))
+        }
     }
 
     override fun showErrorView(errorState: Int, errorMessage: String) {

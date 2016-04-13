@@ -1,5 +1,6 @@
 package com.ohdroid.zbmaster.login.data
 
+import cn.bmob.v3.listener.SaveListener
 import com.ohdroid.zbmaster.login.model.AccountInfo
 
 /**
@@ -11,12 +12,12 @@ interface AccountManager {
     /**
      * 登录
      */
-    fun login(userName: String, userPassword: String, loginListener: LoginManager.LoginListener)
+    fun login(accountInfo: AccountInfo, saveListener: SaveListener)
 
     /**
      * 注册
      */
-    fun regist(accountInfo: AccountInfo,registerListener:LoginManager.LoginListener)
+    fun regist(accountInfo: AccountInfo, registerListener: LoginManager.LoginListener)
 
     /**
      * 获取账号信息

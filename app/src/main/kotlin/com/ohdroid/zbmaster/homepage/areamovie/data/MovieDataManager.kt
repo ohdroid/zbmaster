@@ -1,10 +1,15 @@
 package com.ohdroid.zbmaster.homepage.areamovie.data
 
 import android.content.Context
+import cn.bmob.v3.BmobObject
 import cn.bmob.v3.BmobQuery
 import cn.bmob.v3.listener.FindListener
+import cn.bmob.v3.listener.SaveListener
 import com.ohdroid.zbmaster.application.data.api.QiniuApi
+import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
+import com.ohdroid.zbmaster.login.data.LoginManager
+import com.ohdroid.zbmaster.login.model.AccountInfo
 
 /**
  * Created by ohdroid on 2016/4/11.
@@ -20,10 +25,13 @@ class MovieDataManager {
         }
     }
 
+    /**
+     * 获取movie动图列表
+     */
     fun getMovieList(context: Context, params: MutableMap<String, String>?, pageLimit: Int, skip: Int, findListener: FindListener<MovieInfo>) {
         requestParams = params
 
-        val query: BmobQuery<MovieInfo> = BmobQuery();
+        val query: BmobQuery<MovieInfo> = BmobQuery()
         query.setLimit(pageLimit)
         query.setSkip(skip)
         query.findObjects(context, object : FindListener<MovieInfo>() {
@@ -39,6 +47,28 @@ class MovieDataManager {
             }
 
         })
+    }
+
+
+    fun <T : BmobObject> addItem(context: Context, saveListener: SaveListener, t: T) {
+        t.save(context, saveListener)
+    }
+
+    /**
+     * 为movie动图添加评论
+     */
+    fun addMovieComment(context: Context, requestParams: MutableMap<String, String>, comment: MovieComment, movieInfo: MovieInfo, author: AccountInfo) {
+        //        comment.commentAuthor =
+    }
+
+    /**
+     * 获取电影区对应的评论
+     */
+    fun getMovieCommentList(context: Context, pageLimit: Int, skip: Int, findListener: FindListener<MovieComment>) {
+        val query: BmobQuery<MovieComment> = BmobQuery()
+        query.setLimit(pageLimit)
+        query.setSkip(skip)
+        query.findObjects(context, findListener)
     }
 
     fun addQiniuStaticImageApi(list: MutableList<MovieInfo>?) {

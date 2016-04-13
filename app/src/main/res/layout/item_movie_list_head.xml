@@ -4,14 +4,9 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tv_name"
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/item_sdv_head"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_margin="16dp"
-        android:background="#3c9dff"
-        android:gravity="center"
-        android:text="sfsdfsfsdfsfsd"
-        android:textSize="20sp" />
-
+        android:layout_height="160dp"
+        android:orientation="vertical" />
 </LinearLayout>

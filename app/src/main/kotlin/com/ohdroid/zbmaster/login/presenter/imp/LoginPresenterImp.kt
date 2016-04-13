@@ -1,6 +1,7 @@
 package com.ohdroid.zbmaster.login.presenter.imp
 
 import android.content.Context
+import cn.bmob.v3.listener.SaveListener
 import com.ohdroid.zbmaster.application.data.DataManager
 import com.ohdroid.zbmaster.login.data.LoginManager
 import com.ohdroid.zbmaster.login.model.AccountInfo
@@ -36,16 +37,29 @@ class LoginPresenterImp constructor(var context: Context, val dataManager: DataM
     }
 
     override fun login(accountInfo: AccountInfo) {
-        dataManager.loginManger.login(accountInfo.userName, accountInfo.password, object : LoginManager.LoginListener {
-            override fun onFailed(msg: String) {
-                loginView?.loginFailed(msg)
+        println("==============loginmanager====>${dataManager}")
+
+        dataManager.loginManger.login(accountInfo, object : SaveListener() {
+            override fun onFailure(p0: Int, p1: String?) {
+                loginView?.loginFailed("$p0-------login failed----------$p1")
             }
 
             override fun onSuccess() {
                 loginView?.loginSuccess()
-                println("user info========>"+dataManager.loginManger.accountManager?.getUserAccount().toString())
+                println("user info========>" + dataManager.loginManger.accountManager?.getUserAccount().toString())
             }
-
         })
+
+        //        dataManager.loginManger.login(accountInfo, object : LoginManager.LoginListener {
+        //            override fun onFailed(msg: String) {
+        //                loginView?.loginFailed(msg)
+        //            }
+        //
+        //            override fun onSuccess() {
+        //                loginView?.loginSuccess()
+        //                println("user info========>"+dataManager.loginManger.accountManager?.getUserAccount().toString())
+        //            }
+        //
+        //        })
     }
 }

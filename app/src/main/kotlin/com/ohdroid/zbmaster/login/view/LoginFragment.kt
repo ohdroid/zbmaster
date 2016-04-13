@@ -11,7 +11,6 @@ import android.widget.EditText
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.base.view.BaseFragment
-import com.ohdroid.zbmaster.facesync.FaceSyncActivity
 import com.ohdroid.zbmaster.login.model.AccountInfo
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter
 import org.jetbrains.anko.support.v4.find
@@ -75,7 +74,10 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
             return
         }
 
-        loginPresenter.login(AccountInfo(userName.text.toString(), userPassword.text.toString()))
+        val accountInfo: AccountInfo = AccountInfo()
+        accountInfo.username = userName.text.toString()
+        accountInfo.setPassword(userPassword.text.toString())
+        loginPresenter.login(accountInfo)
     }
 
     //===============================响应行为相关==============================
@@ -84,7 +86,8 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
 
     override fun loginSuccess() {
         //跳转到表情同步页面
-        FaceSyncActivity.launch(context)
+        //        FaceSyncActivity.launch(context)
+        activity.finish()
     }
 
     override fun loginFailed(errorMessage: String) {

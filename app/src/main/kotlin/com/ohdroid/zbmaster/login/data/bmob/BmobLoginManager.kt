@@ -16,15 +16,12 @@ import javax.inject.Inject
 /**
  * Created by ohdroid on 2016/3/14.
  */
-class BmobLoginManager constructor( val context: Context) : AccountManager {
+class BmobLoginManager constructor(val context: Context) : AccountManager {
 
-    var accountInfo: AccountInfo? = null
+    var userInfo: AccountInfo? = null
 
     override fun regist(accountInfo: AccountInfo, registerListener: LoginManager.LoginListener) {
-        val user: BmobUser = BmobUser()
-        user.username = accountInfo.userName
-        user.setPassword(accountInfo.password)
-        user.signUp(context, object : SaveListener() {
+        accountInfo.signUp(context, object : SaveListener() {
             override fun onFailure(p0: Int, p1: String?) {
                 registerListener.onFailed(p0.toString() + ":" + p1)
             }
@@ -36,23 +33,36 @@ class BmobLoginManager constructor( val context: Context) : AccountManager {
         })
     }
 
-    override fun login(userName: String, userPassword: String, loginListener: LoginManager.LoginListener) {
-        BmobUser.loginByAccount(context, userName, userPassword, object : LogInListener<BmobUser>() {
-            override fun done(p0: BmobUser?, p1: BmobException?) {
-                if (p0 != null) {
-                    //TODO 封装成可用账户
-                    accountInfo = AccountInfo(p0.username,"");
-                    loginListener.onSuccess()
-                }
+    override fun login(accountInfo: AccountInfo, saveListener: SaveListener) {
+        accountInfo.login(context, object : SaveListener() {
+            override fun onSuccess() {
+                userInfo = accountInfo
+                println("user info=============>>${userInfo?.objectId}")
+                saveListener.onSuccess()
+            }
+
+            override fun onFailure(p0: Int, p1: String?) {
+                userInfo = null
+                saveListener.onFailure(p0, p1)
             }
 
         })
+        //        BmobUser.loginByAccount(context, userName, userPassword, object : LogInListener<AccountInfo>() {
+        //            override fun done(p0: AccountInfo?, p1: BmobException?) {
+        //                if (p0 != null) {
+        //                    //TODO 封装成可用账户
+        //                    accountInfo = p0
+        //                    loginListener.onSuccess()
+        //                }
+        //            }
+        //
+        //        })
     }
 
 
-
     override fun getUserAccount(): AccountInfo? {
-        return accountInfo
+        println("get   user info=============>>${userInfo?.objectId}")
+        return userInfo
     }
 
 
