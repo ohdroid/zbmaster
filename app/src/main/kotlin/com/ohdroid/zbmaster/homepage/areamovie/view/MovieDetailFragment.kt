@@ -1,5 +1,6 @@
 package com.ohdroid.zbmaster.homepage.areamovie.view
 
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -22,6 +23,7 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.application.view.RecycleViewHeaderFooterAdapter
+import com.ohdroid.zbmaster.application.view.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
@@ -40,7 +42,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     val mHeadSdv: SimpleDraweeView by lazy { find<SimpleDraweeView>(R.id.sdv_movie) }
     val mRefreshLayout: SwipeRefreshLayout by lazy { find<SwipeRefreshLayout>(R.id.srf_layout) }
 
-    var mMovieAdapter: MovieDetailAdapter? = null
+    var mMovieCommentAdapter: MovieDetailAdapter? = null
     var mMovieDetailAdapterWrap: RecycleViewHeaderFooterAdapter<MovieDetailViewHolder>? = null
     var mMovieComment: MutableList<MovieComment>? = null
 
@@ -102,9 +104,11 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         super.onViewCreated(view, savedInstanceState)
         presenter = component.movieCommentPresenter()
         presenter.attachView(this)
-        //        presenter.initMovieInfo(arguments.getSerializable("movieInfo") as MovieInfo)
+        presenter.initMovieInfo(arguments.getSerializable("movieInfo") as MovieInfo)
 
         mRefreshLayout.setOnRefreshListener { presenter.getMovieCommentList() }
+        mRefreshLayout.setColorSchemeColors(Color.parseColor("#FF9966"), Color.parseColor("#FF6666"), Color.parseColor("#FFCCCC"))
+
 
         mBtnSend.setOnClickListener(mBtnOnClickListener)
 
@@ -114,8 +118,8 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
             mMovieComment = ArrayList<MovieComment>()
         }
 
-        mMovieAdapter = MovieDetailAdapter(mMovieComment!!)
-        mMovieDetailAdapterWrap = RecycleViewHeaderFooterAdapter(mMovieAdapter)
+        mMovieCommentAdapter = MovieDetailAdapter(mMovieComment!!)
+        mMovieDetailAdapterWrap = RecycleViewHeaderFooterAdapter(mMovieCommentAdapter)
         mMovieDetailList.adapter = mMovieDetailAdapterWrap
 
         val movieInfo: MovieInfo? = arguments.getSerializable("movieInfo") as MovieInfo
@@ -126,8 +130,19 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
                 .build()
         mHeadSdv.controller = controller
 
+        mMovieDetailList.addOnScrollListener(loadMoreListener)
+
         presenter.getMovieCommentList()
 
+    }
+
+
+    val loadMoreListener = object : RecycleViewLoadMoreListener() {
+        override fun onLoadMoreData() {
+            //loading more data
+            setFootTextViewHint(context.resources.getString(R.string.hint_load_more))
+            presenter.getMoreMovieCommentList()
+        }
     }
 
     var footTextView: TextView? = null
@@ -148,7 +163,6 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
             footTextView!!.setPadding(0, 0, 0, padding)
             footTextView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
             mMovieDetailAdapterWrap?.addFootView(footTextView);
-
         }
         footTextView!!.text = str;
     }
@@ -190,18 +204,32 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         if (mRefreshLayout.isRefreshing) {
             mRefreshLayout.isRefreshing = false
         }
-        mMovieAdapter?.movieComments = commentList
-        mMovieAdapter?.notifyDataSetChanged()
+        loadMoreListener.canLoadingMore = isHasMore
+
+        mMovieCommentAdapter?.movieComments = commentList
+        mMovieCommentAdapter?.notifyDataSetChanged()
 
     }
 
     override fun showMovieInfo(movieInfo: MovieInfo) {
     }
 
-    override fun showEmptComment() {
+    override fun showEmptyComment() {
     }
 
     override fun showMoreComment(hasMore: Boolean) {
+
+        loadMoreListener.isLoadingMore = false
+        loadMoreListener.canLoadingMore = hasMore
+        if (!hasMore) {
+            //            setFootTextViewHint(getString(R.string.hint_load_more))
+            setFootTextViewHint(getString(R.string.hint_no_more_data))
+        }
+        mMovieCommentAdapter?.notifyDataSetChanged()
+    }
+
+    override fun showError(state: Int, errorMessage: String) {
+        showToast("$state:$errorMessage")
     }
 
 }

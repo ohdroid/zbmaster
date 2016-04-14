@@ -10,6 +10,7 @@ import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieDetailView
 import com.ohdroid.zbmaster.login.view.LoginActivity
+import java.util.*
 
 /**
  * Created by ohdroid on 2016/4/12.
@@ -19,6 +20,7 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
 
     lateinit var uiView: MovieDetailView
     lateinit var movieInfo: MovieInfo
+    var commentList: MutableList<MovieComment> = ArrayList()
 
 
     override fun attachView(view: MovieDetailView) {
@@ -69,14 +71,22 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
 
     override fun getMovieCommentList() {
         val movieCommentBusiness = MovieCommentBusiness()
+
+        val requestParams = HashMap<String, String>()
+        requestParams.put("equalToKey", "movieInfo")
+        requestParams.put("equalToValue", movieInfo.objectId)
+        requestParams.put("includeInfo", "commentAuthor")
+        movieCommentBusiness.requestParams = requestParams
         movieCommentBusiness.context = context
+
         movieCommentBusiness.getCommentList(object : FindListener<MovieComment>() {
             override fun onSuccess(p0: MutableList<MovieComment>?) {
                 if (null == p0) {
-                    uiView.showEmptComment()
+                    uiView.showEmptyComment()
                     return
                 }
-                uiView.showComment(p0, true)
+                commentList = p0
+                uiView.showComment(commentList, MovieCommentBusiness.PAGE_LIMIT <= p0.size)
             }
 
             override fun onError(p0: Int, p1: String?) {
@@ -87,6 +97,29 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
     }
 
     override fun getMoreMovieCommentList() {
-        throw UnsupportedOperationException()
+        val movieCommentBusiness = MovieCommentBusiness()
+
+        val requestParams: MutableMap<String, String> = HashMap()
+        requestParams.put("equalToKey", "movieInfo")
+        requestParams.put("equalToValue", movieInfo.objectId)
+        requestParams.put("includeInfo", "commentAuthor")
+        requestParams.put("skip", commentList.size.toString())
+        movieCommentBusiness.requestParams = requestParams
+        movieCommentBusiness.context = context
+
+        movieCommentBusiness.getCommentList(object : FindListener<MovieComment>() {
+            override fun onError(p0: Int, p1: String?) {
+            }
+
+            override fun onSuccess(p0: MutableList<MovieComment>?) {
+                if (null == p0) {
+                    uiView.showEmptyComment()
+                    return
+                }
+                commentList.addAll(p0)
+                uiView.showMoreComment(MovieCommentBusiness.PAGE_LIMIT <= p0.size)
+            }
+
+        })
     }
 }

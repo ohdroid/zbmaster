@@ -22,11 +22,16 @@ interface MovieDetailView : BaseView {
     /**
      * 显示无评论
      */
-    fun showEmptComment()
+    fun showEmptyComment()
 
     /**
      * 显示更多评论
      */
     fun showMoreComment(hasMore: Boolean)
+
+    /**
+     * 显示错误信息
+     */
+    fun showError(state: Int, errorMessage: String)
 
 }

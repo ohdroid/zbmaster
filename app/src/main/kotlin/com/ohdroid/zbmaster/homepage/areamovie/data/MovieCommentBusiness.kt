@@ -16,7 +16,7 @@ class MovieCommentBusiness : BaseBusiness<MovieComment>() {
     var context: Context? = null
 
     companion object {
-        @JvmField val PAGE_LIMIT = 20
+        @JvmField val PAGE_LIMIT = 5
     }
 
     override fun byGet() {
@@ -26,11 +26,13 @@ class MovieCommentBusiness : BaseBusiness<MovieComment>() {
     }
 
     fun addComment(saveListener: SaveListener?, comment: MovieComment) {
+        requestParams.put("limit", PAGE_LIMIT.toString())
         BmobDataManager.getInstance().addItem(context!!, comment, saveListener)
     }
 
     fun getCommentList(findListener: FindListener<MovieComment>) {
-        BmobDataManager.getInstance().findItemList(context!!, null, findListener)
+        requestParams.put("limit", PAGE_LIMIT.toString())
+        BmobDataManager.getInstance().findItemList(context!!, requestParams, findListener)
     }
 
 }
