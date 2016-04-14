@@ -29,7 +29,7 @@ abstract class RecycleViewLoadMoreListener : RecyclerView.OnScrollListener() {
         val itemCount = linearLayoutManager.itemCount
         val lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition();
 
-        if (!canLoadingMore || isLoadingMore || dy < 0) {
+        if (!canLoadingMore || isLoadingMore || dy <= 0) {
             //不能加载更多，加载中，向上滑，都直接返回
             return
         }

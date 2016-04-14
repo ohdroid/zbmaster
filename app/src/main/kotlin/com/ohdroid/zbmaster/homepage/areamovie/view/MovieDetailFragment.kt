@@ -1,5 +1,6 @@
 package com.ohdroid.zbmaster.homepage.areamovie.view
 
+import android.content.Context
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -94,6 +95,13 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         }
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        presenter = component.movieCommentPresenter()
+        presenter.attachView(this)
+        println("on Movie Detail fragment attach to context")
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view: View? = inflater?.inflate(R.layout.fragment_movie_detail, container, false)
         movieInfo = arguments.getSerializable("movieInfo") as MovieInfo
@@ -102,8 +110,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter = component.movieCommentPresenter()
-        presenter.attachView(this)
+        println("on movie detail view created...........")
         presenter.initMovieInfo(arguments.getSerializable("movieInfo") as MovieInfo)
 
         mRefreshLayout.setOnRefreshListener { presenter.getMovieCommentList() }
@@ -140,6 +147,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     val loadMoreListener = object : RecycleViewLoadMoreListener() {
         override fun onLoadMoreData() {
             //loading more data
+            println("load more data")
             setFootTextViewHint(context.resources.getString(R.string.hint_load_more))
             presenter.getMoreMovieCommentList()
         }
@@ -198,9 +206,23 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     }
 
 
+    override fun onDestroy() {
+        println("movie detail fragment destroy~~~~~~~~~~")
+        super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        println("on save instance state")
+    }
+
     //=================================presneter 暴露接口===================================
 
     override fun showComment(commentList: MutableList<MovieComment>, isHasMore: Boolean) {
+        if (activity.isFinishing) {
+            return
+        }
+
         if (mRefreshLayout.isRefreshing) {
             mRefreshLayout.isRefreshing = false
         }
@@ -212,13 +234,21 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     }
 
     override fun showMovieInfo(movieInfo: MovieInfo) {
+        if (activity.isFinishing) {
+            return
+        }
     }
 
     override fun showEmptyComment() {
+        if (activity.isFinishing) {
+            return
+        }
     }
 
     override fun showMoreComment(hasMore: Boolean) {
-
+        if (activity.isFinishing) {
+            return
+        }
         loadMoreListener.isLoadingMore = false
         loadMoreListener.canLoadingMore = hasMore
         if (!hasMore) {
@@ -226,9 +256,13 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
             setFootTextViewHint(getString(R.string.hint_no_more_data))
         }
         mMovieCommentAdapter?.notifyDataSetChanged()
+
     }
 
     override fun showError(state: Int, errorMessage: String) {
+        if (activity.isFinishing) {
+            return
+        }
         showToast("$state:$errorMessage")
     }
 

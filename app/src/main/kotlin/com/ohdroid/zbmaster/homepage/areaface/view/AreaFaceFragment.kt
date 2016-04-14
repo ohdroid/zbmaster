@@ -80,6 +80,9 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+
+        println("on face fragment view created...........")
+
         presenter.loadFaceList()//开始请求数据
 
         //下拉刷新初始化

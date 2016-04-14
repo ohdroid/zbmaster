@@ -25,9 +25,13 @@ class MovieDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_detail)
+    }
 
+    override fun onStart() {
+        super.onStart()
         showMovieDetailFragment()
     }
+
 
     fun showMovieDetailFragment() {
         val movieInfo: MovieInfo = intent.extras.getSerializable("movieInfo") as MovieInfo
