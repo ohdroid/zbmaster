@@ -8,4 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <color name="edit_base_color">#0056d3</color>
+
+    <style name="login_edit_style">
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="met_baseColor">@color/colorPrimary</item>
+        <item name="met_clearButton">true</item>
+        <item name="met_floatingLabel">highlight</item>
+        <item name="met_maxCharacters">20</item>
+        <item name="met_minCharacters">1</item>
+    </style>
+
 </resources>

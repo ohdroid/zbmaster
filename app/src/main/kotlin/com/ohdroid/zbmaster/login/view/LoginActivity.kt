@@ -11,11 +11,17 @@ import com.ohdroid.zbmaster.base.view.BaseActivity
  */
 class LoginActivity : BaseActivity() {
 
+
     companion object {
         @JvmStatic fun launch(context: Context) {
             val intent: Intent = Intent(context, LoginActivity::class.java)
             context.startActivity(intent)
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        LoginFragment.launch(supportFragmentManager, R.id.fragment_container)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -2,17 +2,20 @@ package com.ohdroid.zbmaster.login.view
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
+import android.widget.TextView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.login.model.AccountInfo
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter
+import com.rengwuxian.materialedittext.MaterialEditText
 import org.jetbrains.anko.support.v4.find
 
 /**
@@ -24,13 +27,32 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
     val loginBtn: Button by lazy {
         find<Button>(R.id.btn_login)
     }
-    val registerBtn: Button by lazy {
-        find<Button>(R.id.btn_register)
+    val registerBtn: TextView by lazy {
+        find<TextView>(R.id.btn_register)
     }
-    val userName: EditText by lazy { find<EditText>(R.id.et_name) }
-    val userPassword: EditText  by lazy { find<EditText>(R.id.et_password) }
+    val userName: MaterialEditText by lazy { find<MaterialEditText>(R.id.et_name) }
+    val userPassword: MaterialEditText  by lazy { find<MaterialEditText>(R.id.et_password) }
 
     lateinit var loginPresenter: LoginPresenter;
+
+    companion object {
+        @JvmField val TAG: String = "LoginFragment"
+
+        @JvmStatic fun launch(manager: FragmentManager, containerId: Int) {
+            var fragment: Fragment? = null
+            if (null == manager.findFragmentByTag(LoginFragment.TAG)) {
+                fragment = LoginFragment()
+                manager.beginTransaction()
+                        .add(containerId, fragment)
+                        .commit()
+            } else {
+                fragment = manager.findFragmentByTag(LoginFragment.TAG)
+                manager.beginTransaction()
+                        .show(fragment)
+                        .commit()
+            }
+        }
+    }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -60,17 +82,22 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
     override fun onClick(btn: View?) {
         when (btn?.id) {
             R.id.btn_login -> login()
+            R.id.btn_register -> register()
         }
+    }
+
+    fun register() {
+        RegisterFragment.launch(activity.supportFragmentManager, R.id.fragment_container)
     }
 
     fun login() {
         if (TextUtils.isEmpty(userName.text.toString())) {
-            println("user name empty")
+            userName.error = getString(R.string.empty_account_name)
             return
         }
 
         if (TextUtils.isEmpty(userPassword.text.toString())) {
-            println("password empty")
+            userPassword.error = getString(R.string.empty_account_pwd)
             return
         }
 
@@ -86,20 +113,13 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
 
     override fun loginSuccess() {
         //跳转到表情同步页面
-        //        FaceSyncActivity.launch(context)
+        showToast(getString(R.string.login_ok))
         activity.finish()
     }
 
     override fun loginFailed(errorMessage: String) {
-        showToast(errorMessage)
+        showToast(getString(R.string.login_error))
     }
 
-    override fun registerSuccess() {
-        println("regist success")
-    }
-
-    override fun registerFailed(errorMessage: String) {
-        println("regist faile" + errorMessage)
-    }
 
 }

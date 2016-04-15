@@ -43,7 +43,7 @@ class LoginManager : AccountManager {
 
     interface LoginListener {
         fun onSuccess()
-        fun onFailed(msg: String)
+        fun onFailed(state: Int, msg: String)
     }
 
 }

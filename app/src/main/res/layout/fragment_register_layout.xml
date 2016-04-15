@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:orientation="vertical">
 
     <ImageView
@@ -17,8 +18,7 @@
         style="@style/login_edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/account_name_hint"
-        android:text="ohdroid" />
+        android:hint="@string/account_name_hint" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/et_password"
@@ -29,25 +29,23 @@
         android:inputType="textPassword" />
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/login_btn"
+        android:text="@string/register_btn"
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/btn_register"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:paddingBottom="16dp"
-        android:paddingLeft="24dp"
-        android:paddingRight="24dp"
-        android:paddingTop="8dp"
-        android:text="@string/register_hint"
-        android:textColor="#38a832"
-        android:textSize="20sp" />
+        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/register_limit_hint"
+        android:textColor="#d2d2d2"
+        android:textSize="16sp" />
 </LinearLayout>

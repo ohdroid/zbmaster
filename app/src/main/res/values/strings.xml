@@ -1,6 +1,26 @@
 <resources>
     <string name="app_name">ZBMaster</string>
 
+    <!--登录注册-->
+    <string name="register_hint">现在就注册</string>
+    <string name="register_limit_hint">除了字数,完全没有限制,请随便乱注册</string>
+    <string name="register_error">很不幸注册失败,原因:%1$s</string>
+    <string name="register_ok">举国同庆你注册成功并且已经登录</string>
+    <string name="register_name_empty">骚年你的账号勒?</string>
+    <string name="register_pwd_empty">骚年的密码勒?</string>
+
+    <string name="register_btn">注册</string>
+    <string name="login_btn">登录</string>
+    <string name="account_name_hint">账号</string>
+    <string name="account_pwd_hint">密码</string>
+    <string name="login_ok">居然记得账号！</string>
+    <string name="empty_account_name">请输入你丫的账号</string>
+    <string name="empty_account_pwd">请输入你丫的密码</string>
+    <string name="login_complete">登陆成功</string>
+    <string name="login_upload">骚等</string>
+    <string name="login_error">很明显登陆失败</string>
+
+
     <string name="hint_load_more">加载更多污妖之力中...</string>
     <string name="hint_no_more_data">污妖之力已经见底</string>
     <string name="hint_loading">污妖之力聚集中...</string>

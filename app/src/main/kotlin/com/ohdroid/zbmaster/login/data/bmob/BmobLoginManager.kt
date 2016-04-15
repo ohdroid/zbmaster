@@ -23,10 +23,12 @@ class BmobLoginManager constructor(val context: Context) : AccountManager {
     override fun regist(accountInfo: AccountInfo, registerListener: LoginManager.LoginListener) {
         accountInfo.signUp(context, object : SaveListener() {
             override fun onFailure(p0: Int, p1: String?) {
-                registerListener.onFailed(p0.toString() + ":" + p1)
+                userInfo = null
+                registerListener.onFailed(p0, p1 ?: "")
             }
 
             override fun onSuccess() {
+                userInfo = accountInfo
                 registerListener.onSuccess()
             }
 
@@ -47,16 +49,6 @@ class BmobLoginManager constructor(val context: Context) : AccountManager {
             }
 
         })
-        //        BmobUser.loginByAccount(context, userName, userPassword, object : LogInListener<AccountInfo>() {
-        //            override fun done(p0: AccountInfo?, p1: BmobException?) {
-        //                if (p0 != null) {
-        //                    //TODO 封装成可用账户
-        //                    accountInfo = p0
-        //                    loginListener.onSuccess()
-        //                }
-        //            }
-        //
-        //        })
     }
 
 

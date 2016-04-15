@@ -7,14 +7,16 @@ import com.ohdroid.zbmaster.login.data.LoginManager
 import com.ohdroid.zbmaster.login.model.AccountInfo
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter
 import com.ohdroid.zbmaster.login.view.LoginView
+import com.ohdroid.zbmaster.login.view.RegisterView
 
 /**
  * Created by ohdroid on 2016/2/25.
  */
 class LoginPresenterImp constructor(var context: Context, val dataManager: DataManager) : LoginPresenter {
 
-    var loginView: LoginView? = null
 
+    var loginView: LoginView? = null
+    var registerView: RegisterView? = null
     override fun detachView() {
         this.loginView = null;
     }
@@ -23,14 +25,19 @@ class LoginPresenterImp constructor(var context: Context, val dataManager: DataM
         this.loginView = view
     }
 
+    override fun attachRegisterView(registerView: RegisterView?) {
+        this.registerView = registerView
+    }
+
+
     override fun register(accountInfo: AccountInfo) {
         dataManager.loginManger.regist(accountInfo, object : LoginManager.LoginListener {
             override fun onSuccess() {
-                loginView?.registerSuccess()
+                registerView?.registerSuccess()
             }
 
-            override fun onFailed(msg: String) {
-                loginView?.registerFailed(msg)
+            override fun onFailed(state: Int, msg: String) {
+                registerView?.registerFailed(state, msg)
             }
 
         })
@@ -46,20 +53,7 @@ class LoginPresenterImp constructor(var context: Context, val dataManager: DataM
 
             override fun onSuccess() {
                 loginView?.loginSuccess()
-                println("user info========>" + dataManager.loginManger.accountManager?.getUserAccount().toString())
             }
         })
-
-        //        dataManager.loginManger.login(accountInfo, object : LoginManager.LoginListener {
-        //            override fun onFailed(msg: String) {
-        //                loginView?.loginFailed(msg)
-        //            }
-        //
-        //            override fun onSuccess() {
-        //                loginView?.loginSuccess()
-        //                println("user info========>"+dataManager.loginManger.accountManager?.getUserAccount().toString())
-        //            }
-        //
-        //        })
     }
 }

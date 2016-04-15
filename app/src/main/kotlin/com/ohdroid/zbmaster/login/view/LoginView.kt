@@ -20,15 +20,4 @@ interface LoginView : BaseView {
      * 登录失败
      */
     fun loginFailed(errorMessage: String)
-
-    /**
-     * 注册成功
-     */
-    fun registerSuccess()
-
-    /**
-     * 注册失败
-     * @param errorMessage 错误原因
-     */
-    fun registerFailed(errorMessage: String)
 }
