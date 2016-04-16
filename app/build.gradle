@@ -55,7 +55,6 @@ dependencies {
     compile 'org.glassfish:javax.annotation:10.0-b28'
     apt 'com.google.dagger:dagger-compiler:2.0.2'
     //    kapt 'com.google.dagger:dagger-compiler:2.0.2'
-
     //qiniu
     compile 'com.qiniu:qiniu-android-sdk:7.1.2'
     //retrofit
@@ -66,22 +65,20 @@ dependencies {
     //rx
     compile 'io.reactivex:rxjava:1.1.2'
     compile 'io.reactivex:rxandroid:1.1.0'
-
     compile 'junit:junit:4.12'
+
+    //ex view lisbrary
+    compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.mikhaellopez:circularfillableloaders:1.2.0'
+    //recycle view animator,
+    //    compile 'jp.wasabeef:recyclerview-animators:2.2.1'
+    compile 'com.jakewharton.rxbinding:rxbinding-kotlin:0.4.0'
 
     //kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'org.jetbrains.anko:anko-sdk15:0.8.3'
     compile 'org.jetbrains.anko:anko-support-v4:0.8.3'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.8.3'
-
-    //ex view lisbrary
-    compile 'com.rengwuxian.materialedittext:library:2.1.4'
-    compile 'com.mikhaellopez:circularfillableloaders:1.2.0'
-
-    //recycle view animator,
-    //    compile 'jp.wasabeef:recyclerview-animators:2.2.1'
-
 }
 buildscript {
     ext.kotlin_version = '1.0.0'

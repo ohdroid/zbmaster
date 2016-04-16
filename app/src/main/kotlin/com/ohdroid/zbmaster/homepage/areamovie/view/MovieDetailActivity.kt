@@ -25,11 +25,12 @@ class MovieDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie_detail)
+        showMovieDetailFragment()
     }
 
     override fun onStart() {
         super.onStart()
-        showMovieDetailFragment()
+        println("on movie detail activity start")
     }
 
 

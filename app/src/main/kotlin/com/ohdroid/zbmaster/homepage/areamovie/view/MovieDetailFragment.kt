@@ -16,11 +16,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.TextView
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.drawee.view.SimpleDraweeView
+import com.jakewharton.rxbinding.view.RxView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.application.view.RecycleViewHeaderFooterAdapter
@@ -29,9 +29,11 @@ import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter
+import com.rengwuxian.materialedittext.MaterialEditText
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.find
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by ohdroid on 2016/4/11.
@@ -50,7 +52,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     val mBtnFavorite: Button by lazy { find<Button>(R.id.btn_favorite) }
     val mBtnSend: Button by lazy { find<Button>(R.id.btn_send) }
     val mBtnShare: Button by lazy { find<Button>(R.id.btn_share) }
-    val mEtComment: EditText by lazy { find<EditText>(R.id.et_comment) }
+    val mEtComment: MaterialEditText by lazy { find<MaterialEditText>(R.id.et_comment) }
 
     val mBtnOnClickListener: View.OnClickListener = View.OnClickListener { v ->
         when (v?.id) {
@@ -63,8 +65,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     lateinit var movieInfo: MovieInfo
 
     fun sendCommment() {
-        //直接跳转
-        //        LoginActivity.launch(context)
+
         if (TextUtils.isEmpty(mEtComment.text)) {
             showToast(getString(R.string.hint_no_comment_input))
             return
@@ -80,11 +81,10 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
             if (null == manager.findFragmentByTag(TAG)) {
                 fragment = MovieDetailFragment()
                 var args: Bundle = Bundle()
-                //                args.putParcelable("movieInfo", movieInfo)
                 args.putSerializable("movieInfo", movieInfo)
                 fragment.arguments = args
                 manager.beginTransaction()
-                        .replace(containerId, fragment)
+                        .add(containerId, fragment)
                         .commit()
             } else {
                 fragment = manager.findFragmentByTag(TAG)
@@ -95,11 +95,22 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        println("on create = saved instance state=======>>$savedInstanceState")
+    }
+
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         presenter = component.movieCommentPresenter()
         presenter.attachView(this)
         println("on Movie Detail fragment attach to context")
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        println("on activity create = saved instance state=======>>$savedInstanceState")
+
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -109,15 +120,21 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        println("on movie detail view created...........")
+        println("============>save instace state :$savedInstanceState")
+        val preComment: String? = savedInstanceState?.getString("preEtContent")
+        mEtComment.setText(preComment ?: "")
+
+        //rx set,TODO unsubscribe
+        RxView.clicks(mBtnSend).throttleFirst(3, TimeUnit.SECONDS)//防止短时间类刷屏行为
+                .subscribe({ sendCommment() })
+
         presenter.initMovieInfo(arguments.getSerializable("movieInfo") as MovieInfo)
 
         mRefreshLayout.setOnRefreshListener { presenter.getMovieCommentList() }
         mRefreshLayout.setColorSchemeColors(Color.parseColor("#FF9966"), Color.parseColor("#FF6666"), Color.parseColor("#FFCCCC"))
 
 
-        mBtnSend.setOnClickListener(mBtnOnClickListener)
+        //        mBtnSend.setOnClickListener(mBtnOnClickListener)
 
         mMovieDetailList.layoutManager = LinearLayoutManager(context)
 
@@ -140,6 +157,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         mMovieDetailList.addOnScrollListener(loadMoreListener)
 
         presenter.getMovieCommentList()
+
 
     }
 
@@ -175,6 +193,19 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         footTextView!!.text = str;
     }
 
+    override fun onDestroy() {
+        println("movie detail fragment destroy~~~~~~~~~~")
+        super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        println("on save instance state:${mEtComment.text.toString()}")
+        if (!TextUtils.isEmpty(mEtComment.text.toString())) {
+            outState?.putString("preEtContent", mEtComment.text.toString())
+        }
+    }
+
 
     class MovieDetailAdapter(var movieComments: MutableList<MovieComment>) : RecyclerView.Adapter<MovieDetailViewHolder>() {
 
@@ -205,16 +236,6 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         }
     }
 
-
-    override fun onDestroy() {
-        println("movie detail fragment destroy~~~~~~~~~~")
-        super.onDestroy()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle?) {
-        super.onSaveInstanceState(outState)
-        println("on save instance state")
-    }
 
     //=================================presneter 暴露接口===================================
 

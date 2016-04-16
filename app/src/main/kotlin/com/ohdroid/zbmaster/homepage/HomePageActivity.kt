@@ -28,11 +28,11 @@ class HomePageActivity : BaseActivity() {
         setContentView(R.layout.activity_home_page)
         menuProof.setOnClickListener(menuOnClickListener)
         menuMovie.setOnClickListener(menuOnClickListener)
+        showSpoofPage()
     }
 
     override fun onStart() {
         super.onStart()
-        showSpoofPage()
     }
 
     val menuOnClickListener = View.OnClickListener {
