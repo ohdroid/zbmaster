@@ -12,7 +12,7 @@ import java.util.*
 class QiniuApi private constructor() {
 
     companion object {
-        @JvmStatic val QINIU_URL_DOMAIN = "http://7xslkd.com2.z0.glb.clouddn.com"
+        @JvmStatic val QINIU_URL_DOMAIN = "http://7xslkd.com2.z0.glb.clouddn.com/"
         @JvmStatic val QINIU_ADVANCE_IAMGE_API = "/imageMogr2"
         @JvmStatic val LOGO_IMAGE_URL = "http://7xslkd.com2.z0.glb.clouddn.com/image/logo/zblogo.png"
 

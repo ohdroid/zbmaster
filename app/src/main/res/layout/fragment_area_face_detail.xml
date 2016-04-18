@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_face_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#d9000000"
-    android:gravity="center"
     android:orientation="vertical">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_face_detail"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        fresco:actualImageScaleType="fitCenter"
         fresco:placeholderImage="@mipmap/ic_launcher" />
 
     <LinearLayout
         android:id="@+id/interaction_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="32dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -34,7 +36,7 @@
             android:id="@+id/btn_share"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:background="@drawable/share_btn"
+            android:background="@drawable/share_btn_selector"
             android:elevation="4dp"
             android:text="@string/area_face_detail_btn_share"
             android:textColor="#fff"
@@ -57,4 +59,4 @@
         android:visibility="gone" />
 
 
-</LinearLayout>
+</FrameLayout>
