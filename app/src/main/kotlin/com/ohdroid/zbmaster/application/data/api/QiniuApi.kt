@@ -9,7 +9,7 @@ import java.util.*
  *
  * 七牛服务器API,方便不熟悉七牛服务器API的童鞋使用
  */
-class QiniuApi private constructor() {
+class QiniuApi() {
 
     companion object {
         @JvmStatic val QINIU_URL_DOMAIN = "http://7xslkd.com2.z0.glb.clouddn.com/"
@@ -19,11 +19,6 @@ class QiniuApi private constructor() {
         @JvmStatic fun builder(): QiniuApi {
             return QiniuApi()
         }
-
-        @JvmStatic fun getInstace(): QiniuApi {
-            return QiniuApi()
-        }
-
     }
 
     val requestParamters: MutableMap<String, String> = HashMap()
@@ -54,8 +49,10 @@ class QiniuApi private constructor() {
     /**
      *按百分比(1-1000)压缩图片
      */
-    fun setReduce(percent: Int) {
-
+    fun getReduceApi(percent: Int = 50): MutableMap<String, String> {
+        setMethod("imageMogr2")
+        addOptions("thumbnail", "!${percent}p")
+        return requestParamters
     }
 
 
@@ -106,6 +103,35 @@ class QiniuApi private constructor() {
         }
 
         println(" 静态图api--->${sb.toString()}")
+        return sb.toString()
+    }
+
+    /**
+     * 把七牛请求的 map集合转化为str
+     */
+    fun getQiniuRequestApiString(requestParams: MutableMap<String, String>?): String {
+        if ( requestParams == null) {
+            return ""
+        }
+
+        //拼接七牛提供的动图转换静态图API
+        //TODO 封装成七牛的API类
+        val sb = StringBuilder()
+        val method: String? = requestParams["method"]
+
+        if (TextUtils.isEmpty(method)) {
+            return ""
+        }
+        sb.append("$method")
+        requestParams.remove("method")
+
+
+        val keys: MutableSet<String> = requestParams.keys
+        for (key in keys) {
+            sb.append("/$key/${requestParams[key]}")
+        }
+
+        println(" 七牛 api str--->${sb.toString()}")
         return sb.toString()
     }
 

@@ -9,7 +9,7 @@
         android:id="@+id/sdv_movie"
         android:layout_width="match_parent"
         android:layout_height="@dimen/image_height"
-        app:actualImageScaleType="fitCenter" />
+        app:actualImageScaleType="centerCrop" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srf_layout"

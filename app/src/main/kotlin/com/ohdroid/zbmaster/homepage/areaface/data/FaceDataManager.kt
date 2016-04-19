@@ -4,6 +4,7 @@ import android.content.Context
 import android.text.TextUtils
 import cn.bmob.v3.BmobQuery
 import cn.bmob.v3.listener.FindListener
+import com.ohdroid.zbmaster.application.data.api.BmobDataManager
 import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.utils.UrlUtils
@@ -28,20 +29,33 @@ class FaceDataManager {
 
     fun getFaceList(context: Context, params: MutableMap<String, String>?, pageLimit: Int, skip: Int, findListener: FindListener<FaceInfo>) {
         requestParams = params
+        requestParams!!.put("limit", pageLimit.toString())
+        //        val query: BmobQuery<FaceInfo> = BmobQuery();
+        //        query.setLimit(pageLimit)
+        //        query.setSkip(skip)
+        //        query.findObjects(context, object : FindListener<FaceInfo>() {
+        //            //这里包了一下，还要在返回数据中加入七牛的api
+        //            override fun onSuccess(p0: MutableList<FaceInfo>?) {
+        //                addQiniuDomain(p0)
+        //                addQiniuStaticImageApi(p0)
+        //                findListener.onSuccess(p0)
+        //            }
+        //
+        //            override fun onError(p0: Int, p1: String?) {
+        //                findListener.onError(p0, p1)
+        //            }
+        //
+        //        })
+        val bmobDataManger = BmobDataManager.getInstance()
+        bmobDataManger.findItemList(context, params, object : FindListener<FaceInfo>() {
+            override fun onError(p0: Int, p1: String?) {
+                findListener.onError(p0, p1)
+            }
 
-        val query: BmobQuery<FaceInfo> = BmobQuery();
-        query.setLimit(pageLimit)
-        query.setSkip(skip)
-        query.findObjects(context, object : FindListener<FaceInfo>() {
-            //这里包了一下，还要在返回数据中加入七牛的api
             override fun onSuccess(p0: MutableList<FaceInfo>?) {
                 addQiniuDomain(p0)
                 addQiniuStaticImageApi(p0)
                 findListener.onSuccess(p0)
-            }
-
-            override fun onError(p0: Int, p1: String?) {
-                findListener.onError(p0, p1)
             }
 
         })
@@ -98,12 +112,26 @@ class FaceDataManager {
 
     /**
      * 获取图片对应的动图
+     * @param staticUrl:静态网址
+     * @param isCompress:是否压缩
      */
-    fun getDynamicURL(staticUrl: String): String {
+    fun getDynamicURL(staticUrl: String, isCompress: Boolean): String {
         if (staticUrl.indexOf("?") <= 0) {
             //若已经是原始地址那么直接返回
             return staticUrl
         }
-        return staticUrl.substring(0, staticUrl.indexOf("?"))
+        //由于动图太大，我们这里默认让服务器压缩
+        val original = staticUrl.substring(0, staticUrl.indexOf("?"))
+
+        if (isCompress) {
+            val qiniu: QiniuApi = QiniuApi()
+            val sb = StringBuilder()
+            sb.append(original)
+            sb.append("?")
+            sb.append(qiniu.getQiniuRequestApiString(qiniu.getReduceApi()))//服务器按百分比压缩
+            return sb.toString()
+        } else {
+            return original
+        }
     }
 }

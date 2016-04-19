@@ -174,7 +174,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
 
     override fun onDestroy() {
-        faceListAdapterWrap?.removeFootView()
         super.onDestroy()
     }
 
@@ -200,6 +199,11 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
             freshLayout.isRefreshing = false
         }
 
+        if (faces.size == 0) {
+            showEmpty()
+            return
+        }
+
         if (loadingView.visibility == View.VISIBLE) {
             val animator: ObjectAnimator = ObjectAnimator.ofFloat(loadingView, "alpha", 1f, 0f)
             animator.duration = 250
@@ -221,10 +225,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
             animator.start()
         }
 
-        if (faces.size == 0) {
-            showEmpty()
-            return
-        }
 
         faceListAdapter?.faceUrls = faces
         //        faceListAdapter?.notifyDataSetChanged()

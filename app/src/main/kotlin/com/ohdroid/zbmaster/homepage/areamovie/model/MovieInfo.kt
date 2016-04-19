@@ -8,7 +8,7 @@ import java.io.Serializable
 /**
  * Created by ohdroid on 2016/4/11.
  */
-class MovieInfo(var movieUrl: String = "", var movieTitle: String = "") : BmobObject(), Serializable {
+class MovieInfo(var movieUrl: String = "", var movieTitle: String = "", var fileSize: Long) : BmobObject(), Serializable {
 
     //    override fun writeToParcel(dest: Parcel?, flags: Int) {
     //        dest?.writeString(movieUrl)

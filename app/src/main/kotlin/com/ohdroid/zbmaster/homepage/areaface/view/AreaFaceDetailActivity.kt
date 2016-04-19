@@ -17,14 +17,14 @@ class AreaFaceDetailActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_area_face_detail)
 
-        val faceInfo: FaceInfo = intent.getParcelableExtra("faceInfo")
+        val faceInfo: FaceInfo = intent.getSerializableExtra("faceInfo") as FaceInfo
         AreaFaceDetailFragment.launch(supportFragmentManager, R.id.detail_fragment_container, faceInfo)
     }
 
     companion object {
         fun launch(context: Context, faceInfo: FaceInfo) {
             val intent: Intent = Intent(context, AreaFaceDetailActivity::class.java)
-            intent.putExtra("faceInfo", faceInfo as Parcelable)
+            intent.putExtra("faceInfo", faceInfo)
             context.startActivity(intent)
         }
     }

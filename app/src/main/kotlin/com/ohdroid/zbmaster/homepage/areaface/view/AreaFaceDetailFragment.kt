@@ -1,6 +1,5 @@
 package com.ohdroid.zbmaster.homepage.areaface.view
 
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
@@ -12,7 +11,6 @@ import android.widget.Button
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.drawee.view.SimpleDraweeView
-import com.ohdroid.zbmaster.MainActivity
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.BaseApplication
 import com.ohdroid.zbmaster.application.data.api.QiniuApi
@@ -23,8 +21,6 @@ import com.tencent.tauth.IUiListener
 import com.tencent.tauth.Tencent
 import com.tencent.tauth.UiError
 import org.jetbrains.anko.support.v4.find
-import java.io.File
-import java.net.URL
 
 /**
  * Created by ohdroid on 2016/4/7.
@@ -41,7 +37,7 @@ class AreaFaceDetailFragment : BaseFragment(), View.OnClickListener {
         fun launch(manager: FragmentManager, containerId: Int, faceInfo: FaceInfo) {
             val fragment: AreaFaceDetailFragment = AreaFaceDetailFragment()
             val args: Bundle = Bundle()
-            args.putParcelable("faceInfo", faceInfo)
+            args.putSerializable("faceInfo", faceInfo)
             fragment.arguments = args
 
             manager.beginTransaction()
@@ -53,7 +49,7 @@ class AreaFaceDetailFragment : BaseFragment(), View.OnClickListener {
     lateinit var faceInfo: FaceInfo
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        faceInfo = arguments.getParcelable("faceInfo")
+        faceInfo = arguments.getSerializable("faceInfo") as FaceInfo
         return inflater?.inflate(R.layout.fragment_area_face_detail, container, false)
     }
 

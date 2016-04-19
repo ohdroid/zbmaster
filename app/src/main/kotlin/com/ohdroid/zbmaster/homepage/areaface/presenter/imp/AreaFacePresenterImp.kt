@@ -17,6 +17,12 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
     lateinit var uiView: AreaFaceView;
     var mfaceURLList: MutableList<FaceInfo>? = null
 
+
+    /**
+     * 压缩零界值
+     */
+    val COMPRESS_SIZE = 2 * 1024 * 1024
+
     override fun loadFaceList() {
 
         //获取文件列表
@@ -59,7 +65,6 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
         }
         //若无原始数据，或者数量不是页数量的整数
         if (mfaceURLList!!.size == 0 || mfaceURLList!!.size % FaceBusiness.PAGE_LIMIT != 0) {
-            //            uiView.isHasMoreData(false)
             return
         }
 
@@ -71,8 +76,8 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
         val params = QiniuApi.builder()//使用七牛 API获取静态图片
                 .setImageStatic()
                 .build()
-        faceBusiness.startIndex = mfaceURLList!!.size
         faceBusiness.requestParams = params
+        faceBusiness.requestParams.put("skip", mfaceURLList!!.size.toString())
         faceBusiness.execute(BaseBusiness.METHOD_GET, object : BaseBusiness.BaseResultListener<FaceInfo> {
 
             override fun onSuccess(faces: MutableList<FaceInfo>?) {
@@ -109,7 +114,11 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
         }
         val faceInfo: FaceInfo = mfaceURLList!![position]
         //详情图是动态的所以需要重新获取下URL
-        uiView.showFaceInfoDetail(FaceInfo(FaceDataManager.getInstance().getDynamicURL(faceInfo.faceUrl), faceInfo.faceTitle))
+        var isCompress: Boolean = false
+        if (faceInfo.fileSize > COMPRESS_SIZE) {
+            isCompress = true
+        }
+        uiView.showFaceInfoDetail(FaceInfo(FaceDataManager.getInstance().getDynamicURL(faceInfo.faceUrl, isCompress), faceInfo.faceTitle, faceInfo.fileSize))
     }
 
     override fun attachView(view: AreaFaceView) {

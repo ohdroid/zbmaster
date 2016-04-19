@@ -5,6 +5,7 @@ import cn.bmob.v3.BmobObject
 import cn.bmob.v3.BmobQuery
 import cn.bmob.v3.listener.FindListener
 import cn.bmob.v3.listener.SaveListener
+import com.ohdroid.zbmaster.application.data.api.BmobDataManager
 import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
@@ -31,19 +32,33 @@ class MovieDataManager {
     fun getMovieList(context: Context, params: MutableMap<String, String>?, pageLimit: Int, skip: Int, findListener: FindListener<MovieInfo>) {
         requestParams = params
 
-        val query: BmobQuery<MovieInfo> = BmobQuery()
-        query.setLimit(pageLimit)
-        query.setSkip(skip)
-        query.findObjects(context, object : FindListener<MovieInfo>() {
-            //这里包了一下，还要在返回数据中加入七牛的api
+        //        val query: BmobQuery<MovieInfo> = BmobQuery()
+        //        query.setLimit(pageLimit)
+        //        query.setSkip(skip)
+        //        query.findObjects(context, object : FindListener<MovieInfo>() {
+        //            //这里包了一下，还要在返回数据中加入七牛的api
+        //            override fun onSuccess(p0: MutableList<MovieInfo>?) {
+        //                addQiniuDomain(p0)
+        //                addQiniuStaticImageApi(p0)
+        //                findListener.onSuccess(p0)
+        //            }
+        //
+        //            override fun onError(p0: Int, p1: String?) {
+        //                findListener.onError(p0, p1)
+        //            }
+        //
+        //        })
+
+        val bmobDataManager = BmobDataManager.getInstance()
+        bmobDataManager.findItemList(context, params, object : FindListener<MovieInfo>() {
+            override fun onError(p0: Int, p1: String?) {
+                findListener.onError(p0, p1)
+            }
+
             override fun onSuccess(p0: MutableList<MovieInfo>?) {
                 addQiniuDomain(p0)
                 addQiniuStaticImageApi(p0)
                 findListener.onSuccess(p0)
-            }
-
-            override fun onError(p0: Int, p1: String?) {
-                findListener.onError(p0, p1)
             }
 
         })
@@ -76,7 +91,7 @@ class MovieDataManager {
             return
         }
 
-        val qiniuApi = QiniuApi.getInstace().buildQiniuStaticImageApi(requestParams)
+        val qiniuApi = QiniuApi().buildQiniuStaticImageApi(requestParams)
         list.forEach {
             it.movieUrl = "${it.movieUrl}?$qiniuApi"
             println("afterchange-->${it.movieUrl}")
@@ -102,12 +117,26 @@ class MovieDataManager {
 
     /**
      * 获取图片对应的动图
+     * @param staticUrl:静态网址
+     * @param isCompress:是否压缩
      */
-    fun getDynamicURL(staticUrl: String): String {
+    fun getDynamicURL(staticUrl: String, isCompress: Boolean): String {
         if (staticUrl.indexOf("?") <= 0) {
             //若已经是原始地址那么直接返回
             return staticUrl
         }
-        return staticUrl.substring(0, staticUrl.indexOf("?"))
+        //由于动图太大，我们这里默认让服务器压缩
+        val original = staticUrl.substring(0, staticUrl.indexOf("?"))
+
+        if (isCompress) {
+            val qiniu: QiniuApi = QiniuApi()
+            val sb = StringBuilder()
+            sb.append(original)
+            sb.append("?")
+            sb.append(qiniu.getQiniuRequestApiString(qiniu.getReduceApi()))//服务器按百分比压缩
+            return sb.toString()
+        } else {
+            return original
+        }
     }
 }
