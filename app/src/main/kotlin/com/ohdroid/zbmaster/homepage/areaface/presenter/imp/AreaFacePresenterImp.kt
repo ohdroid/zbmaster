@@ -87,10 +87,11 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
                 }
 
                 mfaceURLList!!.addAll(faces)//添加数据到内存
-
                 if (faces.size < FaceBusiness.PAGE_LIMIT) {
                     //更新UI显示
                     uiView.showMoreFaceInfo(false)
+                } else {
+                    uiView.showMoreFaceInfo(true)
                 }
 
 

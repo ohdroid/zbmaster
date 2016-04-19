@@ -20,10 +20,12 @@ import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.drawee.view.SimpleDraweeView
 import com.jakewharton.rxbinding.view.RxView
 import com.ohdroid.zbmaster.R
+import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.application.view.RecycleViewHeaderFooterAdapter
 import com.ohdroid.zbmaster.application.view.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.base.view.BaseFragment
+import com.ohdroid.zbmaster.homepage.areamovie.data.MovieDataManager
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter
@@ -46,12 +48,10 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     var mMovieCommentAdapter: MovieDetailAdapter? = null
     var mMovieDetailAdapterWrap: RecycleViewHeaderFooterAdapter<MovieDetailViewHolder>? = null
     var mMovieComment: MutableList<MovieComment>? = null
-
     /**
-     * 屏幕尺寸
+     * 压缩零界值
      */
-    val screentSize = Point()
-
+    val COMPRESS_SIZE = 2 * 1024 * 1024
 
     val mBtnFavorite: Button by lazy { find<Button>(R.id.btn_favorite) }
     val mBtnSend: Button by lazy { find<Button>(R.id.btn_send) }
@@ -108,19 +108,11 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         super.onAttach(context)
         presenter = component.movieCommentPresenter()
         presenter.attachView(this)
-        println("on Movie Detail fragment attach to context")
-
-        //获取屏幕尺寸
-        val wm: WindowManager = activity.windowManager;
-        wm.defaultDisplay.getSize(screentSize);
-        //根据屏幕的宽度调整image高度
-        println("=====screen width=======>${screentSize.x}:${screentSize.y}:${screentSize.x / 16 * 9}")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         println("on activity create = saved instance state=======>>$savedInstanceState")
-
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -140,13 +132,10 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         RxView.clicks(mBtnSend).throttleFirst(3, TimeUnit.SECONDS)//防止短时间类刷屏行为
                 .subscribe({ sendCommment() })
 
-        presenter.initMovieInfo(arguments.getSerializable("movieInfo") as MovieInfo)
+        presenter.initMovieInfo(movieInfo)
 
         mRefreshLayout.setOnRefreshListener { presenter.getMovieCommentList() }
         mRefreshLayout.setColorSchemeColors(Color.parseColor("#FF9966"), Color.parseColor("#FF6666"), Color.parseColor("#FFCCCC"))
-
-
-        //        mBtnSend.setOnClickListener(mBtnOnClickListener)
 
         mMovieDetailList.layoutManager = LinearLayoutManager(context)
 
@@ -159,8 +148,16 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         mMovieDetailList.adapter = mMovieDetailAdapterWrap
 
         val movieInfo: MovieInfo? = arguments.getSerializable("movieInfo") as MovieInfo
+        //由于获取的url地址是从静态页面过来的，所以这里需要转换成动态页面
+        val qiniu: QiniuApi = QiniuApi()
+        var isCompress: Boolean = false
+        if (movieInfo!!.fileSize > COMPRESS_SIZE ) {
+            isCompress = true
+        }
+        val mInfo = MovieInfo(movieInfo.movieUrl, movieInfo.movieTitle, movieInfo.fileSize)
+        val movieUrl = MovieDataManager.getInstance().getDynamicURL(movieInfo!!.movieUrl, isCompress)
         val controller: DraweeController = Fresco.newDraweeControllerBuilder()
-                .setUri(Uri.parse(movieInfo?.movieUrl))
+                .setUri(Uri.parse(movieUrl))
                 .setTapToRetryEnabled(true)//点击重播
                 .setAutoPlayAnimations(true)//自动播放
                 .build()

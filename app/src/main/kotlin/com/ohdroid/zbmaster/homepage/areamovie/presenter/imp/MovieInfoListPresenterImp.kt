@@ -20,23 +20,12 @@ class MovieInfoListPresenterImp constructor(var context: Context) : MovieListPre
     lateinit var uiView: MovieListView;
     var mMovieGifList: MutableList<MovieInfo>? = null
 
-    /**
-     * 压缩零界值
-     */
-    val COMPRESS_SIZE = 2 * 1024 * 1024
-
     override fun showMovieInfoDetail(position: Int) {
         if (position < 0 || mMovieGifList == null || position >= mMovieGifList!!.size) {
             return
         }
-        val movieInfo = mMovieGifList!![position]
-        var isCompress: Boolean = false
-        if (movieInfo.fileSize > COMPRESS_SIZE ) {
-            isCompress = true
-        }
-        val mInfo = MovieInfo(movieInfo.movieUrl, movieInfo.movieTitle, movieInfo.fileSize)
-        mInfo.movieUrl = MovieDataManager.getInstance().getDynamicURL(mInfo.movieUrl, isCompress)
-        uiView.showMovieInfoDetail(mInfo)
+        val movieInfo = mMovieGifList!![position]//由于是序列化显示所以这里直接传过去
+        uiView.showMovieInfoDetail(movieInfo)
     }
 
     override fun showMovieGifList() {
