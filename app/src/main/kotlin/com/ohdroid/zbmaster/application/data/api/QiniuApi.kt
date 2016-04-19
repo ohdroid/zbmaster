@@ -51,6 +51,13 @@ class QiniuApi private constructor() {
         return this
     }
 
+    /**
+     *按百分比(1-1000)压缩图片
+     */
+    fun setReduce(percent: Int) {
+
+    }
+
 
     /**
      *添加其他选项
@@ -100,7 +107,7 @@ class QiniuApi private constructor() {
 
         println(" 静态图api--->${sb.toString()}")
         return sb.toString()
-
     }
+
 
 }

@@ -2,6 +2,7 @@ package com.ohdroid.zbmaster.homepage.areamovie.view
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Point
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -11,10 +12,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.util.TypedValue
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.TextView
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -48,6 +46,12 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     var mMovieCommentAdapter: MovieDetailAdapter? = null
     var mMovieDetailAdapterWrap: RecycleViewHeaderFooterAdapter<MovieDetailViewHolder>? = null
     var mMovieComment: MutableList<MovieComment>? = null
+
+    /**
+     * 屏幕尺寸
+     */
+    val screentSize = Point()
+
 
     val mBtnFavorite: Button by lazy { find<Button>(R.id.btn_favorite) }
     val mBtnSend: Button by lazy { find<Button>(R.id.btn_send) }
@@ -105,6 +109,12 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         presenter = component.movieCommentPresenter()
         presenter.attachView(this)
         println("on Movie Detail fragment attach to context")
+
+        //获取屏幕尺寸
+        val wm: WindowManager = activity.windowManager;
+        wm.defaultDisplay.getSize(screentSize);
+        //根据屏幕的宽度调整image高度
+        println("=====screen width=======>${screentSize.x}:${screentSize.y}:${screentSize.x / 16 * 9}")
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -120,7 +130,9 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        println("============>save instace state :$savedInstanceState")
+
+        println("${mHeadSdv.height}:${1080 / 16 * 9}:${context.resources.getDimension(R.dimen.image_height)}")
+
         val preComment: String? = savedInstanceState?.getString("preEtContent")
         mEtComment.setText(preComment ?: "")
 
