@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.homepage.areaface.view
+package com.ohdroid.zbmaster.homepage.areaface.view.fragment
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
@@ -24,6 +24,9 @@ import com.ohdroid.zbmaster.application.view.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
+import com.ohdroid.zbmaster.homepage.areaface.view.activity.AreaFaceDetailActivity
+import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceView
+import com.ohdroid.zbmaster.application.view.OnRecycleViewItemClickListener
 import org.jetbrains.anko.support.v4.find
 
 /**
@@ -46,7 +49,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         val TAG: String = "AreaFaceFragment"
 
         fun launch(manager: FragmentManager, containerId: Int): Fragment {
-            println("launch $TAG")
+            println("launch ${TAG}")
 
             var fragment: AreaFaceFragment? = null
 
@@ -112,8 +115,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
      * 设置footview提示语句
      */
     fun setFootTextViewHint(str: String) {
-        println("======$str====$footTextView")
-
         if (footTextView == null) {
 
             println("=====================add=================")
@@ -246,6 +247,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         loadMoreListener.isLoadingMore = false//加载数据完毕
         if (!hasMore) {
             setFootTextViewHint(context.resources.getString(R.string.hint_no_more_data))
+
         }
     }
 

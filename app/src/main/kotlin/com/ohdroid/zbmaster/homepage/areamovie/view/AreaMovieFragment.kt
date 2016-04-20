@@ -21,7 +21,7 @@ import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.view.RecycleViewHeaderFooterAdapter
 import com.ohdroid.zbmaster.application.view.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.base.view.BaseFragment
-import com.ohdroid.zbmaster.homepage.areaface.view.OnRecycleViewItemClickListener
+import com.ohdroid.zbmaster.application.view.OnRecycleViewItemClickListener
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
 import org.jetbrains.anko.support.v4.find

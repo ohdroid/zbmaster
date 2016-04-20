@@ -1,10 +1,7 @@
 package com.ohdroid.zbmaster.homepage.areaface.presenter.imp
 
 import android.content.Context
-import com.ohdroid.zbmaster.application.data.BaseBusiness
-import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.homepage.areaface.data.FaceBusiness
-import com.ohdroid.zbmaster.homepage.areaface.data.FaceDataManager
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
 import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceView

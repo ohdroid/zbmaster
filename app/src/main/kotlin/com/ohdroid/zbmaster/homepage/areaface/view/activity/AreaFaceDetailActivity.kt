@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.homepage.areaface.view
+package com.ohdroid.zbmaster.homepage.areaface.view.activity
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.os.Parcelable
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.base.view.BaseActivity
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
+import com.ohdroid.zbmaster.homepage.areaface.view.fragment.AreaFaceDetailFragment
 
 /**
  * Created by ohdroid on 2016/4/10.

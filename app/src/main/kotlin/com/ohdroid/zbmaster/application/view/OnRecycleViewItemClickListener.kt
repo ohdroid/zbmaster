@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.homepage.areaface.view
+package com.ohdroid.zbmaster.application.view
 
 import android.view.View
 

@@ -1,8 +1,13 @@
 package com.ohdroid.zbmaster.application.view;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -200,7 +205,8 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
 //    public static final int STATE_NO_NET = 10000;
 //    public static final int STATE_NO_DATA = 10001;
 //    public static final int STATE_NO_MORE_DATA = 10002;
-//    public static final int STATE_lOADING_MORE_DATA = 10003;
+//    public static final int STATE_LOADING_MORE_DATA = 10003;
+//    private int mCurrentState = -1;//默认是无
 //
 //    public void setDataState(int state, Context context) {
 //        System.out.println("set state:" + state);
@@ -211,23 +217,25 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
 //            case STATE_NO_MORE_DATA:
 //                addNoMoreDataFootView("无更多数据", context);
 //                break;
-//            case STATE_lOADING_MORE_DATA:
+//            case STATE_LOADING_MORE_DATA:
 //                addLoadingMoreDataFootView("加载更多数据中", context);
 //                break;
 //            case STATE_NO_NET:
 //                break;
 //        }
+//        mCurrentState = state;
 //    }
 //
 //    public void addNoDataFootView(String str, Context context) {
 //        TextView textView = new TextView(context);
 //        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 //        textView.setTextColor(Color.GRAY);
-//        textView.setBackgroundColor(Color.GREEN);
-//        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
-//        textView.setText(str);
+//        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F);
 //        textView.setGravity(Gravity.CENTER);
-//        addFootView(textView);
+//        textView.setText(str);
+//        if (mCurrentPosition != STATE_NO_DATA) {
+//            addFootView(textView);
+//        }
 //    }
 //
 //    public void addLoadingMoreDataFootView(String str, Context context) {
@@ -235,23 +243,32 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
 //        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 //        textView.setText(str);
 //        textView.setTextColor(Color.GRAY);
-//        textView.setBackgroundColor(Color.GREEN);
-//        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
-//        addFootView(textView);
+//        textView.setGravity(Gravity.CENTER);
+//        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F);
+//        if (mCurrentState != STATE_LOADING_MORE_DATA) {
+//            addFootView(textView);
+//        } else {
+//            ((TextView) getFooterView()).setText(str);
+//        }
+//
 //    }
 //
 //    public void addNoMoreDataFootView(String str, Context context) {
-//        System.out.println(str + "<<-------------");
+//        System.out.println("-------------show foot view  木有更多数据");
 //        TextView textView = new TextView(context);
 //        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 //        textView.setText(str);
 //        textView.setTextColor(Color.GRAY);
-//        textView.setBackgroundColor(Color.GREEN);
-//        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
-//        addFootView(textView);
+//        textView.setGravity(Gravity.CENTER);
+//        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F);
+//        if (mCurrentState != STATE_NO_MORE_DATA) {
+//            addFootView(textView);
+//        } else {
+//            ((TextView) getFooterView()).setText(str);
+//        }
 //    }
-
-    public void addNoNetFootView() {
-
-    }
+//
+//    public void addNoNetFootView() {
+//
+//    }
 }

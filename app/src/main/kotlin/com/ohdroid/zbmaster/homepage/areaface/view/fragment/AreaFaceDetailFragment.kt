@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.homepage.areaface.view
+package com.ohdroid.zbmaster.homepage.areaface.view.fragment
 
 import android.net.Uri
 import android.os.Bundle

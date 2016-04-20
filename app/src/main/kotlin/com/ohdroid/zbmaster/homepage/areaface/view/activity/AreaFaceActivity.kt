@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.homepage.areaface.view
+package com.ohdroid.zbmaster.homepage.areaface.view.activity
 
 import android.content.Context
 import android.content.Intent

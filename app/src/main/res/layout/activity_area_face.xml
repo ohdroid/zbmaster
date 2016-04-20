@@ -4,11 +4,11 @@
     android:id="@+id/face_fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".homepage.areaface.view.AreaFaceActivity">
+    tools:context=".homepage.areaface.view.activity.AreaFaceActivity">
 
     <fragment
         android:id="@+id/fragment_area_face"
-        android:name="com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceFragment"
+        android:name="com.ohdroid.zbmaster.homepage.areaface.view.fragment.AreaFaceFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>
