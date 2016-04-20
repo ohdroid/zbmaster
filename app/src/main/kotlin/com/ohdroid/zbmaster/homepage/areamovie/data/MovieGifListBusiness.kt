@@ -4,11 +4,14 @@ import android.content.Context
 import cn.bmob.v3.listener.FindListener
 import com.ohdroid.zbmaster.application.data.BaseBusiness
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
+import rx.Observable
+import rx.Subscriber
 
 /**
  * Created by ohdroid on 2016/4/11.
  */
 class MovieGifListBusiness : BaseBusiness<MovieInfo>() {
+
 
     lateinit var context: Context
 
@@ -33,5 +36,10 @@ class MovieGifListBusiness : BaseBusiness<MovieInfo>() {
 
         })
     }
+
+    override fun execute(method: String?): Observable<MutableList<MovieInfo>> {
+        return MovieDataManager.getInstance().getMovieList(context, requestParams)
+    }
+
 
 }

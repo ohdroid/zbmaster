@@ -11,6 +11,8 @@ import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.login.data.LoginManager
 import com.ohdroid.zbmaster.login.model.AccountInfo
+import rx.Observable
+import rx.functions.Func1
 
 /**
  * Created by ohdroid on 2016/4/11.
@@ -32,23 +34,6 @@ class MovieDataManager {
     fun getMovieList(context: Context, params: MutableMap<String, String>?, pageLimit: Int, skip: Int, findListener: FindListener<MovieInfo>) {
         requestParams = params
 
-        //        val query: BmobQuery<MovieInfo> = BmobQuery()
-        //        query.setLimit(pageLimit)
-        //        query.setSkip(skip)
-        //        query.findObjects(context, object : FindListener<MovieInfo>() {
-        //            //这里包了一下，还要在返回数据中加入七牛的api
-        //            override fun onSuccess(p0: MutableList<MovieInfo>?) {
-        //                addQiniuDomain(p0)
-        //                addQiniuStaticImageApi(p0)
-        //                findListener.onSuccess(p0)
-        //            }
-        //
-        //            override fun onError(p0: Int, p1: String?) {
-        //                findListener.onError(p0, p1)
-        //            }
-        //
-        //        })
-
         val bmobDataManager = BmobDataManager.getInstance()
         bmobDataManager.findItemList(context, params, object : FindListener<MovieInfo>() {
             override fun onError(p0: Int, p1: String?) {
@@ -62,6 +47,33 @@ class MovieDataManager {
             }
 
         })
+    }
+
+    /**
+     * rx方式请求数据
+     */
+    fun getMovieList(context: Context, params: MutableMap<String, String>?): Observable<MutableList<MovieInfo>> {
+        requestParams = params
+        return Observable
+                .create<MutableList<MovieInfo>> ({ it ->//从bmob服务器请求数据
+                    val bmobDataManager = BmobDataManager.getInstance()
+                    bmobDataManager.findItemList(context, params, object : FindListener<MovieInfo>() {
+                        override fun onError(p0: Int, p1: String?) {
+                            val e: Throwable = Throwable(p1)
+                            it.onError(e)
+                        }
+
+                        override fun onSuccess(p0: MutableList<MovieInfo>?) {
+                            it.onNext(p0)
+                        }
+
+                    })
+                })
+                .map({ //对数据二次编辑，融合七牛服务器api
+                    addQiniuDomain(it)
+                    addQiniuStaticImageApi(it)
+                    it
+                })
     }
 
 

@@ -12,12 +12,40 @@ import java.util.*
 class QiniuApi() {
 
     companion object {
+        @JvmStatic val IMAGE_COMPRESS_LIMIT = 2 * 1024 * 1024//动态图压缩临界值2M
+
+
         @JvmStatic val QINIU_URL_DOMAIN = "http://7xslkd.com2.z0.glb.clouddn.com/"
         @JvmStatic val QINIU_ADVANCE_IAMGE_API = "/imageMogr2"
         @JvmStatic val LOGO_IMAGE_URL = "http://7xslkd.com2.z0.glb.clouddn.com/image/logo/zblogo.png"
 
         @JvmStatic fun builder(): QiniuApi {
             return QiniuApi()
+        }
+
+        /**
+         * 获取图片对应的动图
+         * @param staticUrl:静态网址
+         * @param isCompress:是否压缩
+         */
+        fun getDynamicURL(staticUrl: String, fileSize: Long): String {
+            if (staticUrl.indexOf("?") <= 0) {
+                //若已经是原始地址那么直接返回
+                return staticUrl
+            }
+            //由于动图太大，我们这里默认让服务器压缩
+            val original = staticUrl.substring(0, staticUrl.indexOf("?"))
+
+            if (fileSize > IMAGE_COMPRESS_LIMIT) {
+                val qiniu: QiniuApi = QiniuApi()
+                val sb = StringBuilder()
+                sb.append(original)
+                sb.append("?")
+                sb.append(qiniu.getQiniuRequestApiString(qiniu.getReduceApi()))//服务器按百分比压缩
+                return sb.toString()
+            } else {
+                return original
+            }
         }
     }
 
@@ -31,6 +59,16 @@ class QiniuApi() {
         requestParamters.put("method", "imageMogr2")
         requestParamters.put("format", format)
         return this
+    }
+
+    /**
+     * 获取七牛静态图API
+     */
+    fun getImageStaticApi(format: String = "jpg"): String {
+        requestParamters.clear()
+        requestParamters.put("method", "imageMogr2")
+        requestParamters.put("format", format)
+        return getQiniuRequestApiString(requestParamters)
     }
 
     fun setMethod(method: String): QiniuApi {
@@ -135,5 +173,22 @@ class QiniuApi() {
         return sb.toString()
     }
 
+    /**
+     * 添加七牛api
+     */
+    fun addQiniuApi(list: MutableList<FaceInfo>?, api: String) {
+        if (list == null) {
+            return
+        }
+
+        list.forEach {
+            val stringBuffer = StringBuffer()
+            stringBuffer.append(QiniuApi.QINIU_URL_DOMAIN)
+            stringBuffer.append(it.faceUrl)
+            stringBuffer.append("?")
+            stringBuffer.append(api)
+            it.faceUrl = stringBuffer.toString()
+        }
+    }
 
 }

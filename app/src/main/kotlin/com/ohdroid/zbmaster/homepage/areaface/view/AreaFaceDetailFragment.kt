@@ -50,6 +50,9 @@ class AreaFaceDetailFragment : BaseFragment(), View.OnClickListener {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         faceInfo = arguments.getSerializable("faceInfo") as FaceInfo
+        //从传递过来的数据中获取动态图的api，目前功能比较少所以就写在这里，如果功能功能增多那么写在presenter层中
+        faceInfo.faceUrl = QiniuApi.getDynamicURL(faceInfo.faceUrl, faceInfo.fileSize)
+
         return inflater?.inflate(R.layout.fragment_area_face_detail, container, false)
     }
 

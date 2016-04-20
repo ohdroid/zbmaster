@@ -8,7 +8,7 @@ import javax.inject.Singleton;
 
 /**
  * Created by ohdroid on 2016/3/14.
- * <p/>
+ * <p>
  * 所有数据总管家
  */
 @Singleton
@@ -32,6 +32,4 @@ public class DataManager {
         return this.faceSyncManager;
 
     }
-
-
 }

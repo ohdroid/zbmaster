@@ -7,11 +7,15 @@ import cn.bmob.v3.listener.SaveListener
 import com.ohdroid.zbmaster.application.data.BaseBusiness
 import com.ohdroid.zbmaster.application.data.api.BmobDataManager
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
+import rx.Observable
 
 /**
  * Created by ohdroid on 2016/4/12.
  */
 class MovieCommentBusiness : BaseBusiness<MovieComment>() {
+    override fun execute(method: String?): Observable<MutableList<MovieComment>> {
+        throw UnsupportedOperationException()
+    }
 
     var context: Context? = null
 

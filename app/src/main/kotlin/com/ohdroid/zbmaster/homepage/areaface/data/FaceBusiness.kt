@@ -4,6 +4,7 @@ import android.content.Context
 import cn.bmob.v3.listener.FindListener
 import com.ohdroid.zbmaster.application.data.BaseBusiness
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
+import rx.Observable
 
 /**
  * Created by ohdroid on 2016/4/6.
@@ -11,6 +12,7 @@ import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
  * 用于请求表情区数据
  */
 class FaceBusiness : BaseBusiness<FaceInfo>() {
+
 
     lateinit var context: Context
 
@@ -38,6 +40,10 @@ class FaceBusiness : BaseBusiness<FaceInfo>() {
             }
 
         })
+    }
 
+    override fun execute(method: String?): Observable<MutableList<FaceInfo>> {
+        requestParams["limit"] = PAGE_LIMIT.toString()
+        return FaceDataManager.getInstance().getFaceList(context, requestParams)
     }
 }

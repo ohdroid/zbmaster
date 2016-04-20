@@ -3,6 +3,7 @@ package com.ohdroid.zbmaster.application.data
 import com.ohdroid.zbmaster.utils.UrlUtils
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import rx.Observable
 import java.util.*
 
 /**
@@ -45,8 +46,13 @@ abstract class BaseBusiness<T> {
             METHOD_GET -> byGet()
             METHOD_POST -> byPost()
         }
-
     }
+
+    /**
+     * 返回observable的执行方法
+     *
+     */
+    abstract fun execute(method: String? = METHOD_GET): Observable<MutableList<T>>
 
     /**
      * GET 请求数据

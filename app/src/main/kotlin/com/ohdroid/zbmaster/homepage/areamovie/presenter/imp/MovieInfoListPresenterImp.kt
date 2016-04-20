@@ -10,6 +10,9 @@ import com.ohdroid.zbmaster.homepage.areamovie.data.MovieGifListBusiness
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieListView
+import rx.Subscriber
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 /**
  * Created by ohdroid on 2016/4/11.
@@ -24,7 +27,7 @@ class MovieInfoListPresenterImp constructor(var context: Context) : MovieListPre
         if (position < 0 || mMovieGifList == null || position >= mMovieGifList!!.size) {
             return
         }
-        val movieInfo = mMovieGifList!![position]//由于是序列化显示所以这里直接传过去
+        val movieInfo = mMovieGifList!![position]//由于序列化过,所以这里直接传过去
         uiView.showMovieInfoDetail(movieInfo)
     }
 
@@ -32,24 +35,49 @@ class MovieInfoListPresenterImp constructor(var context: Context) : MovieListPre
         val movieGifListBusiness = MovieGifListBusiness()
         movieGifListBusiness.context = context
         movieGifListBusiness.requestParams = QiniuApi().setImageStatic().build()
-        movieGifListBusiness.execute(BaseBusiness.METHOD_GET, object : BaseBusiness.BaseResultListener<MovieInfo> {
-            override fun onSuccess(results: MutableList<MovieInfo>?) {
-                if (null == results) {
-                    //TODO show empty view
-                    println("no movie data")
-                    uiView.showEmpty()
-                    return
-                }
+        //        movieGifListBusiness.execute(BaseBusiness.METHOD_GET, object : BaseBusiness.BaseResultListener<MovieInfo> {
+        //            override fun onSuccess(results: MutableList<MovieInfo>?) {
+        //                if (null == results) {
+        //                    //TODO show empty view
+        //                    println("no movie data")
+        //                    uiView.showEmpty()
+        //                    return
+        //                }
+        //
+        //                println("init movie data")
+        //                mMovieGifList = results
+        //                uiView.showMovieList(mMovieGifList!!, mMovieGifList!!.size >= MovieGifListBusiness.PAGE_LIMIT)
+        //            }
+        //
+        //            override fun onFailed(state: Int, errorMessage: String?) {
+        //            }
+        //
+        //        })
+        //默认使用GET方式
+        val movieListObservable = movieGifListBusiness.execute()
+        movieListObservable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<MutableList<MovieInfo>>() {
+                    override fun onNext(t: MutableList<MovieInfo>?) {
+                        if (null == t) {
+                            //TODO show empty view
+                            println("no movie data")
+                            uiView.showEmpty()
+                            return
+                        }
+                        mMovieGifList = t
+                        uiView.showMovieList(mMovieGifList!!, mMovieGifList!!.size >= MovieGifListBusiness.PAGE_LIMIT)
+                    }
 
-                println("init movie data")
-                mMovieGifList = results
-                uiView.showMovieList(mMovieGifList!!, mMovieGifList!!.size >= MovieGifListBusiness.PAGE_LIMIT)
-            }
+                    override fun onCompleted() {
+                    }
 
-            override fun onFailed(state: Int, errorMessage: String?) {
-            }
+                    override fun onError(e: Throwable?) {
+                        uiView.showErrorView(0, e?.message ?: "")
+                    }
 
-        })
+                })
     }
 
     override fun loadMoreMovieGifList() {
