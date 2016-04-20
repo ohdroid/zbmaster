@@ -184,7 +184,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
     }
 
     override fun showFaceInfoDetail(faceInfo: FaceInfo) {
-        //        AreaFaceDetailFragment.launch(activity.supportFragmentManager, R.id.fragment_container, faceInfo)
         AreaFaceDetailActivity.launch(context, faceInfo)
     }
 
@@ -227,12 +226,8 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
 
         faceListAdapter?.faceUrls = faces
-        //        faceListAdapter?.notifyDataSetChanged()
-        //由于使用了动画这里要循环更改
-        //        for (index in faces.indices) {
-        //            faceListAdapter?.notifyItemInserted(index)
-        //        }
         faceListAdapter?.notifyDataSetChanged()
+
         loadMoreListener.canLoadingMore = hasMore
     }
 

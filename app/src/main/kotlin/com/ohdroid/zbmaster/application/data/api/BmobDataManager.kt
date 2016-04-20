@@ -18,10 +18,16 @@ class BmobDataManager {
         }
     }
 
+    /**
+     * bmob 添加数据
+     */
     fun <T : BmobObject> addItem(context: Context, t: T, saveListener: SaveListener?) {
         t.save(context, saveListener)
     }
 
+    /**
+     * bmob 查找列表
+     */
     fun <T : BmobObject> findItemList(context: Context, requestParameters: MutableMap<String, String>?, findListener: FindListener<T>) {
         val query = BmobQuery<T>()
         //排序,默认按照时间先后

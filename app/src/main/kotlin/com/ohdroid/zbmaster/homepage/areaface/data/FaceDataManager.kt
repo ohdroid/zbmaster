@@ -58,6 +58,7 @@ class FaceDataManager {
 
                         override fun onSuccess(p0: MutableList<FaceInfo>?) {
                             it.onNext(p0)
+                            it.onCompleted()
                         }
 
                     })
@@ -75,8 +76,10 @@ class FaceDataManager {
         if (list == null) {
             return
         }
-        val qiniuApi = QiniuApi()
-        qiniuApi.addQiniuApi(list, qiniuApi.getImageStaticApi())
+        val qiniuStaticImageApi = QiniuApi().getImageStaticApi()
+        list.forEach {
+            it.faceUrl = "${QiniuApi.QINIU_URL_DOMAIN}${it.faceUrl}?$qiniuStaticImageApi"
+        }
     }
 
     /**

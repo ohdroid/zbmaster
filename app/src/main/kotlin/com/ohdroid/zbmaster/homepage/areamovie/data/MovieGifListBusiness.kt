@@ -38,6 +38,7 @@ class MovieGifListBusiness : BaseBusiness<MovieInfo>() {
     }
 
     override fun execute(method: String?): Observable<MutableList<MovieInfo>> {
+        requestParams["limit"] = PAGE_LIMIT.toString()
         return MovieDataManager.getInstance().getMovieList(context, requestParams)
     }
 

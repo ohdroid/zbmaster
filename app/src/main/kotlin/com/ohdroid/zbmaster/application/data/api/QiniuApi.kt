@@ -52,16 +52,6 @@ class QiniuApi() {
     val requestParamters: MutableMap<String, String> = HashMap()
 
     /**
-     * 设置为获取静态图片
-     * @param format 设置获取的格式,默认为jpg
-     */
-    fun setImageStatic(format: String = "jpg"): QiniuApi {
-        requestParamters.put("method", "imageMogr2")
-        requestParamters.put("format", format)
-        return this
-    }
-
-    /**
      * 获取七牛静态图API
      */
     fun getImageStaticApi(format: String = "jpg"): String {
@@ -77,14 +67,6 @@ class QiniuApi() {
     }
 
     /**
-     * 设置转换的格式
-     */
-    fun setFormat(format: String): QiniuApi {
-        requestParamters.put("format", format)
-        return this
-    }
-
-    /**
      *按百分比(1-1000)压缩图片
      */
     fun getReduceApi(percent: Int = 50): MutableMap<String, String> {
@@ -92,7 +74,6 @@ class QiniuApi() {
         addOptions("thumbnail", "!${percent}p")
         return requestParamters
     }
-
 
     /**
      *添加其他选项
@@ -110,39 +91,6 @@ class QiniuApi() {
         return requestParamters
     }
 
-    fun getImageUrl(str: String): String {
-        return "$QINIU_URL_DOMAIN/$str"
-    }
-
-
-    /**
-     * 添加七牛静态图API
-     */
-    fun buildQiniuStaticImageApi(requestParams: MutableMap<String, String>?): String {
-        if ( requestParams == null) {
-            return ""
-        }
-
-        //拼接七牛提供的动图转换静态图API
-        //TODO 封装成七牛的API类
-        val sb = StringBuilder()
-        val method: String? = requestParams["method"]
-
-        if (TextUtils.isEmpty(method)) {
-            return ""
-        }
-        sb.append("$method")
-        requestParams.remove("method")
-
-
-        val keys: MutableSet<String> = requestParams.keys
-        for (key in keys) {
-            sb.append("/$key/${requestParams[key]}")
-        }
-
-        println(" 静态图api--->${sb.toString()}")
-        return sb.toString()
-    }
 
     /**
      * 把七牛请求的 map集合转化为str
@@ -172,23 +120,4 @@ class QiniuApi() {
         println(" 七牛 api str--->${sb.toString()}")
         return sb.toString()
     }
-
-    /**
-     * 添加七牛api
-     */
-    fun addQiniuApi(list: MutableList<FaceInfo>?, api: String) {
-        if (list == null) {
-            return
-        }
-
-        list.forEach {
-            val stringBuffer = StringBuffer()
-            stringBuffer.append(QiniuApi.QINIU_URL_DOMAIN)
-            stringBuffer.append(it.faceUrl)
-            stringBuffer.append("?")
-            stringBuffer.append(api)
-            it.faceUrl = stringBuffer.toString()
-        }
-    }
-
 }

@@ -10,6 +10,7 @@ import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
 import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceView
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 
 /**
  * Created by ohdroid on 2016/4/6.
@@ -71,33 +72,62 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
         //获取文件列表
         val faceBusiness: FaceBusiness = FaceBusiness();
         faceBusiness.context = context//由于是使用bmob请求数据所以这里必须传入context
-        val params = QiniuApi.builder()//使用七牛 API获取静态图片
-                .setImageStatic()
-                .build()
-        faceBusiness.requestParams = params
         faceBusiness.requestParams.put("skip", mfaceURLList!!.size.toString())
-        faceBusiness.execute(BaseBusiness.METHOD_GET, object : BaseBusiness.BaseResultListener<FaceInfo> {
-
-            override fun onSuccess(faces: MutableList<FaceInfo>?) {
-                if (null == faces || faces.size == 0) {
-                    uiView.showMoreFaceInfo(false)
-                    return
+        faceBusiness.execute()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .filter {
+                    if (null == it) {
+                        uiView.showMoreFaceInfo(false)
+                        return@filter false
+                    }
+                    if (it.isEmpty()) {
+                        uiView.showMoreFaceInfo(false)
+                    }
+                    !it.isEmpty()
                 }
+                .subscribe(object : Subscriber<MutableList<FaceInfo>>() {
+                    override fun onError(e: Throwable?) {
+                        uiView.showErrorView(-1, e?.message ?: "")
+                    }
 
-                mfaceURLList!!.addAll(faces)//添加数据到内存
-                if (faces.size < FaceBusiness.PAGE_LIMIT) {
-                    //更新UI显示
-                    uiView.showMoreFaceInfo(false)
-                } else {
-                    uiView.showMoreFaceInfo(true)
-                }
-            }
+                    override fun onNext(faces: MutableList<FaceInfo>?) {
+                        mfaceURLList!!.addAll(faces!!)//添加数据到内存
+                        if (faces.size < FaceBusiness.PAGE_LIMIT) {
+                            //更新UI显示
+                            uiView.showMoreFaceInfo(false)
+                        } else {
+                            uiView.showMoreFaceInfo(true)
+                        }
+                    }
 
-            override fun onFailed(state: Int, errorMessage: String?) {
-                println(errorMessage)
-            }
+                    override fun onCompleted() {
+                    }
 
-        })
+                })
+
+        //        faceBusiness.execute(BaseBusiness.METHOD_GET, object : BaseBusiness.BaseResultListener<FaceInfo> {
+        //
+        //            override fun onSuccess(faces: MutableList<FaceInfo>?) {
+        //                if (null == faces || faces.size == 0) {
+        //                    uiView.showMoreFaceInfo(false)
+        //                    return
+        //                }
+        //
+        //                mfaceURLList!!.addAll(faces)//添加数据到内存
+        //                if (faces.size < FaceBusiness.PAGE_LIMIT) {
+        //                    //更新UI显示
+        //                    uiView.showMoreFaceInfo(false)
+        //                } else {
+        //                    uiView.showMoreFaceInfo(true)
+        //                }
+        //            }
+        //
+        //            override fun onFailed(state: Int, errorMessage: String?) {
+        //                println(errorMessage)
+        //            }
+        //
+        //        })
     }
 
 

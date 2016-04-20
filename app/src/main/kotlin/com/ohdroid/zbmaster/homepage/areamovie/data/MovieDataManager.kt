@@ -41,7 +41,7 @@ class MovieDataManager {
             }
 
             override fun onSuccess(p0: MutableList<MovieInfo>?) {
-                addQiniuDomain(p0)
+                addQiniuApi(p0)
                 addQiniuStaticImageApi(p0)
                 findListener.onSuccess(p0)
             }
@@ -65,13 +65,13 @@ class MovieDataManager {
 
                         override fun onSuccess(p0: MutableList<MovieInfo>?) {
                             it.onNext(p0)
+                            it.onCompleted()
                         }
 
                     })
                 })
                 .map({ //对数据二次编辑，融合七牛服务器api
-                    addQiniuDomain(it)
-                    addQiniuStaticImageApi(it)
+                    addQiniuApi(it)
                     it
                 })
     }
@@ -103,7 +103,7 @@ class MovieDataManager {
             return
         }
 
-        val qiniuApi = QiniuApi().buildQiniuStaticImageApi(requestParams)
+        val qiniuApi = QiniuApi().getQiniuRequestApiString(requestParams)
         list.forEach {
             it.movieUrl = "${it.movieUrl}?$qiniuApi"
             println("afterchange-->${it.movieUrl}")
@@ -111,21 +111,17 @@ class MovieDataManager {
 
     }
 
-    /**
-     * 添加七牛域名
-     */
-    fun addQiniuDomain(list: MutableList<MovieInfo>?) {
+
+    fun addQiniuApi(list: MutableList<MovieInfo>?) {
         if (list == null) {
             return
         }
-
+        val qiniuStaticImageApi = QiniuApi().getImageStaticApi()
         list.forEach {
-            val stringBuffer = StringBuffer()
-            stringBuffer.append(QiniuApi.QINIU_URL_DOMAIN)
-            stringBuffer.append(it.movieUrl)
-            it.movieUrl = stringBuffer.toString()
+            it.movieUrl = "${QiniuApi.QINIU_URL_DOMAIN}${it.movieUrl}?$qiniuStaticImageApi"
         }
     }
+
 
     /**
      * 获取图片对应的动图
