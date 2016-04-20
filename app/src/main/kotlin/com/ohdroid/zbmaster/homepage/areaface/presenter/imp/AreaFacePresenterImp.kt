@@ -67,9 +67,6 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
             return
         }
 
-        println("presenter load more")
-
-        //获取文件列表
         val faceBusiness: FaceBusiness = FaceBusiness();
         faceBusiness.context = context//由于是使用bmob请求数据所以这里必须传入context
         faceBusiness.requestParams.put("skip", mfaceURLList!!.size.toString())
@@ -105,29 +102,6 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
                     }
 
                 })
-
-        //        faceBusiness.execute(BaseBusiness.METHOD_GET, object : BaseBusiness.BaseResultListener<FaceInfo> {
-        //
-        //            override fun onSuccess(faces: MutableList<FaceInfo>?) {
-        //                if (null == faces || faces.size == 0) {
-        //                    uiView.showMoreFaceInfo(false)
-        //                    return
-        //                }
-        //
-        //                mfaceURLList!!.addAll(faces)//添加数据到内存
-        //                if (faces.size < FaceBusiness.PAGE_LIMIT) {
-        //                    //更新UI显示
-        //                    uiView.showMoreFaceInfo(false)
-        //                } else {
-        //                    uiView.showMoreFaceInfo(true)
-        //                }
-        //            }
-        //
-        //            override fun onFailed(state: Int, errorMessage: String?) {
-        //                println(errorMessage)
-        //            }
-        //
-        //        })
     }
 
 

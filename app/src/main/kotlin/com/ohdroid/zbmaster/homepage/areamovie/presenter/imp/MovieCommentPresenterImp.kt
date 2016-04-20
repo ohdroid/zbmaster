@@ -10,6 +10,9 @@ import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieDetailView
 import com.ohdroid.zbmaster.login.view.LoginActivity
+import rx.Subscriber
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import java.util.*
 
 /**
@@ -37,9 +40,7 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
 
     override fun addComment(commentStr: String, attachMovie: MovieInfo) {
 
-        println("==============loginmanager====>${dataManager.loginManger}")
         val userAccount = dataManager.loginManger.getUserAccount()
-        println("==============loginmanager====>${dataManager.loginManger}")
 
         if (null == userAccount) {
             //跳转登录界面
@@ -78,22 +79,34 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
         requestParams.put("includeInfo", "commentAuthor")
         movieCommentBusiness.requestParams = requestParams
         movieCommentBusiness.context = context
-
-        movieCommentBusiness.getCommentList(object : FindListener<MovieComment>() {
-            override fun onSuccess(p0: MutableList<MovieComment>?) {
-                if (null == p0) {
-                    uiView.showEmptyComment()
-                    return
+        movieCommentBusiness.getCommentList()
+                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .filter {
+                    if (null == it) {
+                        uiView.showEmptyComment()
+                        return@filter false
+                    }
+                    if (it.isEmpty()) {
+                        uiView.showEmptyComment()
+                        return@filter false
+                    }
+                    true
                 }
-                commentList = p0
-                uiView.showComment(commentList, MovieCommentBusiness.PAGE_LIMIT <= p0.size)
-            }
+                .subscribe(object : Subscriber<MutableList<MovieComment>>() {
+                    override fun onNext(t: MutableList<MovieComment>?) {
+                        commentList = t!!
+                        uiView.showComment(commentList, MovieCommentBusiness.PAGE_LIMIT <= t.size)
+                    }
 
-            override fun onError(p0: Int, p1: String?) {
-                //                uiView.er
-            }
+                    override fun onCompleted() {
+                    }
 
-        })
+                    override fun onError(e: Throwable?) {
+                        uiView.showError(-1, e?.message ?: "")
+                    }
+
+                })
     }
 
     override fun getMoreMovieCommentList() {
@@ -106,20 +119,33 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
         requestParams.put("skip", commentList.size.toString())
         movieCommentBusiness.requestParams = requestParams
         movieCommentBusiness.context = context
-
-        movieCommentBusiness.getCommentList(object : FindListener<MovieComment>() {
-            override fun onError(p0: Int, p1: String?) {
-            }
-
-            override fun onSuccess(p0: MutableList<MovieComment>?) {
-                if (null == p0) {
-                    uiView.showEmptyComment()
-                    return
+        movieCommentBusiness.getCommentList()
+                .observeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .filter {
+                    if (null == it) {
+                        uiView.showMoreComment(false)
+                        return@filter false
+                    }
+                    if (it.isEmpty()) {
+                        uiView.showMoreComment(false)
+                        return@filter false
+                    }
+                    true
                 }
-                commentList.addAll(p0)
-                uiView.showMoreComment(MovieCommentBusiness.PAGE_LIMIT <= p0.size)
-            }
+                .subscribe(object : Subscriber<MutableList<MovieComment>>() {
+                    override fun onNext(t: MutableList<MovieComment>?) {
+                        commentList.addAll(t!!)
+                        uiView.showMoreComment(MovieCommentBusiness.PAGE_LIMIT <= t.size)
+                    }
 
-        })
+                    override fun onCompleted() {
+                    }
+
+                    override fun onError(e: Throwable?) {
+                        uiView.showError(-1, e?.message ?: "")
+                    }
+
+                })
     }
 }

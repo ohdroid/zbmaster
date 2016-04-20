@@ -39,4 +39,21 @@ class MovieCommentBusiness : BaseBusiness<MovieComment>() {
         BmobDataManager.getInstance().findItemList(context!!, requestParams, findListener)
     }
 
+    fun getCommentList(): Observable<MutableList<MovieComment>> {
+        return Observable.create<MutableList<MovieComment>>({
+            BmobDataManager.getInstance().findItemList(context!!, requestParams, object : FindListener<MovieComment>() {
+                override fun onError(p0: Int, p1: String?) {
+                    val e: Throwable = Throwable(p1)
+                    it.onError(e)
+                }
+
+                override fun onSuccess(p0: MutableList<MovieComment>?) {
+                    it.onNext(p0)
+                    it.onCompleted()
+                }
+
+            })
+        })
+    }
+
 }
