@@ -1,11 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:circleprogress="http://schemas.android.com/tools"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_face_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#d9000000"
     android:orientation="vertical">
+
+    <com.ohdroid.zbmaster.application.view.progress.CircleProgress
+        android:id="@+id/loading_view"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_gravity="center"
+        circleprogress:color1="@android:color/holo_red_light"
+        circleprogress:color2="@android:color/holo_green_light"
+        circleprogress:color3="@android:color/holo_blue_light" />
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/iv_face_detail"
@@ -14,6 +24,7 @@
         android:layout_gravity="center"
         fresco:actualImageScaleType="fitCenter"
         fresco:placeholderImage="@mipmap/ic_launcher" />
+
 
     <LinearLayout
         android:id="@+id/interaction_layout"

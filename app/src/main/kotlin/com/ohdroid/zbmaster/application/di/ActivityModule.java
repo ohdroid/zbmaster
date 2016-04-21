@@ -5,6 +5,7 @@ import android.app.Activity;
 import com.ohdroid.zbmaster.application.data.DataManager;
 import com.ohdroid.zbmaster.application.di.exannotation.ForApplication;
 import com.ohdroid.zbmaster.application.di.exannotation.PerActivity;
+import com.ohdroid.zbmaster.application.rxbus.RxBus;
 import com.ohdroid.zbmaster.facesync.data.FaceSyncManager;
 import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenter;
 import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenterImp;
@@ -75,8 +76,8 @@ public class ActivityModule {
 
     @Provides
     @PerActivity
-    public MovieCommentPresenter provideMovieCommentPresenter(@PerActivity Activity activity, DataManager dataManager) {
-        return new MovieCommentPresenterImp(activity, dataManager);
+    public MovieCommentPresenter provideMovieCommentPresenter(@PerActivity Activity activity, DataManager dataManager, RxBus rxBus) {
+        return new MovieCommentPresenterImp(activity, dataManager, rxBus);
     }
 
 }

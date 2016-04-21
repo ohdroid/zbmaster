@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.ohdroid.zbmaster.application.data.DataManager;
 import com.ohdroid.zbmaster.application.di.exannotation.ForApplication;
+import com.ohdroid.zbmaster.application.rxbus.RxBus;
 import com.ohdroid.zbmaster.facesync.data.FaceSyncManager;
 import com.ohdroid.zbmaster.login.data.LoginManager;
 import com.tencent.tauth.Tencent;
@@ -29,6 +30,8 @@ public interface ApplicationComponent {
     LoginManager loginManager();
 
     FaceSyncManager faceSyncManager();
+
+    RxBus rxBus();
 
 
     Tencent tencentManager();

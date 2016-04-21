@@ -1,5 +1,9 @@
 package com.ohdroid.zbmaster.homepage.areaface.view.fragment
 
+import android.graphics.Canvas
+import android.graphics.ColorFilter
+import android.graphics.PixelFormat
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
@@ -9,11 +13,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.drawable.ScalingUtils
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.BaseApplication
 import com.ohdroid.zbmaster.application.data.api.QiniuApi
+import com.ohdroid.zbmaster.application.view.progress.CircleProgress
+import com.ohdroid.zbmaster.application.view.progress.ImageViewProgressController
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.tencent.connect.share.QQShare
@@ -29,6 +37,7 @@ class AreaFaceDetailFragment : BaseFragment(), View.OnClickListener {
 
 
     val ivFaceDetail: SimpleDraweeView by lazy { find<SimpleDraweeView>(R.id.iv_face_detail) }
+    val mLoadingView: CircleProgress by lazy { find<CircleProgress>(R.id.loading_view) }
 
     val bgLayout: View by lazy { find<View>(R.id.fragment_face_detail) }
     val btnShare: Button by lazy { find<Button>(R.id.btn_share) }
@@ -61,7 +70,25 @@ class AreaFaceDetailFragment : BaseFragment(), View.OnClickListener {
             return
         }
         bgLayout.setOnClickListener { }//消耗点击事件
+        btnShare.setOnClickListener(this)
 
+        mLoadingView.startAnim()
+
+        //图像加载进度控制
+        val builder: GenericDraweeHierarchyBuilder = GenericDraweeHierarchyBuilder(activity.resources)
+        builder.progressBarImage = object : ImageViewProgressController() {
+            override fun onLevelChange(level: Int): Boolean {
+                if (10000 == level) {
+                    mLoadingView.postDelayed({
+                        mLoadingView.stopAnim()
+                        mLoadingView.visibility = View.GONE
+                    }, 3600)
+                }
+                return super.onLevelChange(level)
+            }
+        }
+        builder.actualImageScaleType = ScalingUtils.ScaleType.FIT_CENTER
+        ivFaceDetail.hierarchy = builder.build()
         //设置为自动播放
         val controller: DraweeController = Fresco.newDraweeControllerBuilder()
                 .setUri(Uri.parse(faceInfo.faceUrl))
@@ -69,9 +96,7 @@ class AreaFaceDetailFragment : BaseFragment(), View.OnClickListener {
                 .setAutoPlayAnimations(true)//自动播放
                 .build()
         ivFaceDetail.controller = controller
-        //        ivFaceDetail.setImageURI(Uri.parse(imageUrl), null)
 
-        btnShare.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -109,5 +134,6 @@ class AreaFaceDetailFragment : BaseFragment(), View.OnClickListener {
 
         });
     }
+
 
 }

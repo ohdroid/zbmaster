@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.homepage.areamovie.view
+package com.ohdroid.zbmaster.homepage.areamovie.view.fragment
 
 import android.content.Context
 import android.graphics.Color
@@ -14,8 +14,11 @@ import android.text.TextUtils
 import android.util.TypedValue
 import android.view.*
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.facebook.drawee.backends.pipeline.Fresco
+import com.facebook.drawee.drawable.ScalingUtils
+import com.facebook.drawee.generic.GenericDraweeHierarchyBuilder
 import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.drawee.view.SimpleDraweeView
 import com.jakewharton.rxbinding.view.RxView
@@ -24,11 +27,14 @@ import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.application.view.RecycleViewHeaderFooterAdapter
 import com.ohdroid.zbmaster.application.view.RecycleViewLoadMoreListener
+import com.ohdroid.zbmaster.application.view.progress.CircleProgress
+import com.ohdroid.zbmaster.application.view.progress.ImageViewProgressController
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areamovie.data.MovieDataManager
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter
+import com.ohdroid.zbmaster.homepage.areamovie.view.MovieDetailView
 import com.rengwuxian.materialedittext.MaterialEditText
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.find
@@ -44,10 +50,11 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     val mMovieDetailList: RecyclerView by lazy { find<RecyclerView>(R.id.rv_movie_detail) }
     val mHeadSdv: SimpleDraweeView by lazy { find<SimpleDraweeView>(R.id.sdv_movie) }
     val mRefreshLayout: SwipeRefreshLayout by lazy { find<SwipeRefreshLayout>(R.id.srf_layout) }
-
+    val mLoadingView: CircleProgress by lazy { find<CircleProgress>(R.id.loading_view) }
     var mMovieCommentAdapter: MovieDetailAdapter? = null
     var mMovieDetailAdapterWrap: RecycleViewHeaderFooterAdapter<MovieDetailViewHolder>? = null
     var mMovieComment: MutableList<MovieComment>? = null
+    val mRootLayout: LinearLayout by lazy { find<LinearLayout>(R.id.root_layout) }
     /**
      * 压缩零界值
      */
@@ -56,6 +63,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     val mBtnFavorite: Button by lazy { find<Button>(R.id.btn_favorite) }
     val mBtnSend: Button by lazy { find<Button>(R.id.btn_send) }
     val mBtnShare: Button by lazy { find<Button>(R.id.btn_share) }
+    val mEtLayout: View by lazy { find<View>(R.id.layout_comment_edit) }
     val mEtComment: MaterialEditText by lazy { find<MaterialEditText>(R.id.et_comment) }
 
     val mBtnOnClickListener: View.OnClickListener = View.OnClickListener { v ->
@@ -123,16 +131,17 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 
-        println("${mHeadSdv.height}:${1080 / 16 * 9}:${context.resources.getDimension(R.dimen.image_height)}")
 
-        val preComment: String? = savedInstanceState?.getString("preEtContent")
-        mEtComment.setText(preComment ?: "")
+        //        val preComment: String? = savedInstanceState?.getString("preEtContent")
+        //        mEtComment.setText(preComment ?: "")
 
         //rx set,TODO unsubscribe
         RxView.clicks(mBtnSend).throttleFirst(3, TimeUnit.SECONDS)//防止短时间类刷屏行为
                 .subscribe({ sendCommment() })
 
         presenter.initMovieInfo(movieInfo)
+
+        mLoadingView.startAnim()
 
         mRefreshLayout.setOnRefreshListener { presenter.getMovieCommentList() }
         mRefreshLayout.setColorSchemeColors(Color.parseColor("#FF9966"), Color.parseColor("#FF6666"), Color.parseColor("#FFCCCC"))
@@ -147,14 +156,26 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         mMovieDetailAdapterWrap = RecycleViewHeaderFooterAdapter(mMovieCommentAdapter)
         mMovieDetailList.adapter = mMovieDetailAdapterWrap
 
-        val movieInfo: MovieInfo? = arguments.getSerializable("movieInfo") as MovieInfo
-        //由于获取的url地址是从静态页面过来的，所以这里需要转换成动态页面
-        val qiniu: QiniuApi = QiniuApi()
+        //图像加载进度控制
+        val builder: GenericDraweeHierarchyBuilder = GenericDraweeHierarchyBuilder(activity.resources)
+        builder.progressBarImage = object : ImageViewProgressController() {
+            override fun onLevelChange(level: Int): Boolean {
+                if (10000 == level) {
+                    mLoadingView.postDelayed({
+                        mLoadingView.stopAnim()
+                        mLoadingView.visibility = View.GONE
+                    }, 3600)
+                }
+                return super.onLevelChange(level)
+            }
+        }
+        builder.actualImageScaleType = ScalingUtils.ScaleType.CENTER_CROP
+        mHeadSdv.hierarchy = builder.build()
+
         var isCompress: Boolean = false
-        if (movieInfo!!.fileSize > COMPRESS_SIZE ) {
+        if (movieInfo.fileSize > COMPRESS_SIZE ) {
             isCompress = true
         }
-        val mInfo = MovieInfo(movieInfo.movieUrl, movieInfo.movieTitle, movieInfo.fileSize)
         val movieUrl = MovieDataManager.getInstance().getDynamicURL(movieInfo!!.movieUrl, isCompress)
         val controller: DraweeController = Fresco.newDraweeControllerBuilder()
                 .setUri(Uri.parse(movieUrl))
@@ -167,6 +188,40 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
 
         presenter.getMovieCommentList()
 
+        //根据布局改变来监听软键盘弹起和收缩
+        mRootLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            var isAdjust = false
+            var preEtLayoutY = 0
+            var preRootViewHeight = 0
+            var adjustOffset = 0
+            override fun onGlobalLayout() {
+                val offset: Int = mRootLayout.rootView.height - mRootLayout.height
+                //                println("${mRootLayout.rootView.height}:${mEtLayout.y}:${mRootLayout.height}:$offset:$adjustOffset")
+                if (0 == preEtLayoutY) {
+                    preEtLayoutY = mEtLayout.y.toInt()
+                    preRootViewHeight = mRootLayout.height
+                }
+
+                if (offset > 800) {
+                    if (!isAdjust) {
+                        //                        println("键盘弹起")
+                        if (adjustOffset == 0) {
+                            adjustOffset = (preRootViewHeight - mRootLayout.height) - (preEtLayoutY - mEtLayout.y.toInt())
+                        }
+                        mEtLayout.translationY -= adjustOffset
+                        isAdjust = true
+                    }
+                } else {
+                    if (isAdjust) {
+                        //                        println("键盘收起")
+                        mEtLayout.translationY += adjustOffset
+                        adjustOffset = 0
+                        isAdjust = false
+                    }
+                }
+            }
+
+        })
 
     }
 
@@ -204,6 +259,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
 
     override fun onDestroy() {
         println("movie detail fragment destroy~~~~~~~~~~")
+        presenter.detachView()
         super.onDestroy()
     }
 
@@ -294,6 +350,15 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
             return
         }
         showToast("$state:$errorMessage")
+    }
+
+    override fun showAddCommentResult(state: Int, result: String) {
+        if (state > 0) {
+            //执行成功才刷新
+            presenter.getMovieCommentList()
+            mEtComment.setText("")
+        }
+        showToast(result)
     }
 
 }

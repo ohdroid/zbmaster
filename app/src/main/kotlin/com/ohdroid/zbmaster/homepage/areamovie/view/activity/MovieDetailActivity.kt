@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.homepage.areamovie.view
+package com.ohdroid.zbmaster.homepage.areamovie.view.activity
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,7 @@ import android.os.Parcelable
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.base.view.BaseActivity
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
+import com.ohdroid.zbmaster.homepage.areamovie.view.fragment.MovieDetailFragment
 import java.io.Serializable
 
 /**

@@ -58,7 +58,7 @@
             android:screenOrientation="behind"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".homepage.areaface.view.activity.AreaFaceDetailActivity" />
-        <activity android:name=".homepage.areamovie.view.MovieDetailActivity" />
+        <activity android:name=".homepage.areamovie.view.activity.MovieDetailActivity" />
     </application>
 
 </manifest>

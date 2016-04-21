@@ -4,6 +4,7 @@ import android.content.Context
 import cn.bmob.v3.BmobQuery
 import cn.bmob.v3.listener.FindListener
 import cn.bmob.v3.listener.SaveListener
+import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.data.BaseBusiness
 import com.ohdroid.zbmaster.application.data.api.BmobDataManager
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
@@ -29,9 +30,22 @@ class MovieCommentBusiness : BaseBusiness<MovieComment>() {
     override fun byPost() {
     }
 
-    fun addComment(saveListener: SaveListener?, comment: MovieComment) {
-        requestParams.put("limit", PAGE_LIMIT.toString())
-        BmobDataManager.getInstance().addItem(context!!, comment, saveListener)
+    //    fun addComment(saveListener: SaveListener?, comment: MovieComment) {
+    //        requestParams.put("limit", PAGE_LIMIT.toString())
+    //        BmobDataManager.getInstance().addItem(context!!, comment, saveListener)
+    //    }
+
+    fun addComment(comment: MovieComment) {
+        BmobDataManager.getInstance().addItem(context!!, comment, object : SaveListener() {
+            override fun onSuccess() {
+                rxBus?.send(AddCommentEvent(context!!.resources.getString(R.string.hint_add_comment_success), 200))
+            }
+
+            override fun onFailure(p0: Int, p1: String?) {
+                rxBus?.send(AddCommentEvent(p1 ?: "", p0))
+            }
+
+        })
     }
 
     fun getCommentList(findListener: FindListener<MovieComment>) {
@@ -54,6 +68,9 @@ class MovieCommentBusiness : BaseBusiness<MovieComment>() {
 
             })
         })
+    }
+
+    class AddCommentEvent(val result: String = "", val state: Int = 0) {
     }
 
 }

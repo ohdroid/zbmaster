@@ -6,7 +6,7 @@ import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenter;
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter;
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter;
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter;
-import com.ohdroid.zbmaster.homepage.areamovie.view.AreaMovieFragment;
+import com.ohdroid.zbmaster.homepage.areamovie.view.fragment.AreaMovieFragment;
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter;
 import com.ohdroid.zbmaster.login.view.LoginFragment;
 

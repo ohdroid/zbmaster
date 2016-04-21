@@ -6,4 +6,7 @@
     <dimen name="padding_8dp">8dp</dimen>
 
     <dimen name="image_height">160dp</dimen>
+
+    <!--progress loading-->
+    <dimen name="default_circle_view_size">200dp</dimen>
 </resources>

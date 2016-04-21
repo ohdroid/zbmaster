@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.base.view.BaseActivity
 import com.ohdroid.zbmaster.homepage.areaface.view.fragment.AreaFaceFragment
-import com.ohdroid.zbmaster.homepage.areamovie.view.AreaMovieFragment
+import com.ohdroid.zbmaster.homepage.areamovie.view.fragment.AreaMovieFragment
 import org.jetbrains.anko.find
 import org.jetbrains.anko.textColor
 

@@ -44,5 +44,6 @@
 
     <!--movie区-->
     <string name="hint_no_comment_input">请输入评论后再发送OK?</string>
+    <string name="hint_add_comment_success">骚年你的这一句话世界都在颤抖</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.ohdroid.zbmaster.application.data
 
+import com.ohdroid.zbmaster.application.rxbus.RxBus
 import com.ohdroid.zbmaster.utils.UrlUtils
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -26,8 +27,9 @@ abstract class BaseBusiness<T> {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-
     var listener: BaseResultListener<T>? = null
+
+    var rxBus: RxBus? = null
 
     /**
      * 开始的位置,用于分页查询时，过滤掉的数据项

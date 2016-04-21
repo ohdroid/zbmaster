@@ -34,4 +34,9 @@ interface MovieDetailView : BaseView {
      */
     fun showError(state: Int, errorMessage: String)
 
+    /**
+     * 添加评论结果提示
+     */
+    fun showAddCommentResult(state: Int, result: String)
+
 }

@@ -1,9 +1,10 @@
 package com.ohdroid.zbmaster.homepage.areamovie.presenter.imp
 
 import android.content.Context
-import cn.bmob.v3.listener.FindListener
 import cn.bmob.v3.listener.SaveListener
+import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.data.DataManager
+import com.ohdroid.zbmaster.application.rxbus.RxBus
 import com.ohdroid.zbmaster.homepage.areamovie.data.MovieCommentBusiness
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
@@ -13,24 +14,37 @@ import com.ohdroid.zbmaster.login.view.LoginActivity
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import rx.subscriptions.CompositeSubscription
 import java.util.*
 
 /**
  * Created by ohdroid on 2016/4/12.
  */
-class MovieCommentPresenterImp(var context: Context, var dataManager: DataManager) : MovieCommentPresenter {
+class MovieCommentPresenterImp(var context: Context, var dataManager: DataManager, var rxBus: RxBus) : MovieCommentPresenter {
 
 
     lateinit var uiView: MovieDetailView
     lateinit var movieInfo: MovieInfo
     var commentList: MutableList<MovieComment> = ArrayList()
 
+    val subscriptions: CompositeSubscription = CompositeSubscription()
 
     override fun attachView(view: MovieDetailView) {
         uiView = view
+        //绑定view的时候绑定rxbus
+        subscriptions.add(
+                rxBus.toObservable()
+                        .subscribe({
+                            if (it is MovieCommentBusiness.AddCommentEvent ) {
+                                uiView.showAddCommentResult(it.state, it.result)
+                            }
+                        })
+        )
     }
 
     override fun detachView() {
+        //注销rxbus
+        subscriptions.clear()
     }
 
     override fun initMovieInfo(movieInfo: MovieInfo) {
@@ -50,15 +64,17 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
         val comment: MovieComment = MovieComment(userAccount, commentStr, attachMovie)
         val movieCommentBusiness = MovieCommentBusiness()
         movieCommentBusiness.context = context
-        movieCommentBusiness.addComment(object : SaveListener() {
-            override fun onSuccess() {
-                println("add comment success")
-            }
-
-            override fun onFailure(p0: Int, p1: String?) {
-                println("add comment failed:$p0:$p1")
-            }
-        }, comment)
+        movieCommentBusiness.rxBus = rxBus
+        movieCommentBusiness.addComment(comment)
+        //        movieCommentBusiness.addComment(object : SaveListener() {
+        //            override fun onSuccess() {
+        //                rxBus.send(MovieCommentBusiness.AddCommentEvent(context.resources.getString(R.string.hint_add_comment_success), 200))
+        //            }
+        //
+        //            override fun onFailure(p0: Int, p1: String?) {
+        //                rxBus.send(MovieCommentBusiness.AddCommentEvent(p1 ?: "failed", p0))
+        //            }
+        //        }, comment)
     }
 
 
@@ -148,4 +164,6 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
 
                 })
     }
+
+
 }

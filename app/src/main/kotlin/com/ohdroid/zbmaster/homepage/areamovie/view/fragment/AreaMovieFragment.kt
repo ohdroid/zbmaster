@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.homepage.areamovie.view
+package com.ohdroid.zbmaster.homepage.areamovie.view.fragment
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
@@ -24,6 +24,8 @@ import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.application.view.OnRecycleViewItemClickListener
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
+import com.ohdroid.zbmaster.homepage.areamovie.view.activity.MovieDetailActivity
+import com.ohdroid.zbmaster.homepage.areamovie.view.MovieListView
 import org.jetbrains.anko.support.v4.find
 import java.util.*
 
@@ -39,7 +41,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
 
     var mRecycleViewFootView: TextView? = null
     var mMovieListAdapter: MovieListAdapter? = null
-    var mMovieListAdapterWrap: RecycleViewHeaderFooterAdapter<AreaMovieFragment.MovieViewHolder>? = null
+    var mMovieListAdapterWrap: RecycleViewHeaderFooterAdapter<MovieViewHolder>? = null
 
     var presenter: MovieListPresenter? = null
 
@@ -49,7 +51,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
         val TAG: String = "AreaMovieFragment"
 
         fun launch(manager: FragmentManager, containerId: Int): Fragment {
-            println("launch $TAG")
+            println("launch ${TAG}")
 
             var fragment: AreaMovieFragment? = null
 

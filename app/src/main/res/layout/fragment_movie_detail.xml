@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/sdv_movie"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/image_height"
-        app:actualImageScaleType="centerCrop" />
+        android:layout_height="@dimen/image_height">
+
+        <com.ohdroid.zbmaster.application.view.progress.CircleProgress
+            android:id="@+id/loading_view"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_movie"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/image_height"
+            app:actualImageScaleType="centerCrop" />
+
+    </FrameLayout>
+
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srf_layout"
@@ -30,6 +44,7 @@
         android:id="@+id/layout_comment_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#fff"
         android:gravity="bottom"
         android:orientation="horizontal"
         android:paddingTop="8dp">
