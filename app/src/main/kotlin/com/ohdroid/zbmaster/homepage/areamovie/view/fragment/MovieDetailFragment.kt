@@ -25,16 +25,18 @@ import com.jakewharton.rxbinding.view.RxView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.application.ex.showToast
-import com.ohdroid.zbmaster.application.view.RecycleViewHeaderFooterAdapter
-import com.ohdroid.zbmaster.application.view.RecycleViewLoadMoreListener
+import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewHeaderFooterAdapter
+import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.application.view.progress.CircleProgress
 import com.ohdroid.zbmaster.application.view.progress.ImageViewProgressController
+import com.ohdroid.zbmaster.application.view.recycleview.RecycelViewAddViewHelper
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areamovie.data.MovieDataManager
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieDetailView
+import com.ohdroid.zbmaster.utils.NetUtils
 import com.rengwuxian.materialedittext.MaterialEditText
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.find
@@ -55,10 +57,6 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     var mMovieDetailAdapterWrap: RecycleViewHeaderFooterAdapter<MovieDetailViewHolder>? = null
     var mMovieComment: MutableList<MovieComment>? = null
     val mRootLayout: LinearLayout by lazy { find<LinearLayout>(R.id.root_layout) }
-    /**
-     * 压缩零界值
-     */
-    val COMPRESS_SIZE = 2 * 1024 * 1024
 
     val mBtnFavorite: Button by lazy { find<Button>(R.id.btn_favorite) }
     val mBtnSend: Button by lazy { find<Button>(R.id.btn_send) }
@@ -162,6 +160,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
             override fun onLevelChange(level: Int): Boolean {
                 if (10000 == level) {
                     mLoadingView.postDelayed({
+                        println("=======hiding view======")
                         mLoadingView.stopAnim()
                         mLoadingView.visibility = View.GONE
                     }, 3600)
@@ -172,11 +171,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         builder.actualImageScaleType = ScalingUtils.ScaleType.CENTER_CROP
         mHeadSdv.hierarchy = builder.build()
 
-        var isCompress: Boolean = false
-        if (movieInfo.fileSize > COMPRESS_SIZE ) {
-            isCompress = true
-        }
-        val movieUrl = MovieDataManager.getInstance().getDynamicURL(movieInfo!!.movieUrl, isCompress)
+        val movieUrl = QiniuApi.getDynamicURL(movieInfo.movieUrl, movieInfo.fileSize, NetUtils.isWifi(context))
         val controller: DraweeController = Fresco.newDraweeControllerBuilder()
                 .setUri(Uri.parse(movieUrl))
                 .setTapToRetryEnabled(true)//点击重播
@@ -196,7 +191,6 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
             var adjustOffset = 0
             override fun onGlobalLayout() {
                 val offset: Int = mRootLayout.rootView.height - mRootLayout.height
-                //                println("${mRootLayout.rootView.height}:${mEtLayout.y}:${mRootLayout.height}:$offset:$adjustOffset")
                 if (0 == preEtLayoutY) {
                     preEtLayoutY = mEtLayout.y.toInt()
                     preRootViewHeight = mRootLayout.height
@@ -305,6 +299,8 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     //=================================presneter 暴露接口===================================
 
     override fun showComment(commentList: MutableList<MovieComment>, isHasMore: Boolean) {
+        mMovieDetailAdapterWrap?.removeFootView()
+
         if (activity.isFinishing) {
             return
         }
@@ -329,6 +325,11 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         if (activity.isFinishing) {
             return
         }
+        if (mRefreshLayout.isRefreshing) {
+            mRefreshLayout.isRefreshing = false
+        }
+
+        RecycelViewAddViewHelper.addNoDataFootView(context.getString(R.string.hint_no_comment_data), context, mMovieDetailAdapterWrap!!)
     }
 
     override fun showMoreComment(hasMore: Boolean) {

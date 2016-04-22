@@ -1,5 +1,6 @@
 package com.ohdroid.zbmaster.application.di;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.ohdroid.zbmaster.BuildConfig;

@@ -4,6 +4,7 @@ import com.ohdroid.zbmaster.application.di.exannotation.PerActivity;
 import com.ohdroid.zbmaster.facesync.FaceSyncFragment;
 import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenter;
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter;
+import com.ohdroid.zbmaster.homepage.areaface.view.fragment.AreaFaceDetailFragment;
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter;
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter;
 import com.ohdroid.zbmaster.homepage.areamovie.view.fragment.AreaMovieFragment;
@@ -31,6 +32,8 @@ public interface ActivityComponent {
     FaceSyncPresenter faceSyncPresenter();
 
     //==============================face area 模块   start==================================
+    void inject(AreaFaceDetailFragment faceDetailFragment);
+
     AreaFacePresenter faceAreaPresenter();
 
 

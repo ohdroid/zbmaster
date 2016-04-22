@@ -2,6 +2,7 @@ package com.ohdroid.zbmaster.homepage.areamovie.presenter.imp
 
 import android.content.Context
 import cn.bmob.v3.BmobObject
+import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.data.BaseBusiness
 import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
@@ -10,6 +11,7 @@ import com.ohdroid.zbmaster.homepage.areamovie.data.MovieGifListBusiness
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieListView
+import com.ohdroid.zbmaster.utils.NetUtils
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.internal.util.SubscriptionList
@@ -33,10 +35,16 @@ class MovieInfoListPresenterImp constructor(var context: Context) : MovieListPre
     }
 
     override fun showMovieGifList() {
+        //网络检查
+        if (!NetUtils.isConnected(context)) {
+            uiView.showErrorView(-1, context.resources.getString(R.string.hint_no_net_work))
+            return
+        }
+
         val movieGifListBusiness = MovieGifListBusiness()
         movieGifListBusiness.context = context
         //默认使用GET方式
-         movieGifListBusiness.execute()
+        movieGifListBusiness.execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter {
@@ -67,15 +75,20 @@ class MovieInfoListPresenterImp constructor(var context: Context) : MovieListPre
     }
 
     override fun loadMoreMovieGifList() {
+        if (null == mMovieGifList || mMovieGifList!!.size == 0) {
+            uiView.showMoreMovieInfo(false)
+            return
+        }
+
         val movieGifListBusiness = MovieGifListBusiness()
         movieGifListBusiness.context = context
-        movieGifListBusiness.requestParams.put("skip", mMovieGifList!!.size.toString())
+        movieGifListBusiness.requestParams.put("skip", mMovieGifList?.size.toString())
         movieGifListBusiness.execute()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<MutableList<MovieInfo>>() {
                     override fun onError(e: Throwable?) {
-                        uiView.showErrorView(-1, e?.message ?: "")
+                        uiView.showToastHint(context.resources.getString(R.string.hint_no_net_work))
                     }
 
                     override fun onNext(results: MutableList<MovieInfo>?) {
@@ -86,23 +99,6 @@ class MovieInfoListPresenterImp constructor(var context: Context) : MovieListPre
                     override fun onCompleted() {
                     }
                 })
-        //        movieGifListBusiness.execute(BaseBusiness.METHOD_GET, object : BaseBusiness.BaseResultListener<MovieInfo> {
-        //            override fun onSuccess(results: MutableList<MovieInfo>?) {
-        //                if (null == results) {
-        //                    //TODO show empty view
-        //                    uiView.showEmpty()
-        //                    return
-        //                }
-        //
-        //                mMovieGifList!!.addAll(results)
-        //                uiView.showMoreMovieInfo(results.size >= MovieGifListBusiness.PAGE_LIMIT)
-        //            }
-        //
-        //            override fun onFailed(state: Int, errorMessage: String?) {
-        //                uiView.showErrorView(state, errorMessage ?: "")
-        //            }
-        //
-        //        })
     }
 
     override fun attachView(view: MovieListView) {

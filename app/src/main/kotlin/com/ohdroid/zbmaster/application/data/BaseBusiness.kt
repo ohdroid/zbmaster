@@ -1,7 +1,7 @@
 package com.ohdroid.zbmaster.application.data
 
+import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.application.rxbus.RxBus
-import com.ohdroid.zbmaster.utils.UrlUtils
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observable
@@ -23,7 +23,7 @@ abstract class BaseBusiness<T> {
      * retrofit框架初始化
      */
     val retrofit: Retrofit = Retrofit.Builder()
-            .baseUrl(UrlUtils.getInstance().baseUrl)
+            .baseUrl(QiniuApi.QINIU_URL_DOMAIN)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 

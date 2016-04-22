@@ -5,6 +5,7 @@ import com.ohdroid.zbmaster.homepage.areaface.data.FaceBusiness
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
 import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceView
+import com.ohdroid.zbmaster.utils.NetUtils
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -22,8 +23,15 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
     val COMPRESS_SIZE = 2 * 1024 * 1024
 
     override fun loadFaceList() {
+        //检查网络
+        if (!NetUtils.isConnected(context)) {
+            println("no net work------------")
+            uiView.showErrorView(-1, "no net work")
+            //TODO 加载缓存数据
+            return
+        }
 
-        //获取文件列表
+
         val faceBusiness: FaceBusiness = FaceBusiness();
         faceBusiness.context = context//由于是使用bmob请求数据所以这里必须传入context
         faceBusiness.execute()

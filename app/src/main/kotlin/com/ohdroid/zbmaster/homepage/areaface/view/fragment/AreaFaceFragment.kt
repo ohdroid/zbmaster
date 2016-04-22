@@ -11,22 +11,22 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.TypedValue
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
-import com.ohdroid.zbmaster.application.view.RecycleViewHeaderFooterAdapter
-import com.ohdroid.zbmaster.application.view.RecycleViewLoadMoreListener
+import com.ohdroid.zbmaster.application.ex.showToast
+import com.ohdroid.zbmaster.application.view.recycleview.OnRecycleViewItemClickListener
+import com.ohdroid.zbmaster.application.view.recycleview.RecycelViewAddViewHelper
+import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewHeaderFooterAdapter
+import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
-import com.ohdroid.zbmaster.homepage.areaface.view.activity.AreaFaceDetailActivity
 import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceView
-import com.ohdroid.zbmaster.application.view.OnRecycleViewItemClickListener
+import com.ohdroid.zbmaster.homepage.areaface.view.activity.AreaFaceDetailActivity
 import org.jetbrains.anko.support.v4.find
 
 /**
@@ -84,10 +84,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
 
-        println("on face fragment view created...........")
-
-        presenter.loadFaceList()//开始请求数据
-
         //下拉刷新初始化
         freshLayout.setOnRefreshListener { presenter.loadFaceList() }
         freshLayout.setColorSchemeColors(Color.parseColor("#FF9966"), Color.parseColor("#FF6666"), Color.parseColor("#FFCCCC"))
@@ -109,6 +105,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         faceListAdapterWrap = RecycleViewHeaderFooterAdapter<FaceViewHolder>(faceListAdapter)
         faceList.adapter = faceListAdapterWrap
 
+        presenter.loadFaceList()//开始请求数据
     }
 
     /**
@@ -117,14 +114,15 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
     fun setFootTextViewHint(str: String) {
         if (footTextView == null) {
 
-            println("=====================add=================")
-            footTextView = TextView(context)
-            footTextView!!.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            footTextView!!.gravity = Gravity.CENTER
-            val padding = context.resources.getDimensionPixelSize(R.dimen.padding_8dp)
-            footTextView!!.setPadding(0, 0, 0, padding)
-            footTextView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
-            faceListAdapterWrap?.addFootView(footTextView);
+            //            println("=====================add=================")
+            //            footTextView = TextView(context)
+            //            footTextView!!.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            //            footTextView!!.gravity = Gravity.CENTER
+            //            val padding = context.resources.getDimensionPixelSize(R.dimen.padding_8dp)
+            //            footTextView!!.setPadding(0, 0, 0, padding)
+            //            footTextView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+            //            faceListAdapterWrap?.addFootView(footTextView);
+            footTextView = RecycelViewAddViewHelper.addSingleTextFootHintView(context, faceListAdapterWrap!!)
 
         }
         footTextView!!.text = str;
@@ -179,31 +177,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
     }
 
 
-    //=======================================对presenter暴露的接口==============================================
-
-    override fun showErrorView(errorState: Int, errorMessage: String) {
-    }
-
-    override fun showFaceInfoDetail(faceInfo: FaceInfo) {
-        AreaFaceDetailActivity.launch(context, faceInfo)
-    }
-
-    /**
-     * 初始化显示表情数据
-     */
-    override fun showFaceList(faces: MutableList<FaceInfo>, hasMore: Boolean) {
-
-        println("show face info data")
-
-        if ( freshLayout.isRefreshing) {
-            freshLayout.isRefreshing = false
-        }
-
-        if (faces.size == 0) {
-            showEmpty()
-            return
-        }
-
+    private fun hideLoadingView() {
         if (loadingView.visibility == View.VISIBLE) {
             val animator: ObjectAnimator = ObjectAnimator.ofFloat(loadingView, "alpha", 1f, 0f)
             animator.duration = 250
@@ -224,6 +198,48 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
             })
             animator.start()
         }
+    }
+
+    //=======================================对presenter暴露的接口==============================================
+
+    override fun showErrorView(errorState: Int, errorMessage: String) {
+        if ( freshLayout.isRefreshing) {
+            freshLayout.isRefreshing = false
+        }
+
+        hideLoadingView()
+
+        RecycelViewAddViewHelper.addNoNetFootView(context, faceListAdapterWrap!!, View.OnClickListener {
+            if (!freshLayout.isRefreshing) {
+                freshLayout.isRefreshing = true
+            }
+            presenter.loadFaceList()//重新加载数据
+        })
+    }
+
+    override fun showFaceInfoDetail(faceInfo: FaceInfo) {
+        AreaFaceDetailActivity.launch(context, faceInfo)
+    }
+
+    /**
+     * 初始化显示表情数据
+     */
+    override fun showFaceList(faces: MutableList<FaceInfo>, hasMore: Boolean) {
+
+        faceListAdapterWrap?.removeFootView()
+
+        println("show face info data")
+
+        if ( freshLayout.isRefreshing) {
+            freshLayout.isRefreshing = false
+        }
+
+        if (faces.size == 0) {
+            showEmpty()
+            return
+        }
+
+        hideLoadingView()
 
 
         faceListAdapter?.faceUrls = faces
@@ -261,6 +277,10 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         //        emptyView.setText(R.string.hint_empty_data)
         //        emptyView.gravity = Gravity.CENTER
         //        faceListAdapterWrap?.addFootView(emptyView)
+    }
+
+    override fun showToastHint(msg: String) {
+        showToast(msg)
     }
 
 }

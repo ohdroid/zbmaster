@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.application.view
+package com.ohdroid.zbmaster.application.view.recycleview
 
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView

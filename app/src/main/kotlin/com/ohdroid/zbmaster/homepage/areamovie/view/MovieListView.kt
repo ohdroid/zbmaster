@@ -34,4 +34,9 @@ interface MovieListView : BaseView {
      * 显示表情详细信息
      */
     fun showMovieInfoDetail(movieInfo: MovieInfo)
+
+    /**
+     * 显示文字信息提示
+     */
+    fun showToastHint(msg: String)
 }

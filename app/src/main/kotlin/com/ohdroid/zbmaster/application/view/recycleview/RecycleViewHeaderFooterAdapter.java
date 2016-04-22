@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.application.view;
+package com.ohdroid.zbmaster.application.view.recycleview;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -115,24 +115,24 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
     public void addHeaderView(View view) {
         mHeaderViewHolders.clear();
         mHeaderViewHolders.add(view);
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     public void addFootView(View view) {
         mFooterViewHolders.clear();
         mFooterViewHolders.add(view);
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
 
     public void removeFootView() {
         mFooterViewHolders.clear();
-        mAdapter.notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     public void removeHeadView() {
         mHeaderViewHolders.clear();
-        mAdapter.notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     @Override

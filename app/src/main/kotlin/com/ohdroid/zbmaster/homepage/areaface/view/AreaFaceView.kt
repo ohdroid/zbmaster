@@ -33,4 +33,9 @@ interface AreaFaceView : BaseView {
      * 显示表情详细信息
      */
     fun showFaceInfoDetail(faceInfo: FaceInfo)
+
+    /**
+     * 显示简单文字提示
+     */
+    fun showToastHint(msg: String)
 }

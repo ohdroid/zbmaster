@@ -2,6 +2,7 @@ package com.ohdroid.zbmaster.application.data.api
 
 import android.text.TextUtils
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
+import com.ohdroid.zbmaster.utils.NetUtils
 import java.util.*
 
 /**
@@ -12,7 +13,7 @@ import java.util.*
 class QiniuApi() {
 
     companion object {
-        @JvmStatic val IMAGE_COMPRESS_LIMIT = 2 * 1024 * 1024//动态图压缩临界值2M
+        @JvmStatic val IMAGE_COMPRESS_LIMIT = 3 * 1024 * 1024//动态图压缩临界值2M
 
 
         @JvmStatic val QINIU_URL_DOMAIN = "http://7xslkd.com2.z0.glb.clouddn.com/"
@@ -28,15 +29,16 @@ class QiniuApi() {
          * @param staticUrl:静态网址
          * @param isCompress:是否压缩
          */
-        fun getDynamicURL(staticUrl: String, fileSize: Long): String {
+        fun getDynamicURL(staticUrl: String, fileSize: Long, isWifi: Boolean): String {
             if (staticUrl.indexOf("?") <= 0) {
                 //若已经是原始地址那么直接返回
                 return staticUrl
             }
-            //由于动图太大，我们这里默认让服务器压缩
             val original = staticUrl.substring(0, staticUrl.indexOf("?"))
 
-            if (fileSize > IMAGE_COMPRESS_LIMIT) {
+            //由于动图太大，在使用流量的情况下我们压缩36%大小保持80%的分辨率，但是我们标注好对应动图的大小
+            //如果是wifi环境我们不进行压缩
+            if (!isWifi && fileSize > IMAGE_COMPRESS_LIMIT) {
                 val qiniu: QiniuApi = QiniuApi()
                 val sb = StringBuilder()
                 sb.append(original)
@@ -69,7 +71,7 @@ class QiniuApi() {
     /**
      *按百分比(1-1000)压缩图片
      */
-    fun getReduceApi(percent: Int = 50): MutableMap<String, String> {
+    fun getReduceApi(percent: Int = 80): MutableMap<String, String> {
         setMethod("imageMogr2")
         addOptions("thumbnail", "!${percent}p")
         return requestParamters

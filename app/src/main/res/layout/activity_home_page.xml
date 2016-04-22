@@ -4,11 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<fragment-->
-    <!--android:id="@+id/fragment_homepage"-->
-    <!--android:name="com.ohdroid.zbmaster.homepage.HomePageFragment"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent" />-->
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar" />
+
 
     <FrameLayout
         android:id="@+id/fragment_container"

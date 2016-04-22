@@ -18,10 +18,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
-import com.ohdroid.zbmaster.application.view.RecycleViewHeaderFooterAdapter
-import com.ohdroid.zbmaster.application.view.RecycleViewLoadMoreListener
+import com.ohdroid.zbmaster.application.ex.showToast
+import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewHeaderFooterAdapter
+import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.base.view.BaseFragment
-import com.ohdroid.zbmaster.application.view.OnRecycleViewItemClickListener
+import com.ohdroid.zbmaster.application.view.recycleview.OnRecycleViewItemClickListener
+import com.ohdroid.zbmaster.application.view.recycleview.RecycelViewAddViewHelper
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.activity.MovieDetailActivity
@@ -51,7 +53,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
         val TAG: String = "AreaMovieFragment"
 
         fun launch(manager: FragmentManager, containerId: Int): Fragment {
-            println("launch ${TAG}")
+            println("launch $TAG")
 
             var fragment: AreaMovieFragment? = null
 
@@ -205,6 +207,10 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     //===========================对presenter层暴露的接口==================================
 
     override fun showMovieList(movieInfos: MutableList<MovieInfo>, hasMore: Boolean) {
+
+        mMovieListAdapterWrap?.removeFootView()
+
+
         if (mFreshLayout.isRefreshing) {
             mFreshLayout.isRefreshing = false
         }
@@ -229,6 +235,18 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     }
 
     override fun showErrorView(errorState: Int, errorMessage: String) {
+        if ( mFreshLayout.isRefreshing) {
+            mFreshLayout.isRefreshing = false
+        }
+
+        hideLoadingView()
+
+        RecycelViewAddViewHelper.addNoNetFootView(context, mMovieListAdapterWrap!!, View.OnClickListener {
+            if (!mFreshLayout.isRefreshing) {
+                mFreshLayout.isRefreshing = true
+            }
+            presenter!!.showMovieGifList()//重新加载数据
+        })
     }
 
     override fun showEmpty() {
@@ -238,4 +256,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
         MovieDetailActivity.launch(context, movieInfo)
     }
 
+    override fun showToastHint(msg: String) {
+        showToast(msg)
+    }
 }
