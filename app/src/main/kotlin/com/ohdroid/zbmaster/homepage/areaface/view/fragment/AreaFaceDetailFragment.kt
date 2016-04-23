@@ -140,36 +140,7 @@ class AreaFaceDetailFragment : BaseFragment(), View.OnClickListener {
             }
 
         }
-
-        //网页形式分享
-        //                shareHelper?.share2QQByWeb(faceInfo.faceTitle, faceInfo.faceUrl, listener, activity)
-        //直接分享图片
         shareHelper?.share2QQ(faceInfo.faceUrl, activity, listener)
-        //        val imageRequest = ImageRequest.fromUri(faceInfo.faceUrl);
-        //        val cacheKey = DefaultCacheKeyFactory.getInstance().getEncodedCacheKey(imageRequest);
-        //        val resource = ImagePipelineFactory.getInstance()
-        //                .mainDiskStorageCache.getResource(cacheKey);
-        //        val file = (resource as FileBinaryResource ).file;
-        //        if (!file.exists()) {
-        //            showToast("暂时不能分享")
-        //            return
-        //        }
-        //        var fileName = file.absolutePath
-        //        var tFileName = SDCardUtils.SD_PIC + File.separator + "test.gif"
-        //        Observable
-        //                .create(Observable.OnSubscribe<Boolean> {
-        //                    it.onNext(SDCardUtils.copyFile(fileName, tFileName))
-        //                    it.onNext(true)
-        //                })
-        //                .subscribeOn(Schedulers.io())
-        //                .observeOn(AndroidSchedulers.mainThread())
-        //                .subscribe({
-        //                    if (it) {
-        //                        shareHelper?.share2QQ(tFileName, activity, listener)
-        //                    }
-        //                }, {
-        //                    showToast(it.message ?: "分享失败")
-        //                })
 
     }
 

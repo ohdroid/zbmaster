@@ -51,6 +51,15 @@ class HomePageActivity : BaseActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         MenuInflater(this).inflate(R.menu.home_page_menu, menu)
+
+        //根据当前设置设置menu的文字提示
+        val isFastMode: Boolean = SPUtils.get(this, SPUtils.FAST_MODE_KEY, true) as Boolean//默认是节流模式
+        if (isFastMode) {
+            toolbar.menu.getItem(0).title = resources.getString(R.string.menu_quality_mode)
+        } else {
+            toolbar.menu.getItem(0).title = resources.getString(R.string.menu_fast_mode)
+        }
+
         return super.onCreateOptionsMenu(menu)
     }
 
