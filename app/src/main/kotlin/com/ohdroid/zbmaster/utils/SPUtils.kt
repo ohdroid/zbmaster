@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.application.data.api
+package com.ohdroid.zbmaster.utils
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,6 +9,11 @@ import android.content.SharedPreferences
 class SPUtils {
 
     companion object {
+
+        /**
+         * 是否是节流模式
+         */
+        val FAST_MODE_KEY = "fastMode"
 
         /**
          * 保存在手机里面的文件名

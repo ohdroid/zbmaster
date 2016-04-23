@@ -28,17 +28,17 @@ class QiniuApi() {
          * 获取图片对应的动图
          * @param staticUrl:静态网址
          * @param isCompress:是否压缩
+         * @param isFastMode:是否是节流模式
          */
-        fun getDynamicURL(staticUrl: String, fileSize: Long, isWifi: Boolean): String {
+        fun getDynamicURL(staticUrl: String, fileSize: Long, isFastMode: Boolean): String {
             if (staticUrl.indexOf("?") <= 0) {
                 //若已经是原始地址那么直接返回
                 return staticUrl
             }
             val original = staticUrl.substring(0, staticUrl.indexOf("?"))
 
-            //由于动图太大，在使用流量的情况下我们压缩36%大小保持80%的分辨率，但是我们标注好对应动图的大小
-            //如果是wifi环境我们不进行压缩
-            if (!isWifi && fileSize > IMAGE_COMPRESS_LIMIT) {
+            //节流模式下超过3M的图像我们将压缩75%
+            if (isFastMode && fileSize > IMAGE_COMPRESS_LIMIT) {
                 val qiniu: QiniuApi = QiniuApi()
                 val sb = StringBuilder()
                 sb.append(original)
@@ -71,7 +71,7 @@ class QiniuApi() {
     /**
      *按百分比(1-1000)压缩图片
      */
-    fun getReduceApi(percent: Int = 80): MutableMap<String, String> {
+    fun getReduceApi(percent: Int = 60): MutableMap<String, String> {
         setMethod("imageMogr2")
         addOptions("thumbnail", "!${percent}p")
         return requestParamters

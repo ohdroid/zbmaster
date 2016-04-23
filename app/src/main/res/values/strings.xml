@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">不无聊</string>
+    <string name="menu_fast_mode">节流模式</string>
+    <string name="menu_quality_mode">装X模式</string>
+    <string name="hint_fast_mode">进入节流模式，gif图被压缩75%</string>
+    <string name="hint_quality_mode">进入装X模式,gif图直接原始质量，汗毛都看得清哦</string>
+    <string name="hint_share_failed">"分享失败,找作者抽他"</string>
 
     <string name="hint_no_net_work">骚年请去把网连好再来~~~~</string>
     <string name="hint_retry">重试</string>

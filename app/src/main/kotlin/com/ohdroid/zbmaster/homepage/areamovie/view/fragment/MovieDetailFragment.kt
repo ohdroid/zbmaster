@@ -23,6 +23,7 @@ import com.facebook.drawee.interfaces.DraweeController
 import com.facebook.drawee.view.SimpleDraweeView
 import com.jakewharton.rxbinding.view.RxView
 import com.ohdroid.zbmaster.R
+import com.ohdroid.zbmaster.application.data.ShareHelper
 import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewHeaderFooterAdapter
@@ -37,11 +38,15 @@ import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieDetailView
 import com.ohdroid.zbmaster.utils.NetUtils
+import com.ohdroid.zbmaster.utils.SPUtils
 import com.rengwuxian.materialedittext.MaterialEditText
+import com.tencent.tauth.IUiListener
+import com.tencent.tauth.UiError
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.find
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 /**
  * Created by ohdroid on 2016/4/11.
@@ -71,8 +76,12 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     }
 
     lateinit var presenter: MovieCommentPresenter
+        @Inject set
 
     lateinit var movieInfo: MovieInfo
+
+    var shareHelper: ShareHelper? = null
+        @Inject set
 
     fun sendCommment() {
 
@@ -112,7 +121,8 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        presenter = component.movieCommentPresenter()
+        component.inject(this)
+        //        presenter = component.movieCommentPresenter()
         presenter.attachView(this)
     }
 
@@ -136,6 +146,8 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         //rx set,TODO unsubscribe
         RxView.clicks(mBtnSend).throttleFirst(3, TimeUnit.SECONDS)//防止短时间类刷屏行为
                 .subscribe({ sendCommment() })
+        RxView.clicks(mBtnShare).throttleFirst(3, TimeUnit.SECONDS)
+                .subscribe { shareGif() }
 
         presenter.initMovieInfo(movieInfo)
 
@@ -170,10 +182,12 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         }
         builder.actualImageScaleType = ScalingUtils.ScaleType.CENTER_CROP
         mHeadSdv.hierarchy = builder.build()
+        val isFastMode = SPUtils.get(context, SPUtils.FAST_MODE_KEY, true) as Boolean
+        println(message = "is fastMode===>>$isFastMode")
+        movieInfo.movieUrl = QiniuApi.getDynamicURL(movieInfo.movieUrl, movieInfo.fileSize, isFastMode)
 
-        val movieUrl = QiniuApi.getDynamicURL(movieInfo.movieUrl, movieInfo.fileSize, NetUtils.isWifi(context))
         val controller: DraweeController = Fresco.newDraweeControllerBuilder()
-                .setUri(Uri.parse(movieUrl))
+                .setUri(Uri.parse(movieInfo.movieUrl))
                 .setTapToRetryEnabled(true)//点击重播
                 .setAutoPlayAnimations(true)//自动播放
                 .build()
@@ -293,6 +307,23 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
             val commentContent = itemView.find<TextView>(R.id.comment_content)
             commentContent.text = comment.comment
         }
+    }
+
+    fun shareGif() {
+        val listener = object : IUiListener {
+            override fun onComplete(p0: Any?) {
+            }
+
+            override fun onCancel() {
+            }
+
+            override fun onError(p0: UiError?) {
+                this@MovieDetailFragment.showToast(p0?.errorMessage ?: "error")
+            }
+
+        }
+
+        shareHelper?.share2QQ(movieInfo.movieUrl, activity, listener)
     }
 
 
