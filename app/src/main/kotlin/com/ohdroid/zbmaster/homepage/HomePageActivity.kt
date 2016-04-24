@@ -98,7 +98,7 @@ class HomePageActivity : BaseActivity() {
         }
     }
 
-    fun setMenuCheckd(tvName: TextView, ivImage: ImageView, imageId: Int) {
+    fun setMenuChecked(tvName: TextView, ivImage: ImageView, imageId: Int) {
         resetBottomMenu()
         tvName.textColor = Color.BLACK
         ivImage.setImageDrawable(resources.getDrawable(imageId))
@@ -112,7 +112,7 @@ class HomePageActivity : BaseActivity() {
     }
 
     fun showMoviePage() {
-        setMenuCheckd(menuMovie.find<TextView>(R.id.menu_movie_tv), menuMovie.find<ImageView>(R.id.menu_movie_iv), R.mipmap.ic_launcher)
+        setMenuChecked(menuMovie.find<TextView>(R.id.menu_movie_tv), menuMovie.find<ImageView>(R.id.menu_movie_iv), R.mipmap.ic_launcher)
         if (null != mCurrentFragment) {
             hideFragment(mCurrentFragment!!)
         }
@@ -120,7 +120,7 @@ class HomePageActivity : BaseActivity() {
     }
 
     fun showSpoofPage() {
-        setMenuCheckd(menuProof.find<TextView>(R.id.menu_spoof_tv), menuProof.find<ImageView>(R.id.menu_spoof_iv), R.mipmap.ic_launcher)
+        setMenuChecked(menuProof.find<TextView>(R.id.menu_spoof_tv), menuProof.find<ImageView>(R.id.menu_spoof_iv), R.mipmap.ic_launcher)
         if (null != mCurrentFragment) {
             hideFragment(mCurrentFragment!!)
         }
