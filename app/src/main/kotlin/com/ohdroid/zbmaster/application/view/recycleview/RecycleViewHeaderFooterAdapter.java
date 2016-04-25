@@ -24,9 +24,9 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
     ArrayList<View> mHeaderViewHolders;
     ArrayList<View> mFooterViewHolders;
 
-    final ArrayList<View> EMPTY_HEAD_LIST =
+    private ArrayList<View> EMPTY_HEAD_LIST =
             new ArrayList<>();
-    final ArrayList<View> EMPTY_FOOT_LIST =
+    private ArrayList<View> EMPTY_FOOT_LIST =
             new ArrayList<>();
 
     private RecyclerView.Adapter<VH> mAdapter;
@@ -54,6 +54,22 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
         } else {
             this.mFooterViewHolders = mFooterViewHolders;
         }
+    }
+
+
+    public void setAdapter(RecyclerView.Adapter adapter) {
+        if (null == adapter) {
+            return;
+        }
+
+        if (mAdapter != null) {
+            notifyItemRangeRemoved(getHeadersCount(), mAdapter.getItemCount());
+            mAdapter.unregisterAdapterDataObserver(mDataObserver);
+        }
+
+        this.mAdapter = adapter;
+        mAdapter.registerAdapterDataObserver(mDataObserver);
+        notifyItemRangeInserted(getHeadersCount(), mAdapter.getItemCount());
     }
 
     private RecyclerView.AdapterDataObserver mDataObserver = new RecyclerView.AdapterDataObserver() {
@@ -97,7 +113,7 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
         return mFooterViewHolders.get(0);
     }
 
-    public View getHeaderViwe() {
+    public View getHeaderView() {
         if (mHeaderViewHolders.size() == 0) {
             return null;
         }
@@ -113,27 +129,35 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
     }
 
     public void addHeaderView(View view) {
-        mHeaderViewHolders.clear();
         mHeaderViewHolders.add(view);
         this.notifyDataSetChanged();
     }
 
     public void addFootView(View view) {
-        mFooterViewHolders.clear();
         mFooterViewHolders.add(view);
         this.notifyDataSetChanged();
     }
 
+    public void removeFootView(View view) {
+        mFooterViewHolders.remove(view);
+        this.notifyDataSetChanged();
+    }
 
-    public void removeFootView() {
+    public void removeAllFootView() {
         mFooterViewHolders.clear();
         this.notifyDataSetChanged();
     }
 
-    public void removeHeadView() {
+    public void removeAllHeadView() {
         mHeaderViewHolders.clear();
         this.notifyDataSetChanged();
     }
+
+    public void removeHeadView(View view) {
+        mHeaderViewHolders.remove(view);
+        this.notifyDataSetChanged();
+    }
+
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {

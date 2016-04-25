@@ -330,7 +330,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     //=================================presneter 暴露接口===================================
 
     override fun showComment(commentList: MutableList<MovieComment>, isHasMore: Boolean) {
-        mMovieDetailAdapterWrap?.removeFootView()
+        mMovieDetailAdapterWrap?.removeAllFootView()
 
         if (activity.isFinishing) {
             return

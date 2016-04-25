@@ -179,7 +179,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     }
 
     override fun onDestroy() {
-        mMovieListAdapterWrap?.removeFootView()
+        mMovieListAdapterWrap?.removeAllFootView()
         super.onDestroy()
     }
 
@@ -208,7 +208,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
 
     override fun showMovieList(movieInfos: MutableList<MovieInfo>, hasMore: Boolean) {
 
-        mMovieListAdapterWrap?.removeFootView()
+        mMovieListAdapterWrap?.removeAllFootView()
 
 
         if (mFreshLayout.isRefreshing) {
@@ -235,6 +235,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     }
 
     override fun showErrorView(errorState: Int, errorMessage: String) {
+
         if ( mFreshLayout.isRefreshing) {
             mFreshLayout.isRefreshing = false
         }
@@ -250,6 +251,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     }
 
     override fun showEmpty() {
+        RecycelViewAddViewHelper.addNoDataFootView(getString(R.string.hint_no_data), context, mMovieListAdapterWrap!!)
     }
 
     override fun showMovieInfoDetail(movieInfo: MovieInfo) {

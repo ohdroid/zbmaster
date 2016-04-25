@@ -154,9 +154,13 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         var listener: OnRecycleViewItemClickListener? = null
             set(value) {
                 itemView.setOnClickListener({ v -> value!!.onItemClick(v!!, adapterPosition) })
+
+                println("-------------size---------$layoutPosition:$adapterPosition")
             }
 
         fun setImageViewUrl(imageUrl: String?) {
+
+
             if (null == imageUrl) {
                 //TODO 若无地址，那么显示数据异常图标
                 return
@@ -226,7 +230,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
      */
     override fun showFaceList(faces: MutableList<FaceInfo>, hasMore: Boolean) {
 
-        faceListAdapterWrap?.removeFootView()
+        faceListAdapterWrap?.removeAllFootView()
 
         println("show face info data")
 
