@@ -31,11 +31,11 @@
             android:name=".homepage.HomePageActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".homepage.areaface.view.activity.AreaFaceActivity" />
         <activity
@@ -58,6 +58,15 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".homepage.areaface.view.activity.AreaFaceDetailActivity" />
         <activity android:name=".homepage.areamovie.view.activity.MovieDetailActivity" />
+        <activity
+            android:name=".homepage.SplashActivity"
+            android:theme="@style/Fullscreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

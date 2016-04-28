@@ -5,7 +5,7 @@
     android:id="@+id/fragment_face_detail"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#d9000000"
+    android:background="?attr/colorPrimary"
     android:orientation="vertical">
 
     <com.ohdroid.zbmaster.application.view.progress.CircleProgress

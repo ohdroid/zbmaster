@@ -21,4 +21,10 @@
         <item name="met_minCharacters">1</item>
     </style>
 
+
+    <style name="Fullscreen" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- 隐藏状态栏 -->
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
 </resources>
