@@ -231,8 +231,10 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
      */
     override fun showFaceList(faces: MutableList<FaceInfo>, hasMore: Boolean) {
 
-        mNoNetView?.visibility = View.GONE
-        faceListAdapterWrap?.removeAllFootView()
+        if (mNoNetView != null) {
+            mNoNetView?.visibility = View.GONE
+            faceListAdapterWrap?.removeFootView(mNoNetView)
+        }
 
         println("show face info data")
 

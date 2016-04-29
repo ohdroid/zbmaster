@@ -17,8 +17,7 @@
         style="@style/login_edit_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/account_name_hint"
-        android:text="ohdroid" />
+        android:hint="@string/account_name_hint" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/et_password"
@@ -35,7 +34,9 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
+        android:background="?attr/colorPrimary"
         android:text="@string/login_btn"
+        android:textColor="#fff"
         android:textSize="20sp" />
 
     <TextView
@@ -48,6 +49,6 @@
         android:paddingRight="24dp"
         android:paddingTop="8dp"
         android:text="@string/register_hint"
-        android:textColor="#38a832"
+        android:textColor="?attr/colorPrimary"
         android:textSize="20sp" />
 </LinearLayout>
