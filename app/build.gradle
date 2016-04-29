@@ -79,6 +79,7 @@ dependencies {
     compile 'org.jetbrains.anko:anko-support-v4:0.8.3'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.8.3'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+
 }
 buildscript {
     ext.kotlin_version = '1.0.0'

@@ -18,7 +18,7 @@ import org.jetbrains.anko.textColor
  * Created by ohdroid on 2016/4/22.
  * 为带有head 和foot的RecycleView添加view
  */
-class RecycelViewAddViewHelper {
+class RecyclerViewAddViewHelper {
 
     companion object {
 

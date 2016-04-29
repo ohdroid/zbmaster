@@ -30,7 +30,7 @@ import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewHeaderFooter
 import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.application.view.progress.CircleProgress
 import com.ohdroid.zbmaster.application.view.progress.ImageViewProgressController
-import com.ohdroid.zbmaster.application.view.recycleview.RecycelViewAddViewHelper
+import com.ohdroid.zbmaster.application.view.recycleview.RecyclerViewAddViewHelper
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areamovie.data.MovieDataManager
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
@@ -360,7 +360,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
             mRefreshLayout.isRefreshing = false
         }
 
-        RecycelViewAddViewHelper.addNoDataFootView(context.getString(R.string.hint_no_comment_data), context, mMovieDetailAdapterWrap!!)
+        RecyclerViewAddViewHelper.addNoDataFootView(context.getString(R.string.hint_no_comment_data), context, mMovieDetailAdapterWrap!!)
     }
 
     override fun showMoreComment(hasMore: Boolean) {

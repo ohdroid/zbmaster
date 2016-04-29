@@ -23,7 +23,7 @@ import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewHeaderFooter
 import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.application.view.recycleview.OnRecycleViewItemClickListener
-import com.ohdroid.zbmaster.application.view.recycleview.RecycelViewAddViewHelper
+import com.ohdroid.zbmaster.application.view.recycleview.RecyclerViewAddViewHelper
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.activity.MovieDetailActivity
@@ -242,7 +242,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
 
         hideLoadingView()
 
-        RecycelViewAddViewHelper.addNoNetFootView(context, mMovieListAdapterWrap!!, View.OnClickListener {
+        RecyclerViewAddViewHelper.addNoNetFootView(context, mMovieListAdapterWrap!!, View.OnClickListener {
             if (!mFreshLayout.isRefreshing) {
                 mFreshLayout.isRefreshing = true
             }
@@ -251,7 +251,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     }
 
     override fun showEmpty() {
-        RecycelViewAddViewHelper.addNoDataFootView(getString(R.string.hint_no_data), context, mMovieListAdapterWrap!!)
+        RecyclerViewAddViewHelper.addNoDataFootView(getString(R.string.hint_no_data), context, mMovieListAdapterWrap!!)
     }
 
     override fun showMovieInfoDetail(movieInfo: MovieInfo) {

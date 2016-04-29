@@ -19,9 +19,9 @@ import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.application.view.recycleview.OnRecycleViewItemClickListener
-import com.ohdroid.zbmaster.application.view.recycleview.RecycelViewAddViewHelper
 import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewHeaderFooterAdapter
 import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewLoadMoreListener
+import com.ohdroid.zbmaster.application.view.recycleview.RecyclerViewAddViewHelper
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
@@ -49,7 +49,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         val TAG: String = "AreaFaceFragment"
 
         fun launch(manager: FragmentManager, containerId: Int): Fragment {
-            println("launch ${TAG}")
+            println("launch $TAG")
 
             var fragment: AreaFaceFragment? = null
 
@@ -106,6 +106,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         faceList.adapter = faceListAdapterWrap
 
         presenter.loadFaceList()//开始请求数据
+
     }
 
     /**
@@ -122,7 +123,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
             //            footTextView!!.setPadding(0, 0, 0, padding)
             //            footTextView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
             //            faceListAdapterWrap?.addFootView(footTextView);
-            footTextView = RecycelViewAddViewHelper.addSingleTextFootHintView(context, faceListAdapterWrap!!)
+            footTextView = RecyclerViewAddViewHelper.addSingleTextFootHintView(context, faceListAdapterWrap!!)
 
         }
         footTextView!!.text = str;
@@ -213,7 +214,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
         hideLoadingView()
 
-        RecycelViewAddViewHelper.addNoNetFootView(context, faceListAdapterWrap!!, View.OnClickListener {
+        RecyclerViewAddViewHelper.addNoNetFootView(context, faceListAdapterWrap!!, View.OnClickListener {
             if (!freshLayout.isRefreshing) {
                 freshLayout.isRefreshing = true
             }

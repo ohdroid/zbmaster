@@ -1,15 +1,11 @@
 package com.ohdroid.zbmaster.application.view.recycleview;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ohdroid on 2016/4/9.
@@ -17,8 +13,8 @@ import java.util.ArrayList;
  * 能够添加hear和foot的recycleViewAdapter
  */
 public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
-    public static final int VIEW_TYPE_HEAD = 100;
-    public static final int VIEW_TYPE_FOOT = 101;
+    public static final int VIEW_TYPE_HEAD = Integer.MIN_VALUE;
+    public static final int VIEW_TYPE_FOOT = Integer.MIN_VALUE + 1000;
 
 
     ArrayList<View> mHeaderViewHolders;
@@ -32,6 +28,7 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
     private RecyclerView.Adapter<VH> mAdapter;
 
     private int mCurrentPosition = 0;
+
 
     public RecycleViewHeaderFooterAdapter(RecyclerView.Adapter<VH> adapter) {
         this(null, null, adapter);
@@ -106,18 +103,23 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
         }
     };
 
-    public View getFooterView() {
+    /**
+     * 总是返回footerview的最后添加的view
+     *
+     * @return
+     */
+    public List<View> getFooterViews() {
         if (mFooterViewHolders.size() == 0) {
             return null;
         }
-        return mFooterViewHolders.get(0);
+        return mFooterViewHolders;
     }
 
-    public View getHeaderView() {
+    public List<View> getHeaderViews() {
         if (mHeaderViewHolders.size() == 0) {
             return null;
         }
-        return mHeaderViewHolders.get(0);
+        return mHeaderViewHolders;
     }
 
     public int getHeadersCount() {
@@ -134,6 +136,7 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
     }
 
     public void addFootView(View view) {
+        System.out.println("add foot view inside radapter");
         mFooterViewHolders.add(view);
         this.notifyDataSetChanged();
     }
@@ -161,14 +164,26 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_HEAD) {
-            return (VH) new RecyclerView.ViewHolder(mHeaderViewHolders.get(0)) {
-            };//如果要改成添加多种类型的headview这里需要在headviewhodler中添加type，这里先这样实现
-        } else if (viewType == VIEW_TYPE_FOOT) {
-            return (VH) new RecyclerView.ViewHolder(mFooterViewHolders.get(0)) {
+        System.out.println("~~~~~~~~create view holder~~~~~~~" + viewType);
+
+        if (viewType < VIEW_TYPE_FOOT) {//header
+            return (VH) new RecyclerView.ViewHolder(mHeaderViewHolders.get(viewType - VIEW_TYPE_HEAD)) {
+            };
+        }
+
+        if (viewType < VIEW_TYPE_FOOT + 10000) {//footer
+            int p = viewType - VIEW_TYPE_FOOT - getHeadersCount() - getInsideAdapterCount();
+            return (VH) new RecyclerView.ViewHolder(mFooterViewHolders.get(p)) {
             };
         }
         return mAdapter.onCreateViewHolder(parent, viewType);
+    }
+
+    private int getInsideAdapterCount() {
+        if (mAdapter == null) {
+            return 0;
+        }
+        return mAdapter.getItemCount();
     }
 
     @Override
@@ -205,8 +220,9 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
         mCurrentPosition = position;
         int numHeaders = getHeadersCount();
         if (position < numHeaders) {
-            return VIEW_TYPE_HEAD;//头部类型
+            return VIEW_TYPE_HEAD + position;//头部类型
         }
+        //中间类型
         int adjPosition = position - numHeaders;
         int adapterCount = 0;
         if (mAdapter != null) {
@@ -215,7 +231,8 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
                 return mAdapter.getItemViewType(adjPosition);
             }
         }
-        return VIEW_TYPE_FOOT;//尾部类型
+
+        return VIEW_TYPE_FOOT + position;//尾部类型
     }
 
 
