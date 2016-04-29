@@ -106,13 +106,13 @@ class HomePageActivity : BaseActivity() {
 
     fun resetBottomMenu() {
         menuProof.find<TextView>(R.id.menu_spoof_tv).textColor = Color.GRAY
-        menuProof.find<ImageView>(R.id.menu_spoof_iv).setImageDrawable(resources.getDrawable(R.mipmap.sproof_icon))
+        menuProof.find<ImageView>(R.id.menu_spoof_iv).setImageDrawable(resources.getDrawable(R.mipmap.bottom_menu_eye))
         menuMovie.find<TextView>(R.id.menu_movie_tv).textColor = Color.GRAY
-        menuMovie.find<ImageView>(R.id.menu_movie_iv).setImageDrawable(resources.getDrawable(R.mipmap.movie_icon))
+        menuMovie.find<ImageView>(R.id.menu_movie_iv).setImageDrawable(resources.getDrawable(R.mipmap.bottom_menu_post))
     }
 
     fun showMoviePage() {
-        setMenuChecked(menuMovie.find<TextView>(R.id.menu_movie_tv), menuMovie.find<ImageView>(R.id.menu_movie_iv), R.mipmap.ic_launcher)
+        setMenuChecked(menuMovie.find<TextView>(R.id.menu_movie_tv), menuMovie.find<ImageView>(R.id.menu_movie_iv), R.mipmap.bottom_menu_pressed_post)
         if (null != mCurrentFragment) {
             hideFragment(mCurrentFragment!!)
         }
@@ -120,7 +120,7 @@ class HomePageActivity : BaseActivity() {
     }
 
     fun showSpoofPage() {
-        setMenuChecked(menuProof.find<TextView>(R.id.menu_spoof_tv), menuProof.find<ImageView>(R.id.menu_spoof_iv), R.mipmap.ic_launcher)
+        setMenuChecked(menuProof.find<TextView>(R.id.menu_spoof_tv), menuProof.find<ImageView>(R.id.menu_spoof_iv), R.mipmap.bottom_menu_pressed_eye)
         if (null != mCurrentFragment) {
             hideFragment(mCurrentFragment!!)
         }

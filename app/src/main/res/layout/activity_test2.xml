@@ -15,13 +15,19 @@
             android:id="@+id/btn_one"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="addfootview" />
+            android:text="add1" />
 
         <Button
             android:id="@+id/btn_two"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="removie" />
+            android:text="add2" />
+
+        <Button
+            android:id="@+id/btn_three"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="add3" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

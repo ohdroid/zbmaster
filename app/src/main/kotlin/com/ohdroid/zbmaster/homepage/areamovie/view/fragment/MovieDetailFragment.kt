@@ -381,7 +381,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
         if (activity.isFinishing) {
             return
         }
-        showToast("$state:$errorMessage")
+        showToast("$errorMessage")
     }
 
     override fun showAddCommentResult(state: Int, result: String) {

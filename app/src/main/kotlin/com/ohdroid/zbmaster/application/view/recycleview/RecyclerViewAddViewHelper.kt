@@ -36,11 +36,12 @@ class RecyclerViewAddViewHelper {
             return footTextView
         }
 
-        fun <T : RecyclerView.ViewHolder> addNoNetFootView(context: Context, listAdapterWrap: RecycleViewHeaderFooterAdapter<T>, retryListener: View.OnClickListener) {
+        fun <T : RecyclerView.ViewHolder> addNoNetFootView(context: Context, listAdapterWrap: RecycleViewHeaderFooterAdapter<T>, retryListener: View.OnClickListener): View {
             val noNetLayout = LayoutInflater.from(context).inflate(R.layout.no_net_work_layout, null, false)
             noNetLayout.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
             noNetLayout.find<Button>(R.id.btn_retry).setOnClickListener(retryListener)
             listAdapterWrap.addFootView(noNetLayout)
+            return noNetLayout
         }
 
         fun <T : RecyclerView.ViewHolder> addNoDataFootView(hintStr: String?, context: Context, listAdapterWrap: RecycleViewHeaderFooterAdapter<T>) {

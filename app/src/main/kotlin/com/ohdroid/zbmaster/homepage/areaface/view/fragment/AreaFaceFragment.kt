@@ -28,6 +28,7 @@ import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
 import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceView
 import com.ohdroid.zbmaster.homepage.areaface.view.activity.AreaFaceDetailActivity
 import org.jetbrains.anko.support.v4.find
+import org.jetbrains.anko.wrapContent
 
 /**
  * Created by ohdroid on 2016/4/4.
@@ -44,6 +45,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
 
     var mRecycleViewFootView: TextView? = null
+    var mNoNetView: View? = null
 
     companion object {
         val TAG: String = "AreaFaceFragment"
@@ -114,17 +116,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
      */
     fun setFootTextViewHint(str: String) {
         if (footTextView == null) {
-
-            //            println("=====================add=================")
-            //            footTextView = TextView(context)
-            //            footTextView!!.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            //            footTextView!!.gravity = Gravity.CENTER
-            //            val padding = context.resources.getDimensionPixelSize(R.dimen.padding_8dp)
-            //            footTextView!!.setPadding(0, 0, 0, padding)
-            //            footTextView!!.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
-            //            faceListAdapterWrap?.addFootView(footTextView);
             footTextView = RecyclerViewAddViewHelper.addSingleTextFootHintView(context, faceListAdapterWrap!!)
-
         }
         footTextView!!.text = str;
     }
@@ -214,7 +206,15 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
         hideLoadingView()
 
-        RecyclerViewAddViewHelper.addNoNetFootView(context, faceListAdapterWrap!!, View.OnClickListener {
+        if (mNoNetView != null) {
+            if (faceListAdapter!!.itemCount > 0) {
+                showToastHint(errorMessage)
+            } else {
+                mNoNetView?.visibility = View.VISIBLE
+            }
+            return
+        }
+        mNoNetView = RecyclerViewAddViewHelper.addNoNetFootView(context, faceListAdapterWrap!!, View.OnClickListener {
             if (!freshLayout.isRefreshing) {
                 freshLayout.isRefreshing = true
             }
@@ -231,6 +231,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
      */
     override fun showFaceList(faces: MutableList<FaceInfo>, hasMore: Boolean) {
 
+        mNoNetView?.visibility = View.GONE
         faceListAdapterWrap?.removeAllFootView()
 
         println("show face info data")
@@ -273,6 +274,9 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
     }
 
     override fun showEmpty() {
+        if (mNoNetView != null) {
+            mNoNetView?.visibility = View.GONE
+        }
         //        faceListAdapterWrap?.setDataState(RecycleViewHeaderFooterAdapter.STATE_NO_DATA, context)
         //        println(".........show empty foot..............")
         //        val emptyView: TextView = TextView(context)

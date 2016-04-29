@@ -21,6 +21,7 @@ class TestActivity : BaseActivity() {
     val rvTest by lazy { find<RecyclerView>(R.id.rv_test) }
     val btnOne by lazy { find<Button>(R.id.btn_one) }
     val btnTwo by lazy { find<Button>(R.id.btn_two) }
+    val btnThree by lazy { find<Button>(R.id.btn_three) }
 
     var myAdapter: MyAdapter? = null
     var wrapAdapter: RecycleViewHeaderFooterAdapter<MyViewHolder>? = null
@@ -30,6 +31,7 @@ class TestActivity : BaseActivity() {
 
         btnOne.setOnClickListener(btnOnClickLitener)
         btnTwo.setOnClickListener(btnOnClickLitener)
+        btnThree.setOnClickListener(btnOnClickLitener)
 
         rvTest.layoutManager = LinearLayoutManager(this)
         val list = ArrayList<String>()
@@ -51,20 +53,50 @@ class TestActivity : BaseActivity() {
             R.id.btn_two -> {
                 test()
             }
+            R.id.btn_three -> test3()
         }
+    }
+
+    fun test3() {
+        //        wrapAdapter?.setDataState(RecycleViewHeaderFooterAdapter.STATE_NO_MORE_DATA, this@TestActivity)
+
+        println("view count:${wrapAdapter?.itemCount}:${wrapAdapter?.footersCount}")
+        //                RecyclerViewAddViewHelper.addNoDataFootView("test+${Random().nextInt()}", this@TestActivity, wrapAdapter!!)
+        //        //        myAdapter?.notifyDataSetChanged()
+        //        wrapAdapter?.removeAllFootView()
+        //        println("view count2:${wrapAdapter?.itemCount}:${wrapAdapter?.footersCount}")
+        //
+        //        rvTest.post({
+        //            println("delay post")
+        //            //            RecyclerViewAddViewHelper.addNoDataFootView("test+${Random().nextInt()}", this@TestActivity, wrapAdapter!!)
+        //            wrapAdapter?.setDataState(RecycleViewHeaderFooterAdapter.STATE_NO_MORE_DATA, this@TestActivity)
+        //            println("view count2:${wrapAdapter?.itemCount}:${wrapAdapter?.footersCount}")
+        //        })
     }
 
     fun test() {
         //        myAdapter!!.data.removeAt(0)
-        wrapAdapter?.removeAllFootView()
+        //        wrapAdapter?.removeAllFootView()
         //        myAdapter?.notifyDataSetChanged()
+
+        rvTest.post({
+            println("delay post")
+            //            RecyclerViewAddViewHelper.addNoDataFootView("test+${Random().nextInt()}", this@TestActivity, wrapAdapter!!)
+            //            wrapAdapter?.setDataState(RecycleViewHeaderFooterAdapter.STATE_NO_MORE_DATA, this@TestActivity)
+            println("view count2:${wrapAdapter?.itemCount}:${wrapAdapter?.footersCount}")
+        })
     }
 
     fun addFootView() {
         println("view count:${wrapAdapter?.itemCount}:${wrapAdapter?.footersCount}")
         RecyclerViewAddViewHelper.addNoDataFootView("test+${Random().nextInt()}", this@TestActivity, wrapAdapter!!)
         //        myAdapter?.notifyDataSetChanged()
+        wrapAdapter?.removeAllFootView()
         println("view count2:${wrapAdapter?.itemCount}:${wrapAdapter?.footersCount}")
+
+        //        wrapAdapter?.setDataState(RecycleViewHeaderFooterAdapter.STATE_NO_MORE_DATA, this@TestActivity)
+        println("view count2:${wrapAdapter?.itemCount}:${wrapAdapter?.footersCount}")
+
     }
 
     class MyAdapter(var data: MutableList<String>) : RecyclerView.Adapter<MyViewHolder>() {

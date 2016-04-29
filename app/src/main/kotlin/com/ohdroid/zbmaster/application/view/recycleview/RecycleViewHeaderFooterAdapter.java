@@ -1,11 +1,17 @@
 package com.ohdroid.zbmaster.application.view.recycleview;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by ohdroid on 2016/4/9.
@@ -164,7 +170,7 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
 
     @Override
     public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-        System.out.println("~~~~~~~~create view holder~~~~~~~" + viewType);
+//        System.out.println("~~~~~~~~create view holder~~~~~~~" + viewType);
 
         if (viewType < VIEW_TYPE_FOOT) {//header
             return (VH) new RecyclerView.ViewHolder(mHeaderViewHolders.get(viewType - VIEW_TYPE_HEAD)) {
@@ -188,6 +194,7 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
+
 
         int numHeaders = getHeadersCount();
         if (position < numHeaders) {
@@ -216,7 +223,7 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
 
     @Override
     public int getItemViewType(int position) {
-
+//        System.out.println("get item view type");
         mCurrentPosition = position;
         int numHeaders = getHeadersCount();
         if (position < numHeaders) {
@@ -256,7 +263,7 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
 //                addNoDataFootView("暂无数据", context);
 //                break;
 //            case STATE_NO_MORE_DATA:
-//                addNoMoreDataFootView("无更多数据", context);
+//                addNoMoreDataFootView("无更多数据" + System.currentTimeMillis(), context);
 //                break;
 //            case STATE_LOADING_MORE_DATA:
 //                addLoadingMoreDataFootView("加载更多数据中", context);
@@ -289,24 +296,24 @@ public class RecycleViewHeaderFooterAdapter<VH extends RecyclerView.ViewHolder> 
 //        if (mCurrentState != STATE_LOADING_MORE_DATA) {
 //            addFootView(textView);
 //        } else {
-//            ((TextView) getFooterView()).setText(str);
+////            ((TextView) getFooterView()).setText(str);
 //        }
 //
 //    }
 //
 //    public void addNoMoreDataFootView(String str, Context context) {
-//        System.out.println("-------------show foot view  木有更多数据");
+//        System.out.println("-------------show foot view  木有更多数据" + str);
 //        TextView textView = new TextView(context);
 //        textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 //        textView.setText(str);
 //        textView.setTextColor(Color.GRAY);
 //        textView.setGravity(Gravity.CENTER);
 //        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15F);
-//        if (mCurrentState != STATE_NO_MORE_DATA) {
-//            addFootView(textView);
-//        } else {
-//            ((TextView) getFooterView()).setText(str);
-//        }
+////        if (mCurrentState != STATE_NO_MORE_DATA) {
+//        addFootView(textView);
+////        } else {
+////            ((TextView) getFooterView()).setText(str);
+////        }
 //    }
 //
 //    public void addNoNetFootView() {

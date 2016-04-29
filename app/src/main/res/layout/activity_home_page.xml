@@ -39,7 +39,7 @@
                 android:id="@+id/menu_spoof_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/sproof_icon" />
+                android:src="@mipmap/bottom_menu_eye" />
 
             <TextView
                 android:id="@+id/menu_spoof_tv"
@@ -63,7 +63,7 @@
                 android:id="@+id/menu_movie_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/movie_icon" />
+                android:src="@mipmap/bottom_menu_post" />
 
             <TextView
                 android:id="@+id/menu_movie_tv"
