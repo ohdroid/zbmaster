@@ -42,7 +42,7 @@
 
             <ImageView
                 android:id="@+id/menu_spoof_iv"
-                android:layout_width="@dimen/bottom_menu_image_height"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/bottom_menu_image_height"
                 android:src="@mipmap/bottom_menu_eye" />
 
@@ -65,8 +65,8 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/dedmenu_movie_iv"
-                android:layout_width="@dimen/bottom_menu_image_height"
+                android:id="@+id/menu_movie_iv"
+                android:layout_width="wrap_content"
                 android:layout_height="@dimen/bottom_menu_image_height"
                 android:src="@mipmap/bottom_menu_post" />
 
