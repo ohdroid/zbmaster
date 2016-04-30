@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refresh_layout"
         android:layout_width="match_parent"
@@ -18,11 +19,10 @@
     <include
         android:id="@+id/loading_view"
         layout="@layout/loading_hint_view" />
-    <!--<TextView-->
-    <!--android:id="@+id/loading_view"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:background="#dedede"-->
-    <!--android:gravity="center"-->
-    <!--android:text="@string/hint_loading" />-->
+
+    <include
+        android:id="@+id/error_layout"
+        layout="@layout/error_net_work_layout" />
+
+
 </FrameLayout>

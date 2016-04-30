@@ -88,7 +88,8 @@ class MovieInfoListPresenterImp constructor(var context: Context) : MovieListPre
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<MutableList<MovieInfo>>() {
                     override fun onError(e: Throwable?) {
-                        uiView.showToastHint(context.resources.getString(R.string.hint_no_net_work))
+                        uiView.showMoreMovieInfo(true)
+                        uiView.showErrorView(-1, e?.message ?: "")
                     }
 
                     override fun onNext(results: MutableList<MovieInfo>?) {

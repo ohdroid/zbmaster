@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
+import android.util.TypedValue
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -42,6 +43,7 @@ class HomePageActivity : BaseActivity() {
         menuMovie.setOnClickListener(menuOnClickListener)
         showSpoofPage()
 
+        println("======尺寸矫正=========${resources.displayMetrics}:${resources.getDimensionPixelOffset(R.dimen.bottom_menu_image_height)}")
     }
 
     override fun onStart() {

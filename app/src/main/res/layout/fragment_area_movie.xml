@@ -18,4 +18,8 @@
     <include
         android:id="@+id/loading_view"
         layout="@layout/loading_hint_view" />
+
+    <include
+        android:id="@+id/error_layout"
+        layout="@layout/error_net_work_layout" />
 </FrameLayout>

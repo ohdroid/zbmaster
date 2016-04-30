@@ -1,3 +1,8 @@
 <resources>
     <dimen name="image_height">810px</dimen>
+
+    <dimen name="bottom_menu_height">54dp</dimen>
+    <dimen name="bottom_menu_image_height">18.8dp</dimen>
+    <dimen name="bottom_menu_text_size">8sp</dimen>
+
 </resources>

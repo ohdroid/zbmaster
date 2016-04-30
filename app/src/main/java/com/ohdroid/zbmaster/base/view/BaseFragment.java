@@ -1,9 +1,12 @@
 package com.ohdroid.zbmaster.base.view;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.ohdroid.zbmaster.application.BaseApplication;
+import com.ohdroid.zbmaster.application.BaseView;
 import com.ohdroid.zbmaster.application.di.ActivityComponent;
 import com.ohdroid.zbmaster.application.di.ActivityModule;
 import com.ohdroid.zbmaster.application.di.ApplicationModule;

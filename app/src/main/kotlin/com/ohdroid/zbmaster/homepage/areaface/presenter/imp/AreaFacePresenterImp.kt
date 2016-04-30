@@ -90,6 +90,7 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
                 }
                 .subscribe(object : Subscriber<MutableList<FaceInfo>>() {
                     override fun onError(e: Throwable?) {
+                        uiView.showMoreFaceInfo(true)
                         uiView.showErrorView(-1, e?.message ?: "")
                     }
 

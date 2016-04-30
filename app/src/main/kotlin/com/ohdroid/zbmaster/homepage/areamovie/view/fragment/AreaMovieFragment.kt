@@ -15,6 +15,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
@@ -28,6 +29,8 @@ import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.activity.MovieDetailActivity
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieListView
+import org.jetbrains.anko.find
+import org.jetbrains.anko.onClick
 import org.jetbrains.anko.support.v4.find
 import java.util.*
 
@@ -40,6 +43,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     val mMovieGifList: RecyclerView by lazy { find<RecyclerView>(R.id.rv_movie) }
     val mFreshLayout: SwipeRefreshLayout by lazy { find<SwipeRefreshLayout>(R.id.refresh_layout) }
     val mLoadingHintView: View by lazy { find<View>(R.id.loading_view) }
+    val mNoNetWork: View by lazy { find<View>(R.id.error_layout) }
 
     var mRecycleViewFootView: TextView? = null
     var mMovieListAdapter: MovieListAdapter? = null
@@ -207,6 +211,9 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     //===========================对presenter层暴露的接口==================================
 
     override fun showMovieList(movieInfos: MutableList<MovieInfo>, hasMore: Boolean) {
+        if ( mNoNetWork.visibility == View.VISIBLE) {
+            mNoNetWork.visibility = View.GONE
+        }
 
         mMovieListAdapterWrap?.removeAllFootView()
 
@@ -242,12 +249,12 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
 
         hideLoadingView()
 
-        RecyclerViewAddViewHelper.addNoNetFootView(context, mMovieListAdapterWrap!!, View.OnClickListener {
-            if (!mFreshLayout.isRefreshing) {
-                mFreshLayout.isRefreshing = true
-            }
-            presenter!!.showMovieGifList()//重新加载数据
-        })
+        if (mMovieListAdapter!!.itemCount > 0) {
+            showToastHint(errorMessage)
+        } else {
+            mNoNetWork.visibility = View.VISIBLE
+            mNoNetWork.find<Button>(R.id.btn_retry).onClick { presenter?.showMovieGifList() }
+        }
     }
 
     override fun showEmpty() {

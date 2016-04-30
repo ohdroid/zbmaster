@@ -14,6 +14,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
@@ -27,8 +29,9 @@ import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
 import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceView
 import com.ohdroid.zbmaster.homepage.areaface.view.activity.AreaFaceDetailActivity
+import org.jetbrains.anko.find
+import org.jetbrains.anko.onClick
 import org.jetbrains.anko.support.v4.find
-import org.jetbrains.anko.wrapContent
 
 /**
  * Created by ohdroid on 2016/4/4.
@@ -38,6 +41,8 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
     val faceList: RecyclerView by lazy { find<RecyclerView>(R.id.rv_face) }
     val freshLayout: SwipeRefreshLayout by lazy { find<SwipeRefreshLayout>(R.id.refresh_layout) }
     val loadingView: View by lazy { find<View>(R.id.loading_view) }
+    val mNoNetView: LinearLayout by lazy { find<LinearLayout>(R.id.error_layout) }
+
     var faceListAdapter: FaceRecycleViewAdapter? = null
     var faceListAdapterWrap: RecycleViewHeaderFooterAdapter<FaceViewHolder>? = null
 
@@ -45,7 +50,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
 
     var mRecycleViewFootView: TextView? = null
-    var mNoNetView: View? = null
 
     companion object {
         val TAG: String = "AreaFaceFragment"
@@ -147,8 +151,6 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         var listener: OnRecycleViewItemClickListener? = null
             set(value) {
                 itemView.setOnClickListener({ v -> value!!.onItemClick(v!!, adapterPosition) })
-
-                println("-------------size---------$layoutPosition:$adapterPosition")
             }
 
         fun setImageViewUrl(imageUrl: String?) {
@@ -205,21 +207,22 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
         }
 
         hideLoadingView()
-
-        if (mNoNetView != null) {
-            if (faceListAdapter!!.itemCount > 0) {
-                showToastHint(errorMessage)
-            } else {
-                mNoNetView?.visibility = View.VISIBLE
-            }
-            return
+        if (faceListAdapter!!.itemCount > 0) {
+            showToastHint(errorMessage)
+        } else {
+            mNoNetView.visibility = View.VISIBLE
         }
-        mNoNetView = RecyclerViewAddViewHelper.addNoNetFootView(context, faceListAdapterWrap!!, View.OnClickListener {
-            if (!freshLayout.isRefreshing) {
-                freshLayout.isRefreshing = true
-            }
-            presenter.loadFaceList()//重新加载数据
-        })
+
+        mNoNetView.find<Button>(R.id.btn_retry).onClick {
+            presenter.loadFaceList()
+            showToastHint(resources.getString(R.string.hint_retry_get_data))
+        }
+        //        mNoNetView = RecyclerViewAddViewHelper.addNoNetFootView(context, faceListAdapterWrap!!, View.OnClickListener {
+        //            if (!freshLayout.isRefreshing) {
+        //                freshLayout.isRefreshing = true
+        //            }
+        //            presenter.loadFaceList()//重新加载数据
+        //        })
     }
 
     override fun showFaceInfoDetail(faceInfo: FaceInfo) {
@@ -231,9 +234,8 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
      */
     override fun showFaceList(faces: MutableList<FaceInfo>, hasMore: Boolean) {
 
-        if (mNoNetView != null) {
-            mNoNetView?.visibility = View.GONE
-            faceListAdapterWrap?.removeFootView(mNoNetView)
+        if ( mNoNetView.visibility == View.VISIBLE) {
+            mNoNetView.visibility = View.GONE
         }
 
         println("show face info data")

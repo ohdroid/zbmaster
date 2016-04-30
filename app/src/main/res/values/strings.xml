@@ -6,9 +6,14 @@
     <string name="hint_quality_mode">进入装X模式,gif图直接原始质量，汗毛都看得清哦</string>
     <string name="hint_share_failed">"分享失败,找作者抽他"</string>
 
-    <string name="hint_no_net_work">骚年请去把网连好再来~~~~</string>
     <string name="hint_retry">重试</string>
     <string name="hint_no_data">木有看到数据，我给你找编辑主管去！！</string>
+
+
+    <!--error-->
+    <string name="hint_no_net_work">骚年请去把网连好再来~~~~</string>
+    <string name="hint_retry_get_data">重新获取数据中...</string>
+
 
     <!--登录注册-->
     <string name="register_hint">现在就注册</string>
