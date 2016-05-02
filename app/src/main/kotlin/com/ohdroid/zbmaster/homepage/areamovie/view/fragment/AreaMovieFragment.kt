@@ -215,7 +215,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
             mNoNetWork.visibility = View.GONE
         }
 
-        mMovieListAdapterWrap?.removeAllFootView()
+//        mMovieListAdapterWrap?.removeAllFootView()
 
 
         if (mFreshLayout.isRefreshing) {

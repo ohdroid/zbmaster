@@ -61,7 +61,7 @@ class ShareHelper {
         val imageRequest = ImageRequest.fromUri(imageUrl);
         val cacheKey = DefaultCacheKeyFactory.getInstance().getEncodedCacheKey(imageRequest);
         val resource = ImagePipelineFactory.getInstance()
-                .mainDiskStorageCache.getResource(cacheKey);
+                .mainDiskStorageCache.getResource(cacheKey) ?: return //若还无缓存，直接返回
         val file = (resource as FileBinaryResource ).file;
         if (!file.exists()) {
             baseListener.onError(UiError(-1, activity.resources.getString(R.string.hint_share_failed), "error"))
