@@ -9,7 +9,7 @@
 
 **注意**:大部分是使用kotlin实现,但是由于dagger2生成的类在初期有点问题,所以dagger2部分使用JAVA,若要用纯Kotlin实现，请参考以下步骤
 
-1. module/build.gradle中修改 apt 'com.google.dagger:dagger-compiler:2.0.2'为 kapt "com.google.dagger:dagger-compiler:2.0.1"
+1. module/build.gradle中修改 apt 'com.google.dagger:dagger-compiler:version-code'为 kapt "com.google.dagger:dagger-compiler:version-code"
 2. 参考文章: [kotlin-dagger2][6]
 
 ## **代码框架**
