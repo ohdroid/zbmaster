@@ -1,13 +1,14 @@
 # **不无聊APP:GIF分享类的app,只为博君一笑**
+
 ## **引用库**
 * kotlin-大部分使用kotlin语言编写
 * RxJava & RxAndroid & RxBinding
 * dagger2
 * fresco
 * retrofit2 目前由于服务器是第三方的所以暂时还未用到
-## **代码框架**
-###以下github项目给与启发
 
+## **代码框架**
+### 以下github项目给与启发
 * [ribot][1] by ribot
 * [MvpCleanArchitecture][2] by glomadrian
 * [EasyMVP][3] by JorgeCastilloPrz
