@@ -1,12 +1,7 @@
 package com.ohdroid.zbmaster.homepage.areamovie.presenter.imp
 
 import android.content.Context
-import cn.bmob.v3.BmobObject
 import com.ohdroid.zbmaster.R
-import com.ohdroid.zbmaster.application.data.BaseBusiness
-import com.ohdroid.zbmaster.application.data.api.QiniuApi
-import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
-import com.ohdroid.zbmaster.homepage.areamovie.data.MovieDataManager
 import com.ohdroid.zbmaster.homepage.areamovie.data.MovieGifListBusiness
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
@@ -14,7 +9,6 @@ import com.ohdroid.zbmaster.homepage.areamovie.view.MovieListView
 import com.ohdroid.zbmaster.utils.NetUtils
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
-import rx.internal.util.SubscriptionList
 import rx.schedulers.Schedulers
 
 /**

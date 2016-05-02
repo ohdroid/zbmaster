@@ -2,7 +2,6 @@ package com.ohdroid.zbmaster.homepage.areamovie.view.fragment
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Point
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -26,18 +25,16 @@ import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.data.ShareHelper
 import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.application.ex.showToast
-import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewHeaderFooterAdapter
-import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.application.view.progress.CircleProgress
 import com.ohdroid.zbmaster.application.view.progress.ImageViewProgressController
+import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewHeaderFooterAdapter
+import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.application.view.recycleview.RecyclerViewAddViewHelper
 import com.ohdroid.zbmaster.base.view.BaseFragment
-import com.ohdroid.zbmaster.homepage.areamovie.data.MovieDataManager
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieDetailView
-import com.ohdroid.zbmaster.utils.NetUtils
 import com.ohdroid.zbmaster.utils.SPUtils
 import com.rengwuxian.materialedittext.MaterialEditText
 import com.tencent.tauth.IUiListener
