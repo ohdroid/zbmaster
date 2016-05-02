@@ -75,8 +75,8 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
     }
 
     override fun onDestroy() {
+        loginPresenter.detachView()
         super.onDestroy()
-        loginPresenter.attachView(this)
     }
 
     override fun onClick(btn: View?) {

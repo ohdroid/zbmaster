@@ -5,7 +5,9 @@ import com.ohdroid.zbmaster.facesync.FaceSyncFragment;
 import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenter;
 import com.ohdroid.zbmaster.homepage.HomePageActivity;
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter;
+import com.ohdroid.zbmaster.homepage.areaface.presenter.imp.AreaFacePresenterImp;
 import com.ohdroid.zbmaster.homepage.areaface.view.fragment.AreaFaceDetailFragment;
+import com.ohdroid.zbmaster.homepage.areaface.view.fragment.AreaFaceFragment;
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter;
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter;
 import com.ohdroid.zbmaster.homepage.areamovie.view.fragment.AreaMovieFragment;
@@ -40,8 +42,9 @@ public interface ActivityComponent {
     //==============================face area 模块==================================
     void inject(AreaFaceDetailFragment faceDetailFragment);
 
-    AreaFacePresenter faceAreaPresenter();
+    void inject(AreaFaceFragment faceFragment);
 
+    AreaFacePresenter faceAreaPresenter();
 
     //==============================movie info 模块==========================================
     void inject(AreaMovieFragment fragment);

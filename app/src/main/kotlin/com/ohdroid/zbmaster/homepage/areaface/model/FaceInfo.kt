@@ -10,36 +10,4 @@ import java.io.Serializable
  */
 open class FaceInfo(var faceUrl: String = "", var faceTitle: String = "", var fileSize: Long) : BmobObject(), Serializable {
 
-
-    //    override fun writeToParcel(dest: Parcel?, flags: Int) {
-    //        dest?.writeString(faceUrl)
-    //        dest?.writeString(faceTitle)
-    //    }
-    //
-    //    override fun describeContents(): Int {
-    //        return 0
-    //    }
-    //
-    //    companion object {
-    //
-    //        fun createFaceInfo(source: Parcel?): FaceInfo {
-    //            if (null == source) {
-    //                return FaceInfo()
-    //            }
-    //            return FaceInfo(source.readString(), source.readString())
-    //        }
-    //
-    //        @JvmField val CREATOR: Parcelable.Creator<FaceInfo> = object : Parcelable.Creator<FaceInfo> {
-    //            override fun createFromParcel(source: Parcel?): FaceInfo? {
-    //                return createFaceInfo(source)
-    //            }
-    //
-    //            override fun newArray(size: Int): Array<out FaceInfo>? {
-    //                return Array(size, { FaceInfo() })
-    //            }
-    //
-    //        }
-    //    }
-
-
 }

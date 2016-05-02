@@ -42,8 +42,6 @@ class HomePageActivity : BaseActivity() {
         menuProof.setOnClickListener(menuOnClickListener)
         menuMovie.setOnClickListener(menuOnClickListener)
         showSpoofPage()
-
-        println("======尺寸矫正=========${resources.displayMetrics}:${resources.getDimensionPixelOffset(R.dimen.bottom_menu_image_height)}")
     }
 
     override fun onStart() {

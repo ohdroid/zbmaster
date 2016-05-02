@@ -1,6 +1,7 @@
 package com.ohdroid.zbmaster.homepage.areaface.presenter.imp
 
 import android.content.Context
+import com.ohdroid.zbmaster.application.di.exannotation.PerActivity
 import com.ohdroid.zbmaster.homepage.areaface.data.FaceBusiness
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
@@ -9,18 +10,15 @@ import com.ohdroid.zbmaster.utils.NetUtils
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import javax.inject.Inject
 
 /**
  * Created by ohdroid on 2016/4/6.
  */
-class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter {
+class AreaFacePresenterImp(val context: Context) : AreaFacePresenter {
 
     lateinit var uiView: AreaFaceView;
     var mfaceURLList: MutableList<FaceInfo>? = null
-    /**
-     * 压缩零界值
-     */
-    val COMPRESS_SIZE = 2 * 1024 * 1024
 
     override fun loadFaceList() {
         //检查网络
@@ -34,7 +32,7 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
 
         val faceBusiness: FaceBusiness = FaceBusiness();
         faceBusiness.context = context//由于是使用bmob请求数据所以这里必须传入context
-        faceBusiness.execute()
+        faceBusiness.findList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { //空数据
                     if ( it.isEmpty()) {
@@ -75,7 +73,7 @@ class AreaFacePresenterImp constructor(var context: Context) : AreaFacePresenter
         val faceBusiness: FaceBusiness = FaceBusiness();
         faceBusiness.context = context//由于是使用bmob请求数据所以这里必须传入context
         faceBusiness.requestParams.put("skip", mfaceURLList!!.size.toString())
-        faceBusiness.execute()
+        faceBusiness.findList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter {

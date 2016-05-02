@@ -27,11 +27,13 @@ import com.ohdroid.zbmaster.application.view.recycleview.RecyclerViewAddViewHelp
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
+import com.ohdroid.zbmaster.homepage.areaface.presenter.imp.AreaFacePresenterImp
 import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceView
 import com.ohdroid.zbmaster.homepage.areaface.view.activity.AreaFaceDetailActivity
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.support.v4.find
+import javax.inject.Inject
 
 /**
  * Created by ohdroid on 2016/4/4.
@@ -47,7 +49,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
     var faceListAdapterWrap: RecycleViewHeaderFooterAdapter<FaceViewHolder>? = null
 
     lateinit var presenter: AreaFacePresenter
-
+        @Inject set
 
     var mRecycleViewFootView: TextView? = null
 
@@ -79,7 +81,7 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        presenter = component.faceAreaPresenter();
+        component.inject(this)
         presenter.attachView(this)
     }
 

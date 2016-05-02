@@ -3,6 +3,8 @@ package com.ohdroid.zbmaster.homepage.areamovie.data
 import android.content.Context
 import cn.bmob.v3.listener.FindListener
 import com.ohdroid.zbmaster.application.data.BaseBusiness
+import com.ohdroid.zbmaster.application.data.api.BmobDataManager
+import com.ohdroid.zbmaster.application.data.api.QiniuApi
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import rx.Observable
 import rx.Subscriber
@@ -20,26 +22,38 @@ class MovieGifListBusiness : BaseBusiness<MovieInfo>() {
         val PAGE_LIMIT: Int = 6
     }
 
-    override fun byPost() {
-        byGet()
+    override fun findList(): Observable<MutableList<MovieInfo>> {
+        return Observable
+                .create<MutableList<MovieInfo>> ({ it ->//从bmob服务器请求数据
+                    val bmobDataManager = BmobDataManager.getInstance()
+                    bmobDataManager.findItemList(context, requestParams, object : FindListener<MovieInfo>() {
+                        override fun onError(p0: Int, p1: String?) {
+                            val e: Throwable = Throwable(p1)
+                            it.onError(e)
+                        }
+
+                        override fun onSuccess(p0: MutableList<MovieInfo>?) {
+                            it.onNext(p0)
+                            it.onCompleted()
+                        }
+
+                    })
+                })
+                .map({ //对数据二次编辑，融合七牛服务器api
+                    addQiniuApi(it)
+                    it
+                })
     }
 
-    override fun byGet() {
-        MovieDataManager.getInstance().getMovieList(context, requestParams, PAGE_LIMIT, startIndex, object : FindListener<MovieInfo>() {
-            override fun onError(p0: Int, p1: String?) {
-                listener?.onFailed(p0, p1)
-            }
 
-            override fun onSuccess(p0: MutableList<MovieInfo>?) {
-                listener?.onSuccess(p0)
-            }
-
-        })
-    }
-
-    override fun execute(method: String?): Observable<MutableList<MovieInfo>> {
-        requestParams["limit"] = PAGE_LIMIT.toString()
-        return MovieDataManager.getInstance().getMovieList(context, requestParams)
+    fun addQiniuApi(list: MutableList<MovieInfo>?) {
+        if (list == null) {
+            return
+        }
+        val qiniuStaticImageApi = QiniuApi().getImageStaticApi()
+        list.forEach {
+            it.movieUrl = "${QiniuApi.QINIU_URL_DOMAIN}${it.movieUrl}?$qiniuStaticImageApi"
+        }
     }
 
 

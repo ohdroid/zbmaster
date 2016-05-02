@@ -20,19 +20,20 @@ import android.widget.TextView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.ex.showToast
+import com.ohdroid.zbmaster.application.view.recycleview.OnRecycleViewItemClickListener
 import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewHeaderFooterAdapter
 import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewLoadMoreListener
-import com.ohdroid.zbmaster.base.view.BaseFragment
-import com.ohdroid.zbmaster.application.view.recycleview.OnRecycleViewItemClickListener
 import com.ohdroid.zbmaster.application.view.recycleview.RecyclerViewAddViewHelper
+import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
-import com.ohdroid.zbmaster.homepage.areamovie.view.activity.MovieDetailActivity
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieListView
+import com.ohdroid.zbmaster.homepage.areamovie.view.activity.MovieDetailActivity
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.support.v4.find
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Created by ohdroid on 2016/4/11.
@@ -49,7 +50,8 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     var mMovieListAdapter: MovieListAdapter? = null
     var mMovieListAdapterWrap: RecycleViewHeaderFooterAdapter<MovieViewHolder>? = null
 
-    var presenter: MovieListPresenter? = null
+    lateinit var presenter: MovieListPresenter
+        @Inject set
 
     var datas = ArrayList<MovieInfo>()
 
@@ -59,7 +61,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
         fun launch(manager: FragmentManager, containerId: Int): Fragment {
             println("launch $TAG")
 
-            var fragment: AreaMovieFragment? = null
+            var fragment: AreaMovieFragment
 
             if (null == manager.findFragmentByTag(TAG)) {
                 fragment = AreaMovieFragment()
@@ -80,9 +82,8 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_area_movie, container, false)
-
-        presenter = component.movieListPresenter()
-        presenter!!.attachView(this)
+        component.inject(this)
+        presenter.attachView(this)
 
         return view
     }
@@ -91,7 +92,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
         super.onViewCreated(view, savedInstanceState)
 
         //下拉刷新
-        mFreshLayout.setOnRefreshListener { presenter?.showMovieGifList() }
+        mFreshLayout.setOnRefreshListener { presenter.showMovieGifList() }
         mFreshLayout.setColorSchemeColors(Color.parseColor("#FF9966"), Color.parseColor("#FF6666"), Color.parseColor("#FFCCCC"))
 
 
@@ -102,7 +103,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
             mMovieListAdapter!!.listener = object : OnRecycleViewItemClickListener {
                 override fun onItemClick(view: View, position: Int) {
                     //TODO show detail
-                    presenter?.showMovieInfoDetail(position)
+                    presenter.showMovieInfoDetail(position)
                 }
             }
         }
@@ -110,7 +111,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
         mMovieListAdapterWrap = RecycleViewHeaderFooterAdapter(mMovieListAdapter)
         mMovieGifList.adapter = mMovieListAdapterWrap
 
-        presenter?.showMovieGifList()
+        presenter.showMovieGifList()
     }
 
     class MovieListAdapter(var movieList: MutableList<MovieInfo>) : RecyclerView.Adapter<MovieViewHolder>() {
@@ -159,7 +160,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
         override fun onLoadMoreData() {
             //loading more data
             setFootTextViewHint(context.resources.getString(R.string.hint_load_more))
-            presenter?.loadMoreMovieGifList()
+            presenter.loadMoreMovieGifList()
         }
     }
 
@@ -215,7 +216,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
             mNoNetWork.visibility = View.GONE
         }
 
-//        mMovieListAdapterWrap?.removeAllFootView()
+        //        mMovieListAdapterWrap?.removeAllFootView()
 
 
         if (mFreshLayout.isRefreshing) {
@@ -253,7 +254,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
             showToastHint(errorMessage)
         } else {
             mNoNetWork.visibility = View.VISIBLE
-            mNoNetWork.find<Button>(R.id.btn_retry).onClick { presenter?.showMovieGifList() }
+            mNoNetWork.find<Button>(R.id.btn_retry).onClick { presenter.showMovieGifList() }
         }
     }
 

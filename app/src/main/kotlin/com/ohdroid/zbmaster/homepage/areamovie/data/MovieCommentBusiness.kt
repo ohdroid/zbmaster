@@ -14,9 +14,6 @@ import rx.Observable
  * Created by ohdroid on 2016/4/12.
  */
 class MovieCommentBusiness : BaseBusiness<MovieComment>() {
-    override fun execute(method: String?): Observable<MutableList<MovieComment>> {
-        throw UnsupportedOperationException()
-    }
 
     var context: Context? = null
 
@@ -24,18 +21,7 @@ class MovieCommentBusiness : BaseBusiness<MovieComment>() {
         @JvmField val PAGE_LIMIT = 5
     }
 
-    override fun byGet() {
-    }
-
-    override fun byPost() {
-    }
-
-    //    fun addComment(saveListener: SaveListener?, comment: MovieComment) {
-    //        requestParams.put("limit", PAGE_LIMIT.toString())
-    //        BmobDataManager.getInstance().addItem(context!!, comment, saveListener)
-    //    }
-
-    fun addComment(comment: MovieComment) {
+    override fun addItem(comment: MovieComment) {
         BmobDataManager.getInstance().addItem(context!!, comment, object : SaveListener() {
             override fun onSuccess() {
                 rxBus?.send(AddCommentEvent(context!!.resources.getString(R.string.hint_add_comment_success), 200))
@@ -44,17 +30,11 @@ class MovieCommentBusiness : BaseBusiness<MovieComment>() {
             override fun onFailure(p0: Int, p1: String?) {
                 rxBus?.send(AddCommentEvent(p1 ?: "", p0))
             }
-
         })
     }
 
-    fun getCommentList(findListener: FindListener<MovieComment>) {
-        requestParams.put("limit", PAGE_LIMIT.toString())
-        BmobDataManager.getInstance().findItemList(context!!, requestParams, findListener)
-    }
-
-    fun getCommentList(): Observable<MutableList<MovieComment>> {
-        return Observable.create<MutableList<MovieComment>>({
+    override fun findList():Observable<MutableList<MovieComment>>{
+        return  Observable.create<MutableList<MovieComment>>({
             BmobDataManager.getInstance().findItemList(context!!, requestParams, object : FindListener<MovieComment>() {
                 override fun onError(p0: Int, p1: String?) {
                     val e: Throwable = Throwable(p1)

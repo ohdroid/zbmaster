@@ -10,7 +10,7 @@ import cn.bmob.v3.listener.SaveListener
 /**
  * Created by ohdroid on 2016/4/12.
  */
-class BmobDataManager {
+class BmobDataManager private constructor() {
     companion object {
         private val manager: BmobDataManager = BmobDataManager()
         @JvmStatic fun getInstance(): BmobDataManager {

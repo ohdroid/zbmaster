@@ -44,7 +44,8 @@ class MovieInfoListPresenterImp constructor(var context: Context) : MovieListPre
         val movieGifListBusiness = MovieGifListBusiness()
         movieGifListBusiness.context = context
         //默认使用GET方式
-        movieGifListBusiness.execute()
+        //        movieGifListBusiness.execute()
+        movieGifListBusiness.findList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter {
@@ -83,7 +84,8 @@ class MovieInfoListPresenterImp constructor(var context: Context) : MovieListPre
         val movieGifListBusiness = MovieGifListBusiness()
         movieGifListBusiness.context = context
         movieGifListBusiness.requestParams.put("skip", mMovieGifList?.size.toString())
-        movieGifListBusiness.execute()
+        //        movieGifListBusiness.execute()
+        movieGifListBusiness.findList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<MutableList<MovieInfo>>() {

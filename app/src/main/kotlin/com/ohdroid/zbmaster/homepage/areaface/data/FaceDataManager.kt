@@ -24,23 +24,23 @@ class FaceDataManager {
         }
     }
 
-    fun getFaceList(context: Context, params: MutableMap<String, String>?, pageLimit: Int, skip: Int, findListener: FindListener<FaceInfo>) {
-        requestParams = params
-        requestParams!!.put("limit", pageLimit.toString())
-        val bmobDataManger = BmobDataManager.getInstance()
-        bmobDataManger.findItemList(context, params, object : FindListener<FaceInfo>() {
-            override fun onError(p0: Int, p1: String?) {
-                findListener.onError(p0, p1)
-            }
-
-            override fun onSuccess(p0: MutableList<FaceInfo>?) {
-                addQiniuApi(p0)
-                //                addQiniuStaticImageApi(p0)
-                findListener.onSuccess(p0)
-            }
-
-        })
-    }
+//    fun getFaceList(context: Context, params: MutableMap<String, String>?, pageLimit: Int, skip: Int, findListener: FindListener<FaceInfo>) {
+    //        requestParams = params
+    //        requestParams!!.put("limit", pageLimit.toString())
+    //        val bmobDataManger = BmobDataManager.getInstance()
+    //        bmobDataManger.findItemList(context, params, object : FindListener<FaceInfo>() {
+    //            override fun onError(p0: Int, p1: String?) {
+    //                findListener.onError(p0, p1)
+    //            }
+    //
+    //            override fun onSuccess(p0: MutableList<FaceInfo>?) {
+    //                addQiniuApi(p0)
+    //                //                addQiniuStaticImageApi(p0)
+    //                findListener.onSuccess(p0)
+    //            }
+    //
+    //        })
+    //    }
 
     /**
      * rx方式获取数据
@@ -82,28 +82,28 @@ class FaceDataManager {
         }
     }
 
-    /**
-     * 获取图片对应的动图
-     * @param staticUrl:静态网址
-     * @param isCompress:是否压缩
-     */
-    fun getDynamicURL(staticUrl: String, isCompress: Boolean): String {
-        if (staticUrl.indexOf("?") <= 0) {
-            //若已经是原始地址那么直接返回
-            return staticUrl
-        }
-        //由于动图太大，我们这里默认让服务器压缩
-        val original = staticUrl.substring(0, staticUrl.indexOf("?"))
-
-        if (isCompress) {
-            val qiniu: QiniuApi = QiniuApi()
-            val sb = StringBuilder()
-            sb.append(original)
-            sb.append("?")
-            sb.append(qiniu.getQiniuRequestApiString(qiniu.getReduceApi()))//服务器按百分比压缩
-            return sb.toString()
-        } else {
-            return original
-        }
-    }
+//    /**
+//     * 获取图片对应的动图
+//     * @param staticUrl:静态网址
+//     * @param isCompress:是否压缩
+//     */
+//    fun getDynamicURL(staticUrl: String, isCompress: Boolean): String {
+//        if (staticUrl.indexOf("?") <= 0) {
+//            //若已经是原始地址那么直接返回
+//            return staticUrl
+//        }
+//        //由于动图太大，我们这里默认让服务器压缩
+//        val original = staticUrl.substring(0, staticUrl.indexOf("?"))
+//
+//        if (isCompress) {
+//            val qiniu: QiniuApi = QiniuApi()
+//            val sb = StringBuilder()
+//            sb.append(original)
+//            sb.append("?")
+//            sb.append(qiniu.getQiniuRequestApiString(qiniu.getReduceApi()))//服务器按百分比压缩
+//            return sb.toString()
+//        } else {
+//            return original
+//        }
+//    }
 }

@@ -27,14 +27,10 @@ abstract class BaseBusiness<T> {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    var listener: BaseResultListener<T>? = null
-
-    var rxBus: RxBus? = null
-
     /**
-     * 开始的位置,用于分页查询时，过滤掉的数据项
+     *用于通知网络数据结果
      */
-    var startIndex: Int = 0
+    var rxBus: RxBus? = null
 
     /**
      *请求参数
@@ -42,37 +38,28 @@ abstract class BaseBusiness<T> {
     var requestParams: MutableMap<String, String> = HashMap()
 
 
-    open fun execute(method: String, listener: BaseResultListener<T>?) {
-        this.listener = listener
-        when (method) {
-            METHOD_GET -> byGet()
-            METHOD_POST -> byPost()
-        }
+    /**
+     * 查询指定列表数据
+     * 请勿调用super.findList()
+     */
+    open fun findList(): Observable<MutableList<T>> {
+        throw UnsupportedOperationException("this method is not implemented")
     }
 
     /**
-     * 返回observable的执行方法
-     *
+     * 添加数据
+     * 执行结果请使用rxbus返回
      */
-    abstract fun execute(method: String? = METHOD_GET): Observable<MutableList<T>>
+    open fun addItem(t: T) {
+        throw UnsupportedOperationException("this method is not implemented")
+    }
 
     /**
-     * GET 请求数据
+     * 通过id号删除指定数据
+     * 执行结果请使用rxbus返回
      */
-    abstract fun byGet()
-
-    /**
-     * POST 请求数据
-     */
-    abstract fun byPost()
-
-
-    /**
-     * 数据结果监听器
-     */
-    interface BaseResultListener<T> {
-        fun onSuccess(results: MutableList<T>?)
-        fun onFailed(state: Int, errorMessage: String?)
+    open fun removeItemById(id: Int) {
+        throw UnsupportedOperationException("this method is not implemented")
     }
 
 

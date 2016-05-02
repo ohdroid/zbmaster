@@ -31,23 +31,23 @@ class MovieDataManager {
     /**
      * 获取movie动图列表
      */
-    fun getMovieList(context: Context, params: MutableMap<String, String>?, pageLimit: Int, skip: Int, findListener: FindListener<MovieInfo>) {
-        requestParams = params
-
-        val bmobDataManager = BmobDataManager.getInstance()
-        bmobDataManager.findItemList(context, params, object : FindListener<MovieInfo>() {
-            override fun onError(p0: Int, p1: String?) {
-                findListener.onError(p0, p1)
-            }
-
-            override fun onSuccess(p0: MutableList<MovieInfo>?) {
-                addQiniuApi(p0)
-                addQiniuStaticImageApi(p0)
-                findListener.onSuccess(p0)
-            }
-
-        })
-    }
+//    fun getMovieList(context: Context, params: MutableMap<String, String>?, pageLimit: Int, skip: Int, findListener: FindListener<MovieInfo>) {
+//        requestParams = params
+//
+//        val bmobDataManager = BmobDataManager.getInstance()
+//        bmobDataManager.findItemList(context, params, object : FindListener<MovieInfo>() {
+//            override fun onError(p0: Int, p1: String?) {
+//                findListener.onError(p0, p1)
+//            }
+//
+//            override fun onSuccess(p0: MutableList<MovieInfo>?) {
+//                addQiniuApi(p0)
+//                addQiniuStaticImageApi(p0)
+//                findListener.onSuccess(p0)
+//            }
+//
+//        })
+//    }
 
     /**
      * rx方式请求数据

@@ -44,7 +44,7 @@ class LoginPresenterImp constructor(var context: Context, val dataManager: DataM
     }
 
     override fun login(accountInfo: AccountInfo) {
-        println("==============loginmanager====>${dataManager}")
+        //        println("==============loginmanager====>${dataManager}")
 
         dataManager.loginManger.login(accountInfo, object : SaveListener() {
             override fun onFailure(p0: Int, p1: String?) {

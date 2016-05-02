@@ -65,16 +65,7 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
         val movieCommentBusiness = MovieCommentBusiness()
         movieCommentBusiness.context = context
         movieCommentBusiness.rxBus = rxBus
-        movieCommentBusiness.addComment(comment)
-        //        movieCommentBusiness.addComment(object : SaveListener() {
-        //            override fun onSuccess() {
-        //                rxBus.send(MovieCommentBusiness.AddCommentEvent(context.resources.getString(R.string.hint_add_comment_success), 200))
-        //            }
-        //
-        //            override fun onFailure(p0: Int, p1: String?) {
-        //                rxBus.send(MovieCommentBusiness.AddCommentEvent(p1 ?: "failed", p0))
-        //            }
-        //        }, comment)
+        movieCommentBusiness.addItem(comment)
     }
 
 
@@ -95,7 +86,8 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
         requestParams.put("includeInfo", "commentAuthor")
         movieCommentBusiness.requestParams = requestParams
         movieCommentBusiness.context = context
-        movieCommentBusiness.getCommentList()
+//        movieCommentBusiness.getCommentList()
+                movieCommentBusiness.findList()
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter {
@@ -135,7 +127,7 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
         requestParams.put("skip", commentList.size.toString())
         movieCommentBusiness.requestParams = requestParams
         movieCommentBusiness.context = context
-        movieCommentBusiness.getCommentList()
+        movieCommentBusiness.findList()
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter {
