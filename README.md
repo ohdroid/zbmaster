@@ -7,6 +7,10 @@
 * fresco
 * retrofit2 目前由于服务器是第三方的所以暂时还未用到
 
+**注意**:大部分是使用kotlin实现,但是由于dagger2生成的类在初期有点问题,所以dagger2部分使用JAVA,若要用纯Kotlin实现，请参考以下步骤
+&emsp; 1. module/build.gradle中修改 apt 'com.google.dagger:dagger-compiler:2.0.2'为 kapt "com.google.dagger:dagger-compiler:2.0.1"
+&emsp; 2. 参考文章: [kotlin-dagger2][6]
+
 ## **代码框架**
 ### 以下github项目给与启发
 * [ribot][1] by ribot
@@ -37,4 +41,5 @@
   [2]: https://github.com/glomadrian/MvpCleanArchitecture
   [3]: https://github.com/JorgeCastilloPrz/EasyMVP
   [4]: http://67.media.tumblr.com/51e747b66b06ab7809d04005bb703510/tumblr_o6jyzoy4As1vtu5g9o1_1280.jpg
-  [5]:https://github.com/pedrovgs/EffectiveAndroidUI
+  [5]: https://github.com/pedrovgs/EffectiveAndroidUI
+  [6]: https://github.com/damianpetla/kotlin-dagger-example
