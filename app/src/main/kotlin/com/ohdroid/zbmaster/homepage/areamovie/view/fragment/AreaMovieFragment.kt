@@ -2,6 +2,7 @@ package com.ohdroid.zbmaster.homepage.areamovie.view.fragment
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
@@ -85,9 +86,13 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
         }
     }
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        component.inject(this)
+    }
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater?.inflate(R.layout.fragment_area_movie, container, false)
-        component.inject(this)
         presenter.attachView(this)
 
         return view
