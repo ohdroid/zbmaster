@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -13,45 +14,82 @@
 
 
     <FrameLayout
-        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_mode_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="24dp"
+            android:layout_marginRight="24dp"
+            android:background="@color/bottom_menu_bg_color"
+            android:src="@mipmap/mode_ds"
+            app:fabSize="normal"
+            app:rippleColor="@color/colorPrimaryDark" />
     </FrameLayout>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="#b2b2b2" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/hint_spoof_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="top"
+            android:layout_weight="1"
+            android:background="?attr/colorPrimary" />
+
+        <TextView
+            android:id="@+id/hint_post_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_weight="1"
+            android:background="@color/bottom_menu_bg_color" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layout_bottom_menu"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_menu_height"
+        android:background="@color/bottom_menu_bg_color"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <LinearLayout
             android:id="@+id/menu_spoof"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/menu_spoof_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/bottom_menu_image_height"
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
                 android:src="@mipmap/bottom_menu_eye" />
 
             <TextView
                 android:id="@+id/menu_spoof_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/menu_spoof"
+                android:textColor="#fff"
                 android:textSize="@dimen/bottom_menu_text_size" />
 
         </LinearLayout>
@@ -59,23 +97,26 @@
         <LinearLayout
             android:id="@+id/menu_movie"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/menu_movie_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/bottom_menu_image_height"
+                android:layout_gravity="center"
+                android:layout_marginTop="3dp"
                 android:src="@mipmap/bottom_menu_post" />
 
             <TextView
                 android:id="@+id/menu_movie_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="center"
                 android:text="@string/menu_movie"
+                android:textColor="#fff"
                 android:textSize="@dimen/bottom_menu_text_size" />
 
         </LinearLayout>

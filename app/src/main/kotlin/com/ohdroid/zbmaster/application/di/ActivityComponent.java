@@ -1,6 +1,7 @@
 package com.ohdroid.zbmaster.application.di;
 
 import com.ohdroid.zbmaster.application.di.exannotation.PerActivity;
+import com.ohdroid.zbmaster.application.rxbus.RxBus;
 import com.ohdroid.zbmaster.facesync.FaceSyncFragment;
 import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenter;
 import com.ohdroid.zbmaster.homepage.HomePageActivity;
@@ -23,6 +24,9 @@ import dagger.Component;
 @PerActivity
 @Component(dependencies = ApplicationComponent.class, modules = {ActivityModule.class})
 public interface ActivityComponent {
+
+    RxBus rxBus();
+
     //==============================login 模块==================================
     void inject(LoginFragment loginFragment);
 
@@ -37,7 +41,7 @@ public interface ActivityComponent {
 
 
     //==============================home page 模块==================================
-//    void inject(HomePageActivity homePageActivity);
+    void inject(HomePageActivity homePageActivity);
 
     //==============================face area 模块==================================
     void inject(AreaFaceDetailFragment faceDetailFragment);

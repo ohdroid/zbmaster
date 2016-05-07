@@ -20,11 +20,13 @@ import android.widget.TextView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.ex.showToast
+import com.ohdroid.zbmaster.application.rxbus.RxBus
 import com.ohdroid.zbmaster.application.view.recycleview.OnRecycleViewItemClickListener
 import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewHeaderFooterAdapter
 import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewLoadMoreListener
 import com.ohdroid.zbmaster.application.view.recycleview.RecyclerViewAddViewHelper
 import com.ohdroid.zbmaster.base.view.BaseFragment
+import com.ohdroid.zbmaster.homepage.areamovie.event.ListScrollEvent
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieListView
@@ -51,6 +53,9 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     var mMovieListAdapterWrap: RecycleViewHeaderFooterAdapter<MovieViewHolder>? = null
 
     lateinit var presenter: MovieListPresenter
+        @Inject set
+
+    lateinit var rxBus: RxBus
         @Inject set
 
     var datas = ArrayList<MovieInfo>()
@@ -98,6 +103,12 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
 
         mMovieGifList.layoutManager = LinearLayoutManager(context)
         mMovieGifList.addOnScrollListener(loadMoreListener)
+        mMovieGifList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                rxBus.send(ListScrollEvent(dy))
+            }
+        })
+
         if (null == mMovieListAdapter) {
             mMovieListAdapter = MovieListAdapter(datas)
             mMovieListAdapter!!.listener = object : OnRecycleViewItemClickListener {

@@ -14,12 +14,14 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.ex.showToast
+import com.ohdroid.zbmaster.application.rxbus.RxBus
 import com.ohdroid.zbmaster.application.view.recycleview.OnRecycleViewItemClickListener
 import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewHeaderFooterAdapter
 import com.ohdroid.zbmaster.application.view.recycleview.RecycleViewLoadMoreListener
@@ -30,6 +32,7 @@ import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
 import com.ohdroid.zbmaster.homepage.areaface.presenter.imp.AreaFacePresenterImp
 import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceView
 import com.ohdroid.zbmaster.homepage.areaface.view.activity.AreaFaceDetailActivity
+import com.ohdroid.zbmaster.homepage.areamovie.event.ListScrollEvent
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.support.v4.find
@@ -49,6 +52,9 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
     var faceListAdapterWrap: RecycleViewHeaderFooterAdapter<FaceViewHolder>? = null
 
     lateinit var presenter: AreaFacePresenter
+        @Inject set
+
+    lateinit var rxBus: RxBus
         @Inject set
 
     var mRecycleViewFootView: TextView? = null
@@ -98,6 +104,11 @@ class AreaFaceFragment : BaseFragment(), AreaFaceView {
 
 
         faceList.addOnScrollListener(loadMoreListener)
+        faceList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                rxBus.send(ListScrollEvent(dy))
+            }
+        })
 
         faceList.layoutManager = LinearLayoutManager(context)
         if (null == faceListAdapter) {

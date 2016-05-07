@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="#97000000"
+        android:background="@drawable/home_page_item_bg"
         android:maxLines="1"
         android:padding="8dp"
         android:text="image description"
