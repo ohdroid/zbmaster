@@ -6,12 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.ohdroid.zbmaster.homepage.SplashActivity">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/star_view"
+    <ImageView
+        android:id="@+id/iv_splash"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:actualImageScaleType="centerCrop"
-        app:placeholderImage="@mipmap/splsh_holder_image"
-        app:placeholderImageScaleType="fitXY" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

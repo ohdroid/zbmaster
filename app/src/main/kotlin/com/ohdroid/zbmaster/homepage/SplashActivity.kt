@@ -1,14 +1,7 @@
 package com.ohdroid.zbmaster.homepage
 
-import android.content.ContentResolver
-import android.graphics.drawable.Animatable
-import android.net.Uri
 import android.os.Bundle
-import android.os.PersistableBundle
-import com.facebook.drawee.backends.pipeline.Fresco
-import com.facebook.drawee.controller.BaseControllerListener
-import com.facebook.drawee.view.SimpleDraweeView
-import com.facebook.imagepipeline.image.ImageInfo
+import android.widget.ImageView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.base.view.BaseActivity
 import org.jetbrains.anko.find
@@ -19,6 +12,7 @@ import org.jetbrains.anko.find
 class SplashActivity : BaseActivity() {
 
     //    val mSimpleDraweeView by lazy { find<SimpleDraweeView>(R.id.star_view) }
+    val splashView: ImageView by lazy { find<ImageView>(R.id.iv_splash) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

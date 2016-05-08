@@ -10,7 +10,7 @@
     android:layout_marginRight="16dp"
     android:layout_marginTop="8dp"
     app:cardCornerRadius="4dp"
-    app:cardElevation="4dp">
+    app:cardElevation="2dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/item_image"

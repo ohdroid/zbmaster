@@ -58,16 +58,16 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".homepage.areaface.view.activity.AreaFaceDetailActivity" />
         <activity android:name=".homepage.areamovie.view.activity.MovieDetailActivity" />
-        <!-- <activity -->
-        <!-- android:name=".homepage.SplashActivity" -->
-        <!-- android:theme="@style/Fullscreen"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!--<activity-->
+            <!--android:name=".homepage.SplashActivity"-->
+            <!--android:theme="@style/Fullscreen">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
 
-        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
         <activity android:name=".homepage.TestActivity">
             <!--<intent-filter>-->
             <!--<action android:name="android.intent.action.MAIN" />-->
