@@ -1,87 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/root_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/image_height">
-
-        <com.ohdroid.zbmaster.application.view.progress.CircleProgress
-            android:id="@+id/loading_view"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:layout_gravity="center" />
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/sdv_movie"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/image_height"
-            app:actualImageScaleType="centerCrop" />
-
-    </FrameLayout>
-
-
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/srf_layout"
+    <LinearLayout
+        android:id="@+id/root_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_marginBottom="60dp"
+        android:orientation="vertical">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_movie_detail"
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/image_height">
+
+            <com.ohdroid.zbmaster.application.view.progress.CircleProgress
+                android:id="@+id/loading_view"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center" />
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_movie"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/image_height"
+                app:actualImageScaleType="centerCrop" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/movie_detail_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:id="@+id/movieCreateTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="2016年5月15日10:27:01" />
+
+            <Button
+                android:id="@+id/btn_share"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@mipmap/share" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:background="#33000000" />
+
+        <!--由于目前还未有更多类型的评论所以暂时写在这里-->
+        <TextView
+            android:id="@+id/hint_last_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/hint_last_comment"
+            android:textColor="?attr/colorPrimary" />
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srf_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp" />
+            android:layout_weight="1">
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_movie_detail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="8dp" />
 
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+
+    <!--暂时不做-->
+    <!--<android.support.design.widget.FloatingActionButton-->
+    <!--android:id="@+id/fab_add_comment"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_gravity="bottom|right"-->
+    <!--android:layout_marginBottom="24dp"-->
+    <!--android:layout_marginRight="24dp"-->
+    <!--android:background="@color/bottom_menu_bg_color"-->
+    <!--android:src="@mipmap/mode_ds"-->
+    <!--android:visibility="invisible"-->
+    <!--app:fabSize="normal"-->
+    <!--app:rippleColor="@color/colorPrimaryDark" />-->
 
     <LinearLayout
         android:id="@+id/layout_comment_edit"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fff"
-        android:gravity="bottom"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom"
+        android:background="#FF212121"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingTop="8dp">
+        android:padding="10dp"
+        android:visibility="visible">
 
-        <com.rengwuxian.materialedittext.MaterialEditText
+        <EditText
             android:id="@+id/et_comment"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
+            android:layout_height="40dp"
             android:layout_weight="1"
+            android:background="@drawable/comment_et_bg"
+            android:hint="@string/hint_et_comment"
+            android:lines="1"
             android:maxLines="1"
-            app:met_maxCharacters="30"
-            app:met_minCharacters="1" />
+            android:padding="10dp" />
 
         <Button
             android:id="@+id/btn_send"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="65dp"
+            android:layout_height="40dp"
             android:layout_gravity="bottom"
-            android:text="发送" />
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/btn_send_comment"
+            android:text="发送"
+            android:textColor="#fff"
+            android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/btn_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="收藏"
-            android:visibility="gone" />
+        <!--<Button-->
+        <!--android:id="@+id/btn_favorite"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:text="收藏"-->
+        <!--android:visibility="gone" />-->
 
-        <Button
-            android:id="@+id/btn_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:text="分享" />
+        <!--<Button-->
+        <!--android:id="@+id/btn_share"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:text="分享" />-->
 
 
     </LinearLayout>
-
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

@@ -1,5 +1,7 @@
 package com.ohdroid.zbmaster.login.view
 
+import android.app.Activity
+import android.support.v4.app.Fragment
 import com.ohdroid.zbmaster.application.BaseView
 
 /**
@@ -20,4 +22,9 @@ interface LoginView : BaseView {
      * 登录失败
      */
     fun loginFailed(errorMessage: String)
+
+    /**
+     * 由于QQ登录使用所以这里返回Fragment
+     */
+    fun getCurrentFragment(): Fragment
 }

@@ -70,7 +70,7 @@ class ShareHelper {
         var fileName = file.absolutePath
         var tFileName = SDCardUtils.SD_PIC + File.separator + "temp.gif"
         Observable
-                .create(Observable.OnSubscribe<Boolean> { //先拷贝文件到临时文件,然后分享,这里修改成fresco的pipeline形式，后期该
+                .create(Observable.OnSubscribe<Boolean> { //先拷贝文件到临时文件,然后分享,这里修改成fresco的pipeline形式，后期改
                     //                    it.onNext(SDCardUtils.copyFile(fileName, tFileName))
                     it.onNext(FileUtils.copyFile(fileName, tFileName, true))
                 })

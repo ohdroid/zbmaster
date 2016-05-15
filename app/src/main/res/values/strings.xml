@@ -8,7 +8,9 @@
 
     <string name="hint_retry">重试</string>
     <string name="hint_no_data">木有看到数据，我给你找编辑主管去！！</string>
-
+    <string name="hint_last_comment">最新评论</string>
+    <string name="hint_et_comment">做一个有骚气的喷子~</string>
+    <string name="hint_quit_app">再按一次退出应用</string>
 
     <!--error-->
     <string name="hint_no_net_work">骚年请去把网连好再来~~~~</string>

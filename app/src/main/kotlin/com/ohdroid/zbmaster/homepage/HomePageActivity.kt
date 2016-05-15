@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
@@ -207,5 +208,19 @@ class HomePageActivity : BaseActivity() {
         supportFragmentManager.beginTransaction()
                 .hide(fragment)
                 .commit()
+    }
+
+    var countNum: Int = 1
+    override fun onBackPressed() {
+        if (countNum > 0) {
+            countNum--
+            showToast(resources.getString(R.string.hint_quit_app))
+            menuMovie.postDelayed({
+                countNum++
+            }, 2000)
+        } else {
+            //TODO 添加activity manager 来完全退出应用
+            this.finish()
+        }
     }
 }

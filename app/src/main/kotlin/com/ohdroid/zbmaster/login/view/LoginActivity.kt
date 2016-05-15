@@ -28,5 +28,4 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_layout)
     }
-
 }

@@ -1,6 +1,7 @@
 package com.ohdroid.zbmaster.homepage.areamovie.presenter.imp
 
 import android.content.Context
+import cn.bmob.v3.BmobUser
 import cn.bmob.v3.listener.SaveListener
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.data.DataManager
@@ -86,8 +87,8 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
         requestParams.put("includeInfo", "commentAuthor")
         movieCommentBusiness.requestParams = requestParams
         movieCommentBusiness.context = context
-//        movieCommentBusiness.getCommentList()
-                movieCommentBusiness.findList()
+        //        movieCommentBusiness.getCommentList()
+        movieCommentBusiness.findList()
                 .observeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter {

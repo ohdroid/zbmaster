@@ -1,5 +1,7 @@
 package com.ohdroid.zbmaster.login.presenter;
 
+import android.content.Intent;
+
 import com.ohdroid.zbmaster.application.BasePresenter;
 import com.ohdroid.zbmaster.login.model.AccountInfo;
 import com.ohdroid.zbmaster.login.view.LoginView;
@@ -20,5 +22,13 @@ public interface LoginPresenter extends BasePresenter<LoginView> {
 
     void login(AccountInfo accountInfo);
 
+    void qqLogin();
+
+    void handleQQLoginResult(int requestCode, int resultCode, Intent data);
+
+    void qqQuit();
+
     void register(AccountInfo accountInfo);
+
+
 }

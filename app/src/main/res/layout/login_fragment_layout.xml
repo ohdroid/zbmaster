@@ -51,4 +51,11 @@
         android:text="@string/register_hint"
         android:textColor="?attr/colorPrimary"
         android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/btn_qq_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="qq_login" />
 </LinearLayout>

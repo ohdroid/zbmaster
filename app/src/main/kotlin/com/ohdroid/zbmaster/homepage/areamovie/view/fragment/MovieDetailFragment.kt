@@ -13,6 +13,7 @@ import android.text.TextUtils
 import android.util.TypedValue
 import android.view.*
 import android.widget.Button
+import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.facebook.drawee.backends.pipeline.Fresco
@@ -55,6 +56,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     val mHeadSdv: SimpleDraweeView by lazy { find<SimpleDraweeView>(R.id.sdv_movie) }
     val mRefreshLayout: SwipeRefreshLayout by lazy { find<SwipeRefreshLayout>(R.id.srf_layout) }
     val mLoadingView: CircleProgress by lazy { find<CircleProgress>(R.id.loading_view) }
+    val mMovieCreateTime: TextView by lazy { find<TextView>(R.id.movieCreateTime) }
     var mMovieCommentAdapter: MovieDetailAdapter? = null
     var mMovieDetailAdapterWrap: RecycleViewHeaderFooterAdapter<MovieDetailViewHolder>? = null
     var mMovieComment: MutableList<MovieComment>? = null
@@ -64,7 +66,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     val mBtnSend: Button by lazy { find<Button>(R.id.btn_send) }
     val mBtnShare: Button by lazy { find<Button>(R.id.btn_share) }
     val mEtLayout: View by lazy { find<View>(R.id.layout_comment_edit) }
-    val mEtComment: MaterialEditText by lazy { find<MaterialEditText>(R.id.et_comment) }
+    val mEtComment: EditText by lazy { find<EditText>(R.id.et_comment) }
 
     val mBtnOnClickListener: View.OnClickListener = View.OnClickListener { v ->
         when (v?.id) {
@@ -135,10 +137,7 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-
-
-        //        val preComment: String? = savedInstanceState?.getString("preEtContent")
-        //        mEtComment.setText(preComment ?: "")
+        mMovieCreateTime.text = movieInfo.createdAt
 
         //rx set,TODO unsubscribe
         RxView.clicks(mBtnSend).throttleFirst(3, TimeUnit.SECONDS)//防止短时间类刷屏行为
