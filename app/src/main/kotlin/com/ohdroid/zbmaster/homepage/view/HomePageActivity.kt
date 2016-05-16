@@ -162,8 +162,16 @@ class HomePageActivity : BaseActivity(), HomePageView {
             R.id.menu_movie -> showMoviePage()
             R.id.menu_spoof -> showSpoofPage()
             R.id.login_tv -> presetner.loginOrQuit()
-            R.id.about_tv -> showToast("关于页面还在写~~")
+            R.id.about_tv -> showAboutPage()
         }
+    }
+
+    /**
+     * 跳转关于页面
+     */
+    fun showAboutPage() {
+        showToast("关于页面还在写~~")
+        //调用方法，Activity页面写一个launch的静态方法，传入context就可以跳转了，intent请在launcher方法中构建
     }
 
 
