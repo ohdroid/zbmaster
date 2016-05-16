@@ -1,52 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_marginTop="2.5dp"
+    android:orientation="horizontal"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/comment_author_photo"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        app:placeholderImage="@mipmap/image_holder"
+        app:roundAsCircle="true" />
+
+    <TextView
+        android:id="@+id/comment_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="4dp">
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@id/comment_author_photo"
+        android:text="本宝宝"
+        android:textColor="#000"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/comment_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="left"
-            android:paddingLeft="12dp"
-            android:text="本宝宝"
-            android:textColor="#000"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/comment_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:gravity="right"
-            android:paddingRight="12dp"
-            android:text="2016年4月12日12:32:20"
-            android:textSize="12sp" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/comment_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/comment_name"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@id/comment_name"
+        android:gravity="right"
+        android:text="2016年4月12日12:32:20"
+        android:textColor="#42000000"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/comment_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:layout_below="@id/comment_time"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_toRightOf="@id/comment_author_photo"
         android:text="commentsdjflaf;aldjfkj"
-        android:textSize="18sp" />
+        android:textColor="#8A000000"
+        android:textSize="14sp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_below="@id/comment_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="#c2c2c2" />
 
-</LinearLayout>
+</RelativeLayout>

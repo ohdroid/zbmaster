@@ -16,6 +16,12 @@
     <string name="hint_no_net_work">骚年请去把网连好再来~~~~</string>
     <string name="hint_retry_get_data">重新获取数据中...</string>
 
+    <!--侧滑菜单-->
+    <string name="menu_about">关于</string>
+    <string name="menu_quit_login">退出登录</string>
+    <string name="menu_login">有敢点我试一试？</string>
+    <string name="menu_no_login">未登录</string>
+
 
     <!--登录注册-->
     <string name="register_hint">现在就注册</string>
@@ -62,5 +68,6 @@
     <string name="hint_no_comment_input">请输入评论后再发送OK?</string>
     <string name="hint_add_comment_success">骚年你的这一句话世界都在颤抖</string>
     <string name="hint_no_comment_data">暂无评论,骚年展示你的污妖之力吧！</string>
+    <string name="author_name">内测用户-%1$s</string>
 
 </resources>

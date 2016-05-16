@@ -4,9 +4,9 @@ import com.ohdroid.zbmaster.application.di.exannotation.PerActivity;
 import com.ohdroid.zbmaster.application.rxbus.RxBus;
 import com.ohdroid.zbmaster.facesync.FaceSyncFragment;
 import com.ohdroid.zbmaster.facesync.presenter.FaceSyncPresenter;
-import com.ohdroid.zbmaster.homepage.HomePageActivity;
+import com.ohdroid.zbmaster.homepage.presenter.HomePagePresenter;
+import com.ohdroid.zbmaster.homepage.view.HomePageActivity;
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter;
-import com.ohdroid.zbmaster.homepage.areaface.presenter.imp.AreaFacePresenterImp;
 import com.ohdroid.zbmaster.homepage.areaface.view.fragment.AreaFaceDetailFragment;
 import com.ohdroid.zbmaster.homepage.areaface.view.fragment.AreaFaceFragment;
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter;
@@ -42,6 +42,8 @@ public interface ActivityComponent {
 
     //==============================home page 模块==================================
     void inject(HomePageActivity homePageActivity);
+
+    HomePagePresenter homePagePresenter();
 
     //==============================face area 模块==================================
     void inject(AreaFaceDetailFragment faceDetailFragment);

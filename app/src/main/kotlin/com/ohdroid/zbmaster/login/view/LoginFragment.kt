@@ -31,13 +31,15 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
     val loginBtn: Button by lazy {
         find<Button>(R.id.btn_login)
     }
-    val registerBtn: TextView by lazy {
-        find<TextView>(R.id.btn_register)
-    }
+    //    val registerBtn: TextView by lazy {
+    //        find<TextView>(R.id.btn_register)
+    //    }
 
     val mQQLoginBtn: Button by lazy { find<Button>(R.id.btn_qq_login) }
     val userName: MaterialEditText by lazy { find<MaterialEditText>(R.id.et_name) }
     val userPassword: MaterialEditText  by lazy { find<MaterialEditText>(R.id.et_password) }
+
+    val loadingView: View by lazy { find<View>(R.id.loading_view) }
 
     lateinit var loginPresenter: LoginPresenter
         @Inject set
@@ -78,7 +80,7 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
         super.onViewCreated(view, savedInstanceState)
 
         loginBtn.setOnClickListener(this)
-        registerBtn.setOnClickListener(this)
+        //        registerBtn.setOnClickListener(this)
         mQQLoginBtn.setOnClickListener(this)
     }
 
@@ -90,18 +92,27 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
     override fun onClick(btn: View?) {
         when (btn?.id) {
             R.id.btn_login -> login()
-            R.id.btn_register -> register()
             R.id.btn_qq_login -> qqLogin()
+        //            R.id.btn_register -> register()
         }
     }
 
+    fun showLoadingView() {
+        loadingView.visibility = View.VISIBLE
+    }
+
+    fun hideLoadingView() {
+        loadingView.visibility = View.GONE
+    }
+
     fun qqLogin() {
+        showLoadingView()
         loginPresenter.qqLogin()
     }
 
-    fun register() {
-        RegisterFragment.launch(activity.supportFragmentManager, R.id.fragment_container)
-    }
+    //    fun register() {
+    //        RegisterFragment.launch(activity.supportFragmentManager, R.id.fragment_container)
+    //    }
 
     fun login() {
         if (TextUtils.isEmpty(userName.text.toString())) {
@@ -114,10 +125,17 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
             return
         }
 
+        showLoadingView()
+
         val accountInfo: AccountInfo = AccountInfo()
         accountInfo.username = userName.text.toString()
         accountInfo.setPassword(userPassword.text.toString())
         loginPresenter.login(accountInfo)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadingView.visibility = View.GONE
     }
 
     //===============================响应行为相关==============================
@@ -131,8 +149,8 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
     }
 
     override fun loginFailed(errorMessage: String) {
+        hideLoadingView()
         showToast(errorMessage)
-        //        showToast(getString(R.string.login_error))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -17,19 +17,23 @@ import javax.inject.Singleton
  */
 @Singleton
 class LoginManager : AccountManager {
+
     lateinit var context: Context
     var accountManager: AccountManager? = null
 
     @Inject
     constructor(@ForApplication context: Context) {
         this.context = context
-        println("init Login manager")
         accountManager = BmobLoginManager(context)
     }
 
 
     override fun login(accountInfo: AccountInfo, saveListener: SaveListener) {
         accountManager?.login(accountInfo, saveListener)
+    }
+
+    override fun exit() {
+        accountManager?.exit()
     }
 
     override fun regist(accountInfo: AccountInfo, registerListener: LoginListener) {

@@ -46,9 +46,9 @@ public class ActivityModule {
     //=======================login 模块======================================
     @Provides
     @PerActivity
-    public LoginPresenter provideLoginPresenter(DataManager dataManager) {
+    public LoginPresenter provideLoginPresenter(DataManager dataManager, RxBus rxBus) {
         System.out.println("==========provideLoginPresenter->" + dataManager);
-        return new LoginPresenterImp(provideContext(), dataManager);
+        return new LoginPresenterImp(provideContext(), dataManager, rxBus);
     }
 
 

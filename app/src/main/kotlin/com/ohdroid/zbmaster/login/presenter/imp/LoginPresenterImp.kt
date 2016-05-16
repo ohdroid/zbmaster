@@ -6,10 +6,13 @@ import android.content.Intent
 import cn.bmob.v3.BmobUser
 import cn.bmob.v3.listener.OtherLoginListener
 import cn.bmob.v3.listener.SaveListener
+import cn.bmob.v3.listener.UpdateListener
 import com.ohdroid.zbmaster.BuildConfig
 import com.ohdroid.zbmaster.application.data.DataManager
+import com.ohdroid.zbmaster.application.rxbus.RxBus
 import com.ohdroid.zbmaster.base.view.BaseActivity
 import com.ohdroid.zbmaster.login.data.LoginManager
+import com.ohdroid.zbmaster.login.event.UserInfoUpdateEvent
 import com.ohdroid.zbmaster.login.model.AccountInfo
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter
 import com.ohdroid.zbmaster.login.view.LoginView
@@ -25,11 +28,13 @@ import org.json.JSONObject
 /**
  * Created by ohdroid on 2016/2/25.
  */
-class LoginPresenterImp constructor(var activity: Activity, val dataManager: DataManager) : LoginPresenter {
+class LoginPresenterImp constructor(var activity: Activity, val dataManager: DataManager, val rxBus: RxBus) : LoginPresenter {
 
 
     var loginView: LoginView? = null
     var registerView: RegisterView? = null
+
+
     override fun detachView() {
         this.loginView = null;
     }
@@ -65,6 +70,7 @@ class LoginPresenterImp constructor(var activity: Activity, val dataManager: Dat
             }
 
             override fun onSuccess() {
+                rxBus.send(UserInfoUpdateEvent())
                 loginView?.loginSuccess()
             }
         })
@@ -78,25 +84,7 @@ class LoginPresenterImp constructor(var activity: Activity, val dataManager: Dat
             }
             val jsonResult: JSONObject = p0
 
-            println("QQ login result -->${jsonResult.toString()}")
-
-            //QQ登录成功后获取用户的信息
-            val userInfoListener: IUiListener = object : IUiListener {
-                override fun onComplete(p0: Any?) {
-                    println("user info--->>$p0")
-                }
-
-                override fun onCancel() {
-                }
-
-                override fun onError(p0: UiError?) {
-                }
-
-            }
-
-            getQQUserInfo(jsonResult, userInfoListener)
-
-            //QQ授权成功后，在BMOB服务器通过access_token验证
+            //2.QQ授权成功后，在BMOB服务器通过access_token验证
             val authInfo: BmobUser.BmobThirdUserAuth = BmobUser.BmobThirdUserAuth(
                     "qq",
                     jsonResult.getString("access_token"),
@@ -106,7 +94,26 @@ class LoginPresenterImp constructor(var activity: Activity, val dataManager: Dat
             BmobUser.loginWithAuthData(activity, authInfo, object : OtherLoginListener() {
                 override fun onSuccess(p0: JSONObject?) {
                     println("bmob login success------->>$p0")
-                    //用户Bmob登录成功后根据QQ返回的用户信息更新Bmob的用户信息
+                    //3.QQ登录成功后获取用户的信息
+                    val userInfoListener: IUiListener = object : IUiListener {
+                        override fun onComplete(p0: Any?) {
+                            println("user info--->>$p0")
+                            //4.用户Bmob登录成功后根据QQ返回的用户信息更新Bmob的用户信息
+                            updateBmobUserInfo(p0 as JSONObject)
+                        }
+
+                        override fun onCancel() {
+                        }
+
+                        override fun onError(p0: UiError?) {
+                        }
+
+                    }
+
+                    //获取详细的用户信息
+                    getQQUserInfo(jsonResult, userInfoListener)
+
+
                 }
 
                 override fun onFailure(p0: Int, p1: String?) {
@@ -132,22 +139,44 @@ class LoginPresenterImp constructor(var activity: Activity, val dataManager: Dat
         info.getUserInfo(listener);
     }
 
+    fun updateBmobUserInfo(userInfo: JSONObject) {
+        val newAccountInfo: AccountInfo = AccountInfo()
+        val accountInfo = BmobUser.getCurrentUser(activity, AccountInfo::class.java)
+        newAccountInfo.nickName = userInfo.getString("nickname")
+        newAccountInfo.photoUrl = userInfo.getString("figureurl_qq_2")
+        newAccountInfo.update(activity, accountInfo.objectId, object : UpdateListener() {
+            override fun onSuccess() {
+//                println("bmob 用户数据更新成功")
+                //发送登录成功事件，更新各个页面
+                rxBus.send(UserInfoUpdateEvent())
+                //退出登陆界面
+                loginView?.loginSuccess()
+            }
+
+            override fun onFailure(p0: Int, p1: String?) {
+                loginView?.loginFailed("$p0:$p1")
+            }
+        })
+    }
+
     /**
      * qq第三方登录
+     * 这里逻辑稍微有点绕，理一下：
+     * 1.QQ登陆授权
+     * 2.使用QQ授权返回的信息在Bmob平台上登录
+     * 3.通过QQ授权反馈的信息，再向QQ请求详细的用户信息
+     * 4.通过获取的客户信息更新Bmob平台的用户信息
+     * 其中的2.3步可以同时请求，但是有个数据回调先后问题，这里先按层次回调，后面使用Rx重构下
      */
     override fun qqLogin() {
-
-        //        println("=tencent login========>>${dataManager.tencentManager}")
-        //        dataManager.tencentManager.login(loginView?.getCurrentActivity(), "get_user_info", listener);
         dataManager.tencentManager.login(loginView?.getCurrentFragment(), "all", listener);
     }
 
     override fun handleQQLoginResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Tencent.onActivityResultData(requestCode, resultCode, data, listener);
-        if (requestCode == Constants.REQUEST_API) {
-            if (resultCode == Constants.REQUEST_LOGIN) {
-                Tencent.handleResultData(data, listener);
-            }
+
+        if (requestCode == Constants.REQUEST_LOGIN ||
+                requestCode == Constants.REQUEST_APPBAR) {
+            Tencent.onActivityResultData(requestCode, resultCode, data, listener);
         }
     }
 

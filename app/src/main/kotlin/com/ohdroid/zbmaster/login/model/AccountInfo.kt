@@ -11,4 +11,8 @@ class AccountInfo constructor() : BmobUser(), Serializable {
 
     var photoUrl: String? = ""
 
+    /**
+     * 用户昵称
+     */
+    var nickName: String = ""
 }

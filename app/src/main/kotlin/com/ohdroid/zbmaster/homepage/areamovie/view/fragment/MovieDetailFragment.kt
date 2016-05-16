@@ -42,6 +42,7 @@ import com.tencent.tauth.IUiListener
 import com.tencent.tauth.UiError
 import org.jetbrains.anko.find
 import org.jetbrains.anko.support.v4.find
+import org.jetbrains.anko.textColor
 import java.util.*
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -297,11 +298,24 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
 
         fun build(comment: MovieComment) {
             val authorName = itemView.find<TextView>(R.id.comment_name)
-            authorName.text = comment.commentAuthor?.username
+
+            if (TextUtils.isEmpty(comment.commentAuthor?.nickName)) {
+                //内测用户直接显示账号
+                authorName.setTextColor(Color.parseColor("#FF5177"))
+                authorName.text = comment.commentAuthor?.username
+            } else {
+                authorName.setTextColor(Color.parseColor("#000000"))
+                authorName.text = comment.commentAuthor?.nickName
+            }
+
             val commentTime = itemView.find<TextView>(R.id.comment_time)
             commentTime.text = comment.createdAt
             val commentContent = itemView.find<TextView>(R.id.comment_content)
             commentContent.text = comment.comment
+            val authorPhoto = itemView.find<SimpleDraweeView>(R.id.comment_author_photo)
+            if (!TextUtils.isEmpty(comment.commentAuthor?.photoUrl)) {
+                authorPhoto.setImageURI(Uri.parse(comment.commentAuthor?.photoUrl), null)//内部还是通过controllerbuidler控制的
+            }
         }
     }
 
@@ -323,12 +337,12 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
     }
 
 
-    //=================================presneter 暴露接口===================================
+    //=================================presenter 暴露接口===================================
 
     override fun showComment(commentList: MutableList<MovieComment>, isHasMore: Boolean) {
         mMovieDetailAdapterWrap?.removeAllFootView()
 
-        if (activity.isFinishing) {
+        if (activity == null || activity.isFinishing) {
             return
         }
 

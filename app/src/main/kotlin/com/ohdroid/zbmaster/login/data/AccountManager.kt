@@ -23,4 +23,9 @@ interface AccountManager {
      * 获取账号信息
      */
     fun getUserAccount(): AccountInfo?
+
+    /**
+     * 退出登录
+     */
+    fun exit()
 }

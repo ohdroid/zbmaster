@@ -39,7 +39,6 @@ class BmobLoginManager constructor(val context: Context) : AccountManager {
         accountInfo.login(context, object : SaveListener() {
             override fun onSuccess() {
                 userInfo = accountInfo
-                println("user info=============>>${userInfo?.objectId}")
                 saveListener.onSuccess()
             }
 
@@ -51,10 +50,13 @@ class BmobLoginManager constructor(val context: Context) : AccountManager {
         })
     }
 
+    override fun exit() {
+        BmobUser.logOut(context)
+    }
+
 
     override fun getUserAccount(): AccountInfo? {
-        println("get   user info=============>>${userInfo?.objectId}")
-        return userInfo
+        return BmobUser.getCurrentUser(context, AccountInfo::class.java)
     }
 
 

@@ -112,7 +112,6 @@ class AreaFaceDetailFragment : BaseFragment(), View.OnClickListener {
         //设置为自动播放
         val controller: DraweeController = Fresco.newDraweeControllerBuilder()
                 .setUri(Uri.parse(faceInfo.faceUrl))
-                .setTapToRetryEnabled(true)//点击重播
                 .setAutoPlayAnimations(true)//自动播放
                 .build()
         ivFaceDetail.controller = controller

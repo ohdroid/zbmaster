@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center"
         fresco:actualImageScaleType="fitCenter"
-        fresco:placeholderImage="@mipmap/ic_launcher" />
+        fresco:placeholderImage="@mipmap/image_holder" />
 
 
     <LinearLayout

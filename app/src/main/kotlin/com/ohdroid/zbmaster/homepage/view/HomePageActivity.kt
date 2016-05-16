@@ -1,52 +1,58 @@
-package com.ohdroid.zbmaster.homepage
+package com.ohdroid.zbmaster.homepage.view
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
+import android.text.TextUtils
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
-import com.jakewharton.rxbinding.widget.RxRadioGroup
+import cn.bmob.v3.BmobUser
+import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
+import com.ohdroid.zbmaster.application.di.exannotation.PerActivity
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.application.rxbus.RxBus
 import com.ohdroid.zbmaster.base.view.BaseActivity
 import com.ohdroid.zbmaster.homepage.areaface.view.fragment.AreaFaceFragment
 import com.ohdroid.zbmaster.homepage.areamovie.event.ListScrollEvent
 import com.ohdroid.zbmaster.homepage.areamovie.view.fragment.AreaMovieFragment
+import com.ohdroid.zbmaster.homepage.presenter.HomePagePresenter
+import com.ohdroid.zbmaster.login.model.AccountInfo
 import com.ohdroid.zbmaster.utils.SPUtils
-import org.jetbrains.anko.backgroundColor
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.textColor
-import rx.android.schedulers.AndroidSchedulers
 import rx.subscriptions.CompositeSubscription
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
  * Created by ohdroid on 2016/4/4.
  */
-class HomePageActivity : BaseActivity() {
+class HomePageActivity : BaseActivity(), HomePageView {
 
     val menuProof: View by lazy { find<View>(R.id.menu_spoof) }
     val menuMovie: View by lazy { find<View>(R.id.menu_movie) }
     val toolbar: Toolbar by lazy { find<Toolbar>(R.id.tool_bar) }
+    val btnLogin: TextView by lazy { find<TextView>(R.id.login_tv) }
+    val btnAbout: TextView by lazy { find<TextView>(R.id.about_tv) }
+    val leftMenu: View by lazy { find<View>(R.id.left_menu) }
+    val mUserPhoto: SimpleDraweeView by lazy { find<SimpleDraweeView>(R.id.user_photo) }
+    val mUserName: TextView by lazy { find<TextView>(R.id.tv_name) }
     val mFabModelSwitch: FloatingActionButton by lazy { find<FloatingActionButton>(R.id.fab_mode_switch) }
 
     var mCurrentFragment: Fragment? = null
     lateinit var rxBus: RxBus
         @Inject set
+
+    lateinit var presetner: HomePagePresenter
+        @PerActivity @Inject set
 
     val subscriptions: CompositeSubscription = CompositeSubscription()
     var isFabShowing: Boolean = true
@@ -56,14 +62,26 @@ class HomePageActivity : BaseActivity() {
         setContentView(R.layout.activity_home_page)
         setSupportActionBar(toolbar);
         component.inject(this)
-
+        presetner.attachView(this)
         initFab()
 
         toolbar.setTitleTextColor(Color.WHITE)
 
         menuProof.setOnClickListener(menuOnClickListener)
         menuMovie.setOnClickListener(menuOnClickListener)
+        btnLogin.setOnClickListener(menuOnClickListener)
+        btnAbout.setOnClickListener(menuOnClickListener)
+
         showSpoofPage()
+
+        checkIsLogin()
+    }
+
+    /**
+     * 检测是否登录
+     */
+    fun checkIsLogin() {
+        presetner.getUserInfo()
     }
 
     fun initFab() {
@@ -75,29 +93,26 @@ class HomePageActivity : BaseActivity() {
             mFabModelSwitch.setImageResource(R.mipmap.mode_money)
         }
 
-        mFabModelSwitch.onClick { toggleMode() }
-
-        subscriptions.add(rxBus.toObservable()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    if (it is ListScrollEvent) {
-                        //滚动事件
-                        if (it.direction > 0) {
-                            if (isFabShowing) {
-                                //隐藏fab
-                                hideFab()
-                                isFabShowing = false
-                            }
-                        } else {
-                            //显示fab
-                            if (!isFabShowing) {
-                                showFab()
-                                isFabShowing = true
-                            }
-                        }
-                    }
-                }))
+        mFabModelSwitch.onClick { presetner.toggleMode() }
     }
+
+    override fun updateFabUi(it: ListScrollEvent) {
+        //滚动事件
+        if (it.direction > 0) {
+            if (isFabShowing) {
+                //隐藏fab
+                hideFab()
+                isFabShowing = false
+            }
+        } else {
+            //显示fab
+            if (!isFabShowing) {
+                showFab()
+                isFabShowing = true
+            }
+        }
+    }
+
 
     var showSet: AnimatorSet? = null
 
@@ -142,29 +157,12 @@ class HomePageActivity : BaseActivity() {
         super.onDestroy()
     }
 
-    /**
-     * gif图加载模式切换，
-     */
-    fun toggleMode() {
-
-        val isFastMode: Boolean = SPUtils.get(this, SPUtils.FAST_MODE_KEY, true) as Boolean//默认是节流模式
-        if (isFastMode) {
-            //切换到装逼模式
-            SPUtils.put(this, SPUtils.FAST_MODE_KEY, false)//设置为装逼模式，也就是加载高清图模式
-            mFabModelSwitch.setImageResource(R.mipmap.mode_money)
-            showToast(resources.getString(R.string.hint_quality_mode))
-        } else {
-            SPUtils.put(this, SPUtils.FAST_MODE_KEY, true)//设置为节流模式
-            showToast(resources.getString(R.string.hint_fast_mode))
-            mFabModelSwitch.setImageResource(R.mipmap.mode_ds)
-        }
-    }
-
-
     val menuOnClickListener = View.OnClickListener {
         when (it.id) {
             R.id.menu_movie -> showMoviePage()
             R.id.menu_spoof -> showSpoofPage()
+            R.id.login_tv -> presetner.loginOrQuit()
+            R.id.about_tv -> showToast("关于页面还在写~~")
         }
     }
 
@@ -223,4 +221,39 @@ class HomePageActivity : BaseActivity() {
             this.finish()
         }
     }
+
+
+    //----------------------------------presneter层操作接口--------------
+    override fun updateUserInfo(userInfo: AccountInfo?) {
+        if (null == userInfo) {
+            //表示退出登录，这里视图效果还原
+            mUserPhoto.setImageURI(null, null)
+            btnLogin.text = getText(R.string.menu_login)
+            mUserName.text = getText(R.string.menu_no_login)
+            return
+        }
+
+        //登录成功,更新显示用户信息
+        if (TextUtils.isEmpty(userInfo.nickName)) {
+            mUserName.text = userInfo.username
+        } else {
+            mUserName.text = userInfo.nickName
+        }
+
+        if (!TextUtils.isEmpty(userInfo.photoUrl)) {
+            mUserPhoto.setImageURI(Uri.parse(userInfo.photoUrl), null)
+        }
+
+        btnLogin.text = getText(R.string.menu_quit_login)
+    }
+
+    override fun updateModeSwitchUI(imageId: Int, hintStringId: Int) {
+        mFabModelSwitch.setImageResource(imageId)
+        showToast(resources.getString(hintStringId))
+    }
+
+    override fun showMsgHint(msg: String) {
+        showToast(msg)
+    }
+
 }

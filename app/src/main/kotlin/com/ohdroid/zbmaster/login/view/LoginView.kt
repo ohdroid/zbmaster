@@ -1,6 +1,5 @@
 package com.ohdroid.zbmaster.login.view
 
-import android.app.Activity
 import android.support.v4.app.Fragment
 import com.ohdroid.zbmaster.application.BaseView
 

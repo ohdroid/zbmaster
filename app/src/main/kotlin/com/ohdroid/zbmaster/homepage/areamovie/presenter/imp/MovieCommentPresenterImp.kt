@@ -11,6 +11,7 @@ import com.ohdroid.zbmaster.homepage.areamovie.model.MovieComment
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieCommentPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieDetailView
+import com.ohdroid.zbmaster.login.model.AccountInfo
 import com.ohdroid.zbmaster.login.view.LoginActivity
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
@@ -55,7 +56,8 @@ class MovieCommentPresenterImp(var context: Context, var dataManager: DataManage
 
     override fun addComment(commentStr: String, attachMovie: MovieInfo) {
 
-        val userAccount = dataManager.loginManger.getUserAccount()
+        //        val userAccount = dataManager.loginManger.getUserAccount()
+        val userAccount = BmobUser.getCurrentUser(context, AccountInfo::class.java)
 
         if (null == userAccount) {
             //跳转登录界面

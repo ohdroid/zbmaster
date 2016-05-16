@@ -1,4 +1,4 @@
-package com.ohdroid.zbmaster.homepage
+package com.ohdroid.zbmaster.homepage.view
 
 import android.os.Bundle
 import android.view.LayoutInflater

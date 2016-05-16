@@ -8,4 +8,6 @@
     <color name="bottom_menu_text_normal_color">#FF9B9B9B</color>
 
     <color name="hint_text_color">#8b8b8b</color>
+
+    <color name="comment_author">#000</color>
 </resources>

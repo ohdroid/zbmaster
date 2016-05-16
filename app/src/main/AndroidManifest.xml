@@ -28,7 +28,7 @@
 
         <!-- home page -->
         <activity
-            android:name=".homepage.HomePageActivity"
+            android:name=".homepage.view.HomePageActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <intent-filter>
