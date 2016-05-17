@@ -1,6 +1,5 @@
 package com.ohdroid.zbmaster.login.view
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,14 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.base.view.BaseFragment
 import com.ohdroid.zbmaster.login.model.AccountInfo
 import com.ohdroid.zbmaster.login.presenter.LoginPresenter
 import com.rengwuxian.materialedittext.MaterialEditText
-import com.tencent.connect.common.Constants
 import org.jetbrains.anko.support.v4.find
 import javax.inject.Inject
 
@@ -35,11 +32,11 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
     //        find<TextView>(R.id.btn_register)
     //    }
 
-    val mQQLoginBtn: Button by lazy { find<Button>(R.id.btn_qq_login) }
+    val mQQLoginBtn: View by lazy { find<View>(R.id.btn_qq_login) }
     val userName: MaterialEditText by lazy { find<MaterialEditText>(R.id.et_name) }
     val userPassword: MaterialEditText  by lazy { find<MaterialEditText>(R.id.et_password) }
 
-    val loadingView: View by lazy { find<View>(R.id.loading_view) }
+//    val loadingView: View by lazy { find<View>(R.id.loading_view) }
 
     lateinit var loginPresenter: LoginPresenter
         @Inject set
@@ -98,15 +95,16 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
     }
 
     fun showLoadingView() {
-        loadingView.visibility = View.VISIBLE
+//        loadingView.visibility = View.VISIBLE
     }
 
     fun hideLoadingView() {
-        loadingView.visibility = View.GONE
+//        loadingView.visibility = View.GONE
     }
 
     fun qqLogin() {
-        showLoadingView()
+//        showLoadingView()
+        showToast(resources.getString(R.string.login_waiting))
         loginPresenter.qqLogin()
     }
 
@@ -125,7 +123,7 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
             return
         }
 
-        showLoadingView()
+//        showLoadingView()
 
         val accountInfo: AccountInfo = AccountInfo()
         accountInfo.username = userName.text.toString()
@@ -135,7 +133,7 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
 
     override fun onResume() {
         super.onResume()
-        loadingView.visibility = View.GONE
+//        loadingView.visibility = View.GONE
     }
 
     //===============================响应行为相关==============================
@@ -144,12 +142,12 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
 
     override fun loginSuccess() {
         //跳转到表情同步页面
-        showToast(getString(R.string.login_ok))
+//        showToast(getString(R.string.login_ok))
         activity.finish()
     }
 
     override fun loginFailed(errorMessage: String) {
-        hideLoadingView()
+//        hideLoadingView()
         showToast(errorMessage)
     }
 

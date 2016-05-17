@@ -10,4 +10,6 @@
     <color name="hint_text_color">#8b8b8b</color>
 
     <color name="comment_author">#000</color>
+
+    <color name="login_bg_color">#FF434343</color>
 </resources>

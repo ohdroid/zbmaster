@@ -19,7 +19,7 @@
     <!--侧滑菜单-->
     <string name="menu_about">关于</string>
     <string name="menu_quit_login">退出登录</string>
-    <string name="menu_login">有敢点我试一试？</string>
+    <string name="menu_login">叫你别点我！</string>
     <string name="menu_no_login">未登录</string>
 
 
@@ -30,6 +30,7 @@
     <string name="register_ok">举国同庆你注册成功并且已经登录</string>
     <string name="register_name_empty">骚年你的账号勒?</string>
     <string name="register_pwd_empty">骚年的密码勒?</string>
+    <string name="qq_login">通过腾讯QQ登录</string>
 
     <string name="register_btn">注册</string>
     <string name="login_btn">登录</string>
@@ -41,6 +42,7 @@
     <string name="login_complete">登陆成功</string>
     <string name="login_upload">骚等</string>
     <string name="login_error">很明显登陆失败</string>
+    <string name="login_waiting">不无聊君正在忙碌中,请骚等...</string>
 
 
     <string name="hint_load_more">加载更多污妖之力中...</string>

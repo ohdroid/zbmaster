@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/comment_time"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:layout_toRightOf="@id/comment_author_photo"
         android:text="commentsdjflaf;aldjfkj"
         android:textColor="#8A000000"
