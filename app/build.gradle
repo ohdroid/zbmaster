@@ -26,9 +26,20 @@ android {
 
     }
 
+
+    signingConfigs {
+        release {
+            storeFile file("zbmaster.jks")
+            storePassword "13980432951k"
+            keyAlias "ohdroid"
+            keyPassword "123467890"
+        }
+    }
+
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+//            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
@@ -68,7 +79,6 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.2'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.jakewharton.rxbinding:rxbinding-kotlin:0.4.0'
-    compile 'junit:junit:4.12'
     //ex view lisbrary
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.mikhaellopez:circularfillableloaders:1.2.0'

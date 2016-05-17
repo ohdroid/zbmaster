@@ -16,13 +16,30 @@
 #   public *;
 #}
 
-#-keepattributes *Annotation*
-##所有View的子类及其子类的get、set方法都不进行混淆
-#-keepclassmembers public class * extends android.view.View {
-#   void set*(***);
-#   *** get*();
-#}
+-optimizationpasses 5
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontpreverify
+-verbose
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
 
+-keepattributes *Annotation*
+#所有View的子类及其子类的get、set方法都不进行混淆
+-keepclassmembers public class * extends android.view.View {
+   void set*(***);
+   *** get*();
+}
+
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class * extends android.app.backup.BackupAgentHelper
+-keep public class * extends android.preference.Preference
+-keep public class com.android.vending.licensing.ILicensingService
+-keep public class * extends android.support.v4.app.Fragment
 
 #tencent
 -keep class com.tencent.open.TDialog$*
@@ -42,12 +59,12 @@
 
 
 #
--libraryjars libs/open_sdk_r5509_lite.jar
+#-libraryjars libs/open_sdk_r5509_lite.jar
 
 # 这里根据具体的SDK版本修改
--libraryjars libs/BmobSDK_V3.4.5_1111.jar
--libraryjars libs/libammsdk.jar
--libraryjars libs/Bmob_Push_V0.6beta_20150408.jar
+#-libraryjars libs/BmobSDK_V3.4.5_1111.jar
+#-libraryjars libs/libammsdk.jar
+#-libraryjars libs/Bmob_Push_V0.6beta_20150408.jar
 
 -keepattributes Signature
 
@@ -94,3 +111,66 @@
  -keep class com.android.internal.http.multipart.**{*;}
  -keep class org.apache.commons.**{*;}
  -keep class org.apache.http.**{*;}
+
+#七牛
+-keep public class * extends com.qiniu.android.**
+-keep class com.qiniu.android.**{ *;}
+
+#model
+-keep class com.ohdroid.zbmaster.login.model.** { *; }
+-keep class com.ohdroid.zbmaster.homepage.areamovie.model.** { *; }
+-keep class com.ohdroid.zbmaster.homepage.areaface.model.** { *; }
+
+#fresco
+-keep,allowobfuscation @interface com.facebook.common.internal.DoNotStrip
+
+# Do not strip any method/class that is annotated with @DoNotStrip
+-keep @com.facebook.common.internal.DoNotStrip class *
+-keepclassmembers class * {
+    @com.facebook.common.internal.DoNotStrip *;
+}
+
+# Keep native methods
+-keepclassmembers class * {
+    native <methods>;
+}
+
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+-dontwarn com.android.volley.toolbox.**
+
+# rxjava
+#-keep class rx.schedulers.Schedulers {
+#    public static <methods>;
+#}
+#-keep class rx.schedulers.ImmediateScheduler {
+#    public <methods>;
+#}
+#-keep class rx.schedulers.TestScheduler {
+#    public <methods>;
+#}
+#-keep class rx.schedulers.Schedulers {
+#    public static ** test();
+#}
+#-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+#    long producerIndex;
+#    long consumerIndex;
+#}
+#-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+#    long producerNode;
+#    long consumerNode;
+#}
+-dontwarn sun.misc.**
+
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+   long producerIndex;
+   long consumerIndex;
+}
+
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode producerNode;
+}
+
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
+    rx.internal.util.atomic.LinkedQueueNode consumerNode;
+}

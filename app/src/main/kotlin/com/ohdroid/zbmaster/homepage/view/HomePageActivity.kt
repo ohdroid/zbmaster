@@ -138,8 +138,8 @@ class HomePageActivity : BaseActivity(), HomePageView {
 
         val hideAnimX: ObjectAnimator = ObjectAnimator.ofFloat(mFabModelSwitch, "scaleX", 1f, 0f)
         val hideAnimY: ObjectAnimator = ObjectAnimator.ofFloat(mFabModelSwitch, "scaleY", 1f, 0f)
-        hideAnimX.setAutoCancel(true)
-        hideAnimY.setAutoCancel(true)
+//        hideAnimX.setAutoCancel(true)
+//        hideAnimY.setAutoCancel(true)
 
         hideSet = AnimatorSet()
         hideSet!!.duration = 200

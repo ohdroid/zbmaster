@@ -313,9 +313,10 @@ class MovieDetailFragment : BaseFragment(), MovieDetailView {
             val commentContent = itemView.find<TextView>(R.id.comment_content)
             commentContent.text = comment.comment
             val authorPhoto = itemView.find<SimpleDraweeView>(R.id.comment_author_photo)
-            if (!TextUtils.isEmpty(comment.commentAuthor?.photoUrl)) {
-                authorPhoto.setImageURI(Uri.parse(comment.commentAuthor?.photoUrl), null)//内部还是通过controllerbuidler控制的
-            }
+            authorPhoto.setImageURI(Uri.parse(comment.commentAuthor?.photoUrl), null)
+//            if (!TextUtils.isEmpty(comment.commentAuthor?.photoUrl)) {
+//                authorPhoto.setImageURI(Uri.parse(comment.commentAuthor?.photoUrl), null)//内部还是通过controllerbuidler控制的
+//            }
         }
     }
 
