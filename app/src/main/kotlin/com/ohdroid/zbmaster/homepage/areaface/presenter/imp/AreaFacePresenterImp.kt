@@ -1,12 +1,15 @@
 package com.ohdroid.zbmaster.homepage.areaface.presenter.imp
 
+import android.app.Activity
 import android.content.Context
+import android.os.Build
 import com.ohdroid.zbmaster.application.di.exannotation.PerActivity
 import com.ohdroid.zbmaster.homepage.areaface.data.FaceBusiness
 import com.ohdroid.zbmaster.homepage.areaface.model.FaceInfo
 import com.ohdroid.zbmaster.homepage.areaface.presenter.AreaFacePresenter
 import com.ohdroid.zbmaster.homepage.areaface.view.AreaFaceView
 import com.ohdroid.zbmaster.utils.NetUtils
+import com.ohdroid.zbmaster.utils.SystemUtils
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -15,14 +18,14 @@ import javax.inject.Inject
 /**
  * Created by ohdroid on 2016/4/6.
  */
-class AreaFacePresenterImp(val context: Context) : AreaFacePresenter {
+class AreaFacePresenterImp(val activity: Activity) : AreaFacePresenter {
 
     lateinit var uiView: AreaFaceView;
     var mfaceURLList: MutableList<FaceInfo>? = null
 
     override fun loadFaceList() {
         //检查网络
-        if (!NetUtils.isConnected(context)) {
+        if (!NetUtils.isConnected(activity)) {
             println("no net work------------")
             uiView.showErrorView(-1, "no net work")
             //TODO 加载缓存数据
@@ -31,11 +34,11 @@ class AreaFacePresenterImp(val context: Context) : AreaFacePresenter {
 
 
         val faceBusiness: FaceBusiness = FaceBusiness();
-        faceBusiness.context = context//由于是使用bmob请求数据所以这里必须传入context
+        faceBusiness.context = activity//由于是使用bmob请求数据所以这里必须传入context
         faceBusiness.findList()
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter { //空数据
-                    if ( it.isEmpty()) {
+                    if (it.isEmpty()) {
                         uiView.showEmpty()
                     }
                     !it.isEmpty()
@@ -71,7 +74,7 @@ class AreaFacePresenterImp(val context: Context) : AreaFacePresenter {
         }
 
         val faceBusiness: FaceBusiness = FaceBusiness();
-        faceBusiness.context = context//由于是使用bmob请求数据所以这里必须传入context
+        faceBusiness.context = activity//由于是使用bmob请求数据所以这里必须传入context
         faceBusiness.requestParams.put("skip", mfaceURLList!!.size.toString())
         faceBusiness.findList()
                 .subscribeOn(Schedulers.io())
@@ -119,6 +122,9 @@ class AreaFacePresenterImp(val context: Context) : AreaFacePresenter {
 
     override fun attachView(view: AreaFaceView) {
         this.uiView = view
+        if (Build.VERSION.SDK_INT >= 23) {
+            SystemUtils.checkPermission(activity)
+        }
     }
 
     override fun detachView() {

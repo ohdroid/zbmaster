@@ -2,6 +2,7 @@ package com.ohdroid.zbmaster.homepage.presenter
 
 import android.app.Activity
 import android.content.Context
+import android.os.Build
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.application.BasePresenter
 import com.ohdroid.zbmaster.application.data.DataManager
@@ -12,6 +13,7 @@ import com.ohdroid.zbmaster.homepage.view.HomePageView
 import com.ohdroid.zbmaster.login.event.UserInfoUpdateEvent
 import com.ohdroid.zbmaster.login.view.LoginActivity
 import com.ohdroid.zbmaster.utils.SPUtils
+import com.ohdroid.zbmaster.utils.SystemUtils
 import rx.android.schedulers.AndroidSchedulers
 import rx.subscriptions.CompositeSubscription
 import javax.inject.Inject
@@ -35,6 +37,10 @@ class HomePagePresenter : BasePresenter<HomePageView> {
 
     lateinit var uiView: HomePageView
     override fun attachView(view: HomePageView) {
+        if (Build.VERSION.SDK_INT >= 23) {
+            SystemUtils.checkPermission(activity)
+        }
+
         uiView = view
 
         //添加对event事件的监听

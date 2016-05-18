@@ -1,21 +1,27 @@
 package com.ohdroid.zbmaster.homepage.view
 
+import android.Manifest
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.app.Activity
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
-import cn.bmob.v3.BmobUser
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
+import com.ohdroid.zbmaster.about.view.AboutActivity
 import com.ohdroid.zbmaster.application.di.exannotation.PerActivity
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.application.rxbus.RxBus
@@ -26,6 +32,7 @@ import com.ohdroid.zbmaster.homepage.areamovie.view.fragment.AreaMovieFragment
 import com.ohdroid.zbmaster.homepage.presenter.HomePagePresenter
 import com.ohdroid.zbmaster.login.model.AccountInfo
 import com.ohdroid.zbmaster.utils.SPUtils
+import com.ohdroid.zbmaster.utils.SystemUtils
 import org.jetbrains.anko.find
 import org.jetbrains.anko.onClick
 import org.jetbrains.anko.textColor
@@ -73,7 +80,6 @@ class HomePageActivity : BaseActivity(), HomePageView {
         btnAbout.setOnClickListener(menuOnClickListener)
 
         showSpoofPage()
-
         checkIsLogin()
     }
 
@@ -172,6 +178,7 @@ class HomePageActivity : BaseActivity(), HomePageView {
     fun showAboutPage() {
         showToast("关于页面还在写~~")
         //调用方法，Activity页面写一个launch的静态方法，传入context就可以跳转了，intent请在launcher方法中构建
+        AboutActivity.launch(this)
     }
 
 
@@ -230,6 +237,8 @@ class HomePageActivity : BaseActivity(), HomePageView {
         }
     }
 
+
+    val PERMISSION_REQEUST_CODE: Int = 123
 
     //----------------------------------presneter层操作接口--------------
     override fun updateUserInfo(userInfo: AccountInfo?) {

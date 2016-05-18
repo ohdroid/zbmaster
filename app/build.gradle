@@ -26,16 +26,6 @@ android {
 
     }
 
-
-    signingConfigs {
-        release {
-            storeFile file("zbmaster.jks")
-            storePassword "13980432951k"
-            keyAlias "ohdroid"
-            keyPassword "123467890"
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled true

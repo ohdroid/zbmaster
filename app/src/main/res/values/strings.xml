@@ -36,7 +36,7 @@
     <string name="login_btn">登录</string>
     <string name="account_name_hint">账号</string>
     <string name="account_pwd_hint">密码</string>
-    <string name="login_ok">居然记得账号！</string>
+    <string name="login_ok">举国同庆登录成功...</string>
     <string name="empty_account_name">请输入你丫的账号</string>
     <string name="empty_account_pwd">请输入你丫的密码</string>
     <string name="login_complete">登陆成功</string>
@@ -71,5 +71,28 @@
     <string name="hint_add_comment_success">骚年你的这一句话世界都在颤抖</string>
     <string name="hint_no_comment_data">暂无评论,骚年展示你的污妖之力吧！</string>
     <string name="author_name">内测用户-%1$s</string>
+
+
+    <!--about-->
+    <string-array name="coder_one">
+        <item>ohdroid</item>
+        <item>Android攻城狮</item>
+        <item>代码小妖</item>
+        <item>QQ:617989237</item>
+    </string-array>
+
+    <string-array name="coder_two">
+        <item>name</item>
+        <item>position</item>
+        <item>description</item>
+        <item>QQ</item>
+    </string-array>
+
+    <string-array name="designer">
+        <item>name</item>
+        <item>position</item>
+        <item>description</item>
+        <item>QQ</item>
+    </string-array>
 
 </resources>

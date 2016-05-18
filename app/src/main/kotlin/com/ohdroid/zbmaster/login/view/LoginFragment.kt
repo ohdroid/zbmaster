@@ -142,7 +142,7 @@ class LoginFragment : BaseFragment(), LoginView, View.OnClickListener {
 
     override fun loginSuccess() {
         //跳转到表情同步页面
-//        showToast(getString(R.string.login_ok))
+        showToast(getString(R.string.login_ok))
         activity.finish()
     }
 

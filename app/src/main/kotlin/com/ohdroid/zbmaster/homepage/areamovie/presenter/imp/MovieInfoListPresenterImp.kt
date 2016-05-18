@@ -1,12 +1,15 @@
 package com.ohdroid.zbmaster.homepage.areamovie.presenter.imp
 
+import android.app.Activity
 import android.content.Context
+import android.os.Build
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.homepage.areamovie.data.MovieGifListBusiness
 import com.ohdroid.zbmaster.homepage.areamovie.model.MovieInfo
 import com.ohdroid.zbmaster.homepage.areamovie.presenter.MovieListPresenter
 import com.ohdroid.zbmaster.homepage.areamovie.view.MovieListView
 import com.ohdroid.zbmaster.utils.NetUtils
+import com.ohdroid.zbmaster.utils.SystemUtils
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -14,7 +17,7 @@ import rx.schedulers.Schedulers
 /**
  * Created by ohdroid on 2016/4/11.
  */
-class MovieInfoListPresenterImp constructor(var context: Context) : MovieListPresenter {
+class MovieInfoListPresenterImp constructor(var context: Activity) : MovieListPresenter {
 
 
     lateinit var uiView: MovieListView;
@@ -100,6 +103,9 @@ class MovieInfoListPresenterImp constructor(var context: Context) : MovieListPre
 
     override fun attachView(view: MovieListView) {
         this.uiView = view
+        if (Build.VERSION.SDK_INT >= 23) {
+            SystemUtils.checkPermission(context)
+        }
     }
 
     override fun detachView() {
