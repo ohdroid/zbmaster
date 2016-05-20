@@ -33,6 +33,15 @@
 这样实现的一个好处呢就是DataHelper不会太臃肿，也避免了多人操作同一个对象带来的代码冲突，而且更换服务器也比较方便，修改对应的Business就OK
 
 **限于当前能力水平，初步设计是这样，如有什么提点或建议，随时欢迎留言或者联系本人QQ:617989237，在此跪谢了！**
+##如何使用此开源项目
+1. 在根目录创建appkeys.properties文件里面需要包含的内容：分别是Bmob服务器key，Qiniu的Key，腾讯QQ的key<br/>
+bmob_application_key="XXXXXXXXXXXXXX"<br/>
+qiniu_access_key="XXXXXXXXXXXXXX"<br/>
+qiniu_secret_key="XXXXXXXXXXXXXXXXXXXXX"<br/>
+qq_app_id = "XXXXXXXXXXXXXX"<br/>
+
+2. 没有第二步了.<br/>
+后台数据可以手动添加，也可以写一个管理后台。俺也写了个后台但是太简陋了就没有开源了，有需要的联系QQ:617989237.
 
 ##未来计划
 1. 引入测试框架
