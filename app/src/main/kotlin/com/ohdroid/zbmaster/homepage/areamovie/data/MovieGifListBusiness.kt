@@ -19,7 +19,7 @@ class MovieGifListBusiness : BaseBusiness<MovieInfo>() {
 
 
     companion object {
-        val PAGE_LIMIT: Int = 6
+        val PAGE_LIMIT: Int = 8
     }
 
     override fun findList(): Observable<MutableList<MovieInfo>> {

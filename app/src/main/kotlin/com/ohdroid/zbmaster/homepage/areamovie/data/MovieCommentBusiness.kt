@@ -18,7 +18,7 @@ class MovieCommentBusiness : BaseBusiness<MovieComment>() {
     var context: Context? = null
 
     companion object {
-        @JvmField val PAGE_LIMIT = 5
+        @JvmField val PAGE_LIMIT = 8
     }
 
     override fun addItem(comment: MovieComment) {
@@ -33,8 +33,8 @@ class MovieCommentBusiness : BaseBusiness<MovieComment>() {
         })
     }
 
-    override fun findList():Observable<MutableList<MovieComment>>{
-        return  Observable.create<MutableList<MovieComment>>({
+    override fun findList(): Observable<MutableList<MovieComment>> {
+        return Observable.create<MutableList<MovieComment>>({
             BmobDataManager.getInstance().findItemList(context!!, requestParams, object : FindListener<MovieComment>() {
                 override fun onError(p0: Int, p1: String?) {
                     val e: Throwable = Throwable(p1)
