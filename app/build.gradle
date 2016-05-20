@@ -19,8 +19,8 @@ android {
 
         buildConfigField "String", "BMOB_APP_KEY", keystoreProperties.bmob_application_key
 
-        buildConfigField "String", "QI_NIU_ACCESS_KEY", keystoreProperties.qiniu_access_key
-        buildConfigField "String", "QI_NIU_SECRET_KEY", keystoreProperties.qiniu_secret_key
+//        buildConfigField "String", "QI_NIU_ACCESS_KEY", keystoreProperties.qiniu_access_key
+//        buildConfigField "String", "QI_NIU_SECRET_KEY", keystoreProperties.qiniu_secret_key
 
         buildConfigField "String", "QQ_APP_ID", keystoreProperties.qq_app_id
 

@@ -34,10 +34,8 @@
 
 **限于当前能力水平，初步设计是这样，如有什么提点或建议，随时欢迎留言或者联系本人QQ:617989237，在此跪谢了！**
 ##如何使用此开源项目
-1. 在根目录创建appkeys.properties文件里面需要包含的内容：分别是Bmob服务器key，Qiniu的Key，腾讯QQ的key<br/>
+1. 在根目录创建appkeys.properties文件里面需要包含的内容：分别是Bmob服务器key，腾讯QQ的key,目前七牛的服务使用的是非自定义域的，意思就是目前抓包可以获取到gif图地址直接访问<br/>
 bmob_application_key="XXXXXXXXXXXXXX"<br/>
-qiniu_access_key="XXXXXXXXXXXXXX"<br/>
-qiniu_secret_key="XXXXXXXXXXXXXXXXXXXXX"<br/>
 qq_app_id = "XXXXXXXXXXXXXX"<br/>
 
 2. 没有第二步了.<br/>
