@@ -20,7 +20,7 @@
     <string name="menu_about">关于我们</string>
     <string name="menu_quit_login">退出登录</string>
     <string name="menu_login">我要登录,嗷~~</string>
-    <string name="menu_no_login">上车还未打卡</string>
+    <string name="menu_no_login">上车请打卡</string>
     <string name="menu_contact_us">联系客服</string>
 
 
