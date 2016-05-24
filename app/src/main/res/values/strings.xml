@@ -76,27 +76,36 @@
 
     <!--about-->
     <string-array name="coder_one">
-        <item>姓名:贺小田</item>
-        <item>法号:代码小妖</item>
-        <item>任务:Android代码编写</item>
-        <item>企鹅:617989237</item>
-        <item>描述:本人芳龄(/偷笑)20几,打算把有限的生命投入到无限的代码中去</item>
+        <item>姓名: 贺小田</item>
+        <item>法号: 代码小妖</item>
+        <item>职责: Android代码编写</item>
+        <item>企鹅: 617989237</item>
+        <item>描述: 本人芳龄(/偷笑)20几,打算把有限的生命投入到无限的代码中去</item>
     </string-array>
 
     <string-array name="coder_two">
-        <item>姓名:孙浩Xing</item>
-        <item>法号:代码牛屎</item>
-        <item>任务:Android编写</item>
-        <item>企鹅:103378499X</item>
-        <item>描述:俺没啥事儿做，唯一喜欢的就是踩牛屎，嗯，这一段明显是"小妖"同学在孙本人不知情的情况下写下来的,没有别的目的就是黑一下孙。/邪恶的笑</item>
+        <item>姓名: Jucsin</item>
+        <item>法号: xindroid</item>
+        <item>职责: Android编写</item>
+        <item>企鹅: 103378499X</item>
+        <item>座右铭：最爽的事情就是打篮球和看别人打篮球</item>
     </string-array>
 
     <string-array name="designer">
-        <item>姓名:周Yang</item>
-        <item>法号:设计小喵</item>
-        <item>任务:界面设计</item>
-        <item>企鹅:18506039X</item>
-        <item>描述:嗯，这是我们唯一的设计喵,这里还是不乱写了,要是不给设计图那就玩完了。</item>
+        <item>姓名: 周Yang</item>
+        <item>法号: 设计小喵</item>
+        <item>任务: 界面设计</item>
+        <item>企鹅: 18506039X</item>
+        <item>描述: 嗯，这是我们唯一的设计喵,这里还是不乱写了,要是不给设计图那就玩完了。</item>
     </string-array>
+    <string name="about_version">v1.6.6</string>
+
+    <!--help-->
+    <string name="help_contact">客服邮箱：617989237@qq.com</string>
+    <string name="help_hint">发送你需要的服务,给帅炸天的客服热钱弟弟，我们会及时的给你回馈哦~</string>
+
+    <!--hint-->
+    <string name="pop_view_hint">从左边向右滑动,拉出侧边菜单</string>
+    <string name="pop_button_view">知道了</string>
 
 </resources>

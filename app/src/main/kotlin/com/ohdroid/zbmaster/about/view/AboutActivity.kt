@@ -38,9 +38,9 @@ class AboutActivity : BaseActivity() {
         val oneList: Array<String> = resources.getStringArray(R.array.coder_one)
         val twoList: Array<String> = resources.getStringArray(R.array.coder_two)
         val threeList: Array<String> = resources.getStringArray(R.array.designer)
-        addViewPagerItemMain(oneList, R.mipmap.ic_launcher)
-        addViewPagerItemMain(twoList, R.mipmap.iconicon_nobg)
-        addViewPagerItemMain(threeList, R.mipmap.ic_launcher)
+        addViewPagerItemMain(oneList, R.mipmap.cat_one)
+        addViewPagerItemMain(twoList, R.mipmap.cat_two)
+        addViewPagerItemMain(threeList, R.mipmap.cat_third)
 
         //显示view
         mAboutViewPager.adapter = AboutViewPagerAdapter(mViews)
@@ -58,7 +58,7 @@ class AboutActivity : BaseActivity() {
         mViews.add(view)
     }
 
-    data class AboutContent(val type: Int, val name: String, val position: String, val description: String, val contact: String)
+//    data class AboutContent(val type: Int, val name: String, val position: String, val description: String, val contact: String)
 
     inner class AboutViewPagerAdapter(val viewList: MutableList<View>) : PagerAdapter() {
 

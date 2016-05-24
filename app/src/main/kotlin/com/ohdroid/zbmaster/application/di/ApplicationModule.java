@@ -2,6 +2,7 @@ package com.ohdroid.zbmaster.application.di;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.WindowManager;
 
 import com.ohdroid.zbmaster.BuildConfig;
 import com.ohdroid.zbmaster.application.data.DataManager;
@@ -39,6 +40,12 @@ public class ApplicationModule {
     public Tencent provideTencent(@ForApplication Context context) {
         return Tencent.createInstance(BuildConfig.QQ_APP_ID, context);
     }
+
+//    @Provides
+//    @Singleton
+//    public WindowManager provideWindowManager(@ForApplication Context context) {
+//        return (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+//    }
 
 //    @Provides
 //    @Singleton

@@ -26,13 +26,14 @@
 
         <TextView
             android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
+            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/menu_no_login"
             android:textColor="#fff"
-            android:textSize="20sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -48,8 +49,8 @@
 
         <ImageView
             android:id="@+id/iv_about_us"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@mipmap/about_us" />
 
         <TextView
@@ -62,7 +63,7 @@
             android:paddingTop="8dp"
             android:text="@string/menu_about"
             android:textColor="@color/left_menu_text_color"
-            android:textSize="20sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -77,8 +78,8 @@
 
         <ImageView
             android:id="@+id/iv_contact_us"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@mipmap/contact_us" />
 
         <TextView
@@ -91,7 +92,7 @@
             android:paddingTop="8dp"
             android:text="@string/menu_contact_us"
             android:textColor="@color/left_menu_text_color"
-            android:textSize="20sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 
@@ -105,8 +106,8 @@
 
         <ImageView
             android:id="@+id/iv_quit_login"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@mipmap/quit_login" />
 
         <TextView
@@ -119,7 +120,7 @@
             android:paddingTop="8dp"
             android:text="@string/menu_quit_login"
             android:textColor="@color/left_menu_text_color"
-            android:textSize="20sp" />
+            android:textSize="14sp" />
 
     </LinearLayout>
 

@@ -126,6 +126,10 @@
 
     </LinearLayout>
 
+    <include
+        android:id="@+id/pop_up_hint_left_menu"
+        layout="@layout/pop_view_hint_left_menu" />
+
     <!--左边滑出菜单-->
     <include layout="@layout/left_menu_layout" />
 

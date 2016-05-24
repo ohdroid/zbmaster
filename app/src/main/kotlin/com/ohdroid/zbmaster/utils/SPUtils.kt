@@ -15,6 +15,8 @@ class SPUtils {
          */
         val FAST_MODE_KEY = "fastMode"
 
+        val IS_FIRST_INSTALL = "isFirstInstall"
+
         /**
          * 保存在手机里面的文件名
          */

@@ -31,7 +31,7 @@ class RecyclerViewAddViewHelper {
             footTextView.gravity = Gravity.CENTER
             val padding = context.resources.getDimensionPixelSize(R.dimen.padding_8dp)
             footTextView.setPadding(0, 0, 0, padding)
-            footTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f);
+            footTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);
             listAdapterWrap.addFootView(footTextView);
             return footTextView
         }
@@ -50,7 +50,7 @@ class RecyclerViewAddViewHelper {
             footTextView.gravity = Gravity.CENTER
             footTextView.textColor = context.resources.getColor(R.color.hint_text_color)
             footTextView.text = hintStr ?: context.resources.getString(R.string.hint_no_data)
-            footTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f);
+            footTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f);
             listAdapterWrap.addFootView(footTextView);
         }
     }

@@ -1,6 +1,7 @@
 package com.ohdroid.zbmaster.application.di;
 
 import android.content.Context;
+import android.view.WindowManager;
 
 import com.ohdroid.zbmaster.application.data.DataManager;
 import com.ohdroid.zbmaster.application.di.exannotation.ForApplication;
@@ -37,4 +38,5 @@ public interface ApplicationComponent {
     Tencent tencentManager();
 
     ShareHelper shareHelper();
+
 }

@@ -5,8 +5,10 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.Activity
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.PixelFormat
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -18,9 +20,9 @@ import android.support.v7.widget.Toolbar
 import android.text.TextUtils
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.about.view.AboutActivity
@@ -28,6 +30,8 @@ import com.ohdroid.zbmaster.application.di.exannotation.PerActivity
 import com.ohdroid.zbmaster.application.ex.showToast
 import com.ohdroid.zbmaster.application.rxbus.RxBus
 import com.ohdroid.zbmaster.base.view.BaseActivity
+import com.ohdroid.zbmaster.about.view.HelpActivity
+import com.ohdroid.zbmaster.application.di.exannotation.ForApplication
 import com.ohdroid.zbmaster.homepage.areaface.view.fragment.AreaFaceFragment
 import com.ohdroid.zbmaster.homepage.areamovie.event.ListScrollEvent
 import com.ohdroid.zbmaster.homepage.areamovie.view.fragment.AreaMovieFragment
@@ -45,6 +49,8 @@ import javax.inject.Inject
  * Created by ohdroid on 2016/4/4.
  */
 class HomePageActivity : BaseActivity(), HomePageView {
+
+    var mPopHintView: View? = null
 
     val menuProof: View by lazy { find<View>(R.id.menu_spoof) }
     val menuMovie: View by lazy { find<View>(R.id.menu_movie) }
@@ -73,6 +79,7 @@ class HomePageActivity : BaseActivity(), HomePageView {
 //        setSupportActionBar(toolbar);
         component.inject(this)
         presetner.attachView(this)
+
         initFab()
 
 //        toolbar.setTitleTextColor(Color.WHITE)
@@ -88,6 +95,26 @@ class HomePageActivity : BaseActivity(), HomePageView {
 
         showSpoofPage()
         checkIsLogin()
+        checkIsFirstInstall()
+    }
+
+
+    /**
+     * 检查是否第一次登陆
+     */
+    fun checkIsFirstInstall() {
+
+        if (SPUtils.get(this, SPUtils.IS_FIRST_INSTALL, true) as Boolean) {//若是第一次安装那么有个页面提示
+            //显示提示
+            mPopHintView = findViewById(R.id.pop_up_hint_left_menu)
+            mPopHintView?.visibility = View.VISIBLE
+            mPopHintView?.find<Button>(R.id.btn_iknow)?.onClick {
+                mPopHintView?.visibility = View.GONE
+                mPopHintView = null
+            }
+            SPUtils.put(this, SPUtils.IS_FIRST_INSTALL, false)
+        }
+
     }
 
     val onTouchListener: View.OnTouchListener = View.OnTouchListener { v, event ->
@@ -107,7 +134,8 @@ class HomePageActivity : BaseActivity(), HomePageView {
                 }
                 R.id.layout_contact_us -> {
                     changeLeftMenuColor(v, R.id.tv_contact_us, R.color.left_menu_text_color, R.id.iv_contact_us, R.mipmap.contact_us)
-                    showAboutPage()
+                    contactUs()
+
                 }
                 R.id.layout_quit_login -> {
                     changeLeftMenuColor(v, R.id.tv_quit_login, R.color.left_menu_text_color, R.id.iv_quit_login, R.mipmap.quit_login)
@@ -265,15 +293,13 @@ class HomePageActivity : BaseActivity(), HomePageView {
     }
 
     fun contactUs() {
-        //显示联系方式页面，目前是跳转关于页面
+        HelpActivity.launch(this)
     }
 
     /**
      * 跳转关于页面
      */
     fun showAboutPage() {
-        showToast("关于页面还在完善中~~")
-        //调用方法，Activity页面写一个launch的静态方法，传入context就可以跳转了，intent请在launcher方法中构建
         AboutActivity.launch(this)
     }
 
@@ -321,6 +347,12 @@ class HomePageActivity : BaseActivity(), HomePageView {
 
     var countNum: Int = 1
     override fun onBackPressed() {
+        if (null != mPopHintView) {
+            mPopHintView?.visibility = View.GONE
+            mPopHintView = null
+            return
+        }
+
         if (countNum > 0) {
             countNum--
             showToast(resources.getString(R.string.hint_quit_app))

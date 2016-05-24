@@ -77,7 +77,8 @@
             <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".about.view.AboutActivity"></activity>
+        <activity android:name=".about.view.AboutActivity" />
+        <activity android:name=".about.view.HelpActivity" />
     </application>
 
 </manifest>
