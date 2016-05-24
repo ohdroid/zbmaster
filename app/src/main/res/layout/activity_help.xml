@@ -13,7 +13,7 @@
         android:layout_height="120dp"
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
-        android:src="@mipmap/head_all" />
+        android:src="@mipmap/cat_one" />
 
     <TextView
         android:id="@+id/name_app"

@@ -12,6 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="202dp"
+        android:layout_marginBottom="8dp"
         android:background="@mipmap/left_menu_bg"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -21,52 +22,49 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginLeft="16dp"
-            app:placeholderImage="@mipmap/head_all"
+            app:placeholderImage="@mipmap/cat_one"
             app:roundAsCircle="true" />
 
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="80dp"
-            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
             android:text="@string/menu_no_login"
             android:textColor="#fff"
             android:textSize="14sp" />
 
     </LinearLayout>
 
-
     <LinearLayout
-        android:id="@+id/layout_about_us"
+        android:id="@+id/layout_quit_login"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="16dp">
 
         <ImageView
-            android:id="@+id/iv_about_us"
+            android:id="@+id/iv_quit_login"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@mipmap/about_us" />
+            android:src="@mipmap/quit_login" />
 
         <TextView
-            android:id="@+id/about_us_tv"
+            android:id="@+id/tv_quit_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
             android:gravity="center"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:text="@string/menu_about"
+            android:text="@string/menu_quit_login"
             android:textColor="@color/left_menu_text_color"
             android:textSize="14sp" />
 
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/layout_contact_us"
@@ -96,8 +94,9 @@
 
     </LinearLayout>
 
+
     <LinearLayout
-        android:id="@+id/layout_quit_login"
+        android:id="@+id/layout_about_us"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:gravity="center_vertical"
@@ -105,20 +104,20 @@
         android:paddingLeft="16dp">
 
         <ImageView
-            android:id="@+id/iv_quit_login"
+            android:id="@+id/iv_about_us"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:src="@mipmap/quit_login" />
+            android:src="@mipmap/about_us" />
 
         <TextView
-            android:id="@+id/tv_quit_login"
+            android:id="@+id/about_us_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="32dp"
             android:gravity="center"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:text="@string/menu_quit_login"
+            android:text="@string/menu_about"
             android:textColor="@color/left_menu_text_color"
             android:textSize="14sp" />
 

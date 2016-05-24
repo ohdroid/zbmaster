@@ -20,7 +20,7 @@
     <string name="menu_about">关于我们</string>
     <string name="menu_quit_login">退出登录</string>
     <string name="menu_login">我要登录,嗷~~</string>
-    <string name="menu_no_login">还未登录</string>
+    <string name="menu_no_login">上车还未打卡</string>
     <string name="menu_contact_us">联系客服</string>
 
 
@@ -43,15 +43,15 @@
     <string name="login_complete">登陆成功</string>
     <string name="login_upload">骚等</string>
     <string name="login_error">很明显登陆失败</string>
-    <string name="login_waiting">不无聊君正在忙碌中,请骚等...</string>
+    <string name="login_waiting">不无聊君耕耘中,请骚等...</string>
 
 
     <string name="hint_load_more">加载更多污妖之力中...</string>
     <string name="hint_no_more_data">污妖之力已经见底</string>
     <string name="hint_loading">污妖之力聚集中...</string>
     <!--home page-->
-    <string name="menu_spoof">我要开眼</string>
-    <string name="menu_movie">我要姿势</string>
+    <string name="menu_spoof">司机开眼</string>
+    <string name="menu_movie">电影姿势</string>
     <string name="btn_area_zb">zb_area</string>
     <string name="btn_area_movie">movie_area</string>
     <string name="btn_area_face">face_area</string>
@@ -78,15 +78,15 @@
     <string-array name="coder_one">
         <item>姓名: 贺小田</item>
         <item>法号: 代码小妖</item>
-        <item>职责: Android代码编写</item>
+        <item>职责: Android撸码师</item>
         <item>企鹅: 617989237</item>
         <item>描述: 本人芳龄(/偷笑)20几,打算把有限的生命投入到无限的代码中去</item>
     </string-array>
 
     <string-array name="coder_two">
-        <item>姓名: Jucsin</item>
-        <item>法号: xindroid</item>
-        <item>职责: Android编写</item>
+        <item>姓名: 小浩鑫</item>
+        <item>法号: Jucsin</item>
+        <item>职责: Android撸码师</item>
         <item>企鹅: 103378499X</item>
         <item>座右铭：最爽的事情就是打篮球和看别人打篮球</item>
     </string-array>
@@ -94,15 +94,16 @@
     <string-array name="designer">
         <item>姓名: 周Yang</item>
         <item>法号: 设计小喵</item>
-        <item>任务: 界面设计</item>
+        <item>职责: 界面设计</item>
         <item>企鹅: 18506039X</item>
         <item>描述: 嗯，这是我们唯一的设计喵,这里还是不乱写了,要是不给设计图那就玩完了。</item>
     </string-array>
     <string name="about_version">v1.6.6</string>
+    <string name="about_app_github">https://github.com/ohdroid/zbmaster</string>
 
     <!--help-->
     <string name="help_contact">客服邮箱：617989237@qq.com</string>
-    <string name="help_hint">发送你需要的服务,给帅炸天的客服热钱弟弟，我们会及时的给你回馈哦~</string>
+    <string name="help_hint">发送你需要的服务,给帅炸天的客服小司机，我们会及时的给你回馈哦~</string>
 
     <!--hint-->
     <string name="pop_view_hint">从左边向右滑动,拉出侧边菜单</string>

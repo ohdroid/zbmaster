@@ -134,6 +134,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
         var listener: OnRecycleViewItemClickListener? = null
 
         override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MovieViewHolder? {
+            //item card view 填充位置
             val itemView: View = LayoutInflater.from(parent?.context).inflate(R.layout.item_movie_list, parent, false)
             return MovieViewHolder(itemView)
         }
@@ -228,7 +229,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
     //===========================对presenter层暴露的接口==================================
 
     override fun showMovieList(movieInfos: MutableList<MovieInfo>, hasMore: Boolean) {
-        if ( mNoNetWork.visibility == View.VISIBLE) {
+        if (mNoNetWork.visibility == View.VISIBLE) {
             mNoNetWork.visibility = View.GONE
         }
 
@@ -260,7 +261,7 @@ class AreaMovieFragment : BaseFragment(), MovieListView {
 
     override fun showErrorView(errorState: Int, errorMessage: String) {
 
-        if ( mFreshLayout.isRefreshing) {
+        if (mFreshLayout.isRefreshing) {
             mFreshLayout.isRefreshing = false
         }
 

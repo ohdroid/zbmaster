@@ -5,17 +5,17 @@
     android:id="@+id/cv_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
-    android:layout_marginTop="8dp"
-    app:cardCornerRadius="4dp"
+    android:layout_marginBottom="6dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="6dp"
+    app:cardCornerRadius="2dp"
     app:cardElevation="2dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/item_image"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="160dp"
         android:layout_gravity="center_horizontal"
         fresco:placeholderImage="@mipmap/ic_launcher" />
 

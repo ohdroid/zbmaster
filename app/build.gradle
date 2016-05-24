@@ -79,6 +79,9 @@ dependencies {
     compile 'org.jetbrains.anko:anko-support-v4:0.8.3'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.8.3'
     compile 'org.jetbrains.anko:anko-sdk15:0.8.3'
+
+    //viewpager indicator
+    compile 'com.github.chenupt.android:springindicator:1.0.2@aar'
 }
 buildscript {
     ext.kotlin_version = '1.0.0'

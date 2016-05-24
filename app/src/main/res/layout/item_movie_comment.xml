@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="2.5dp"
-    android:orientation="horizontal"
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
@@ -35,7 +34,6 @@
         android:layout_marginLeft="16dp"
         android:layout_toRightOf="@id/comment_name"
         android:gravity="right"
-
         android:text="2016年4月12日12:32:20"
         android:textColor="#42000000"
         android:textSize="12sp" />
@@ -46,9 +44,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/comment_time"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:layout_toRightOf="@id/comment_author_photo"
-        android:text="commentsdjflaf;aldjfkj"
+        android:text="comment"
         android:textColor="#8A000000"
         android:textSize="14sp" />
 

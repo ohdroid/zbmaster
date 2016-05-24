@@ -2,7 +2,6 @@ package com.ohdroid.zbmaster.about.view
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
@@ -12,13 +11,16 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.base.view.BaseActivity
+import github.chenupt.springindicator.SpringIndicator
 import org.jetbrains.anko.find
 import java.util.*
 
 class AboutActivity : BaseActivity() {
 
-    val mAboutViewPager: ViewPager by lazy { find<ViewPager>(R.id.about_content) }
 
+    val mAboutViewPager: ViewPager by lazy { find<ViewPager>(R.id.about_content) }
+    val mViewPagerIndicator: SpringIndicator by lazy { find<SpringIndicator>(R.id.indicator) }
+    var mPreSelectedPosition: Int = 0
 
     companion object {
         @JvmStatic fun launch(context: Context) {
@@ -32,8 +34,6 @@ class AboutActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about)
 
-//        mAboutViewPager.adapter = ViewPager.
-
         //初始化views
         val oneList: Array<String> = resources.getStringArray(R.array.coder_one)
         val twoList: Array<String> = resources.getStringArray(R.array.coder_two)
@@ -44,6 +44,9 @@ class AboutActivity : BaseActivity() {
 
         //显示view
         mAboutViewPager.adapter = AboutViewPagerAdapter(mViews)
+
+        mViewPagerIndicator.setViewPager(mAboutViewPager)
+
     }
 
     fun addViewPagerItemMain(itemContent: Array<String>, imageId: Int) {
@@ -82,5 +85,10 @@ class AboutActivity : BaseActivity() {
         override fun destroyItem(container: ViewGroup?, position: Int, `object`: Any?) {
             container?.removeView(viewList[position])
         }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return (position + 1).toString()
+        }
+
     }
 }
