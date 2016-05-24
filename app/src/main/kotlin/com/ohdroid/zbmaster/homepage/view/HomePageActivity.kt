@@ -1,6 +1,7 @@
 package com.ohdroid.zbmaster.homepage.view
 
 import android.Manifest
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.Activity
@@ -15,6 +16,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.text.TextUtils
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
@@ -46,9 +48,10 @@ class HomePageActivity : BaseActivity(), HomePageView {
 
     val menuProof: View by lazy { find<View>(R.id.menu_spoof) }
     val menuMovie: View by lazy { find<View>(R.id.menu_movie) }
-    val toolbar: Toolbar by lazy { find<Toolbar>(R.id.tool_bar) }
-    val btnLogin: TextView by lazy { find<TextView>(R.id.login_tv) }
-    val btnAbout: TextView by lazy { find<TextView>(R.id.about_tv) }
+    //    val toolbar: Toolbar by lazy { find<Toolbar>(R.id.tool_bar) }
+    val btnLogin: View by lazy { find<View>(R.id.layout_quit_login) }
+    val btnAbout: View by lazy { find<View>(R.id.layout_about_us) }
+    val btnContactUs: View by lazy { find<View>(R.id.layout_contact_us) }
     val leftMenu: View by lazy { find<View>(R.id.left_menu) }
     val mUserPhoto: SimpleDraweeView by lazy { find<SimpleDraweeView>(R.id.user_photo) }
     val mUserName: TextView by lazy { find<TextView>(R.id.tv_name) }
@@ -67,20 +70,74 @@ class HomePageActivity : BaseActivity(), HomePageView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_page)
-        setSupportActionBar(toolbar);
+//        setSupportActionBar(toolbar);
         component.inject(this)
         presetner.attachView(this)
         initFab()
 
-        toolbar.setTitleTextColor(Color.WHITE)
+//        toolbar.setTitleTextColor(Color.WHITE)
 
         menuProof.setOnClickListener(menuOnClickListener)
         menuMovie.setOnClickListener(menuOnClickListener)
-        btnLogin.setOnClickListener(menuOnClickListener)
-        btnAbout.setOnClickListener(menuOnClickListener)
+//        btnLogin.setOnClickListener(menuOnClickListener)
+//        btnAbout.setOnClickListener(menuOnClickListener)
+
+        btnLogin.setOnTouchListener(onTouchListener)
+        btnAbout.setOnTouchListener(onTouchListener)
+        btnContactUs.setOnTouchListener(onTouchListener)
 
         showSpoofPage()
         checkIsLogin()
+    }
+
+    val onTouchListener: View.OnTouchListener = View.OnTouchListener { v, event ->
+        if (event?.action == MotionEvent.ACTION_DOWN) {
+            when (v?.id) {
+                R.id.layout_about_us -> changeLeftMenuColor(v, R.id.about_us_tv, R.color.colorPrimary, R.id.iv_about_us, R.mipmap.about_us_pressed)
+                R.id.layout_contact_us -> changeLeftMenuColor(v, R.id.tv_contact_us, R.color.colorPrimary, R.id.iv_contact_us, R.mipmap.contact_us_pressed)
+                R.id.layout_quit_login -> changeLeftMenuColor(v, R.id.tv_quit_login, R.color.colorPrimary, R.id.iv_quit_login, R.mipmap.quit_login_pressed)
+            }
+        }
+
+        if (event?.action == MotionEvent.ACTION_UP) {
+            when (v?.id) {
+                R.id.layout_about_us -> {
+                    changeLeftMenuColor(v, R.id.about_us_tv, R.color.left_menu_text_color, R.id.iv_about_us, R.mipmap.about_us)
+                    showAboutPage()
+                }
+                R.id.layout_contact_us -> {
+                    changeLeftMenuColor(v, R.id.tv_contact_us, R.color.left_menu_text_color, R.id.iv_contact_us, R.mipmap.contact_us)
+                    showAboutPage()
+                }
+                R.id.layout_quit_login -> {
+                    changeLeftMenuColor(v, R.id.tv_quit_login, R.color.left_menu_text_color, R.id.iv_quit_login, R.mipmap.quit_login)
+                    presetner.loginOrQuit()
+                }
+            }
+        }
+
+        if (event?.action == MotionEvent.ACTION_CANCEL) {//取消只还原颜色
+            when (v?.id) {
+                R.id.layout_about_us -> {
+                    changeLeftMenuColor(v, R.id.about_us_tv, R.color.left_menu_text_color, R.id.iv_about_us, R.mipmap.about_us)
+                }
+                R.id.layout_contact_us -> {
+                    changeLeftMenuColor(v, R.id.tv_contact_us, R.color.left_menu_text_color, R.id.iv_contact_us, R.mipmap.contact_us)
+                }
+                R.id.layout_quit_login -> {
+                    changeLeftMenuColor(v, R.id.tv_quit_login, R.color.left_menu_text_color, R.id.iv_quit_login, R.mipmap.quit_login)
+                }
+            }
+        }
+
+
+        true
+    }
+
+    fun changeLeftMenuColor(v: View, tvId: Int, colorId: Int, ivId: Int, ivSrcId: Int) {
+        v.find<TextView>(tvId).setTextColor(resources.getColor(colorId))
+        v.find<ImageView>(ivId).setImageResource(ivSrcId)
+
     }
 
     /**
@@ -131,6 +188,23 @@ class HomePageActivity : BaseActivity(), HomePageView {
         showSet = AnimatorSet()
         showSet!!.playTogether(showAnimX, showAnimY)
         showSet!!.duration = 200
+        showSet!!.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+//                mFabModelSwitch.onClick { presetner.toggleMode() }
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+//                mFabModelSwitch.onClick { presetner.toggleMode() }
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+                mFabModelSwitch.visibility = View.VISIBLE
+            }
+
+        })
         showSet!!.start()
     }
 
@@ -151,6 +225,26 @@ class HomePageActivity : BaseActivity(), HomePageView {
         hideSet!!.duration = 200
         hideSet!!.interpolator = DecelerateInterpolator()
         hideSet!!.playTogether(hideAnimX, hideAnimY)
+        hideSet!!.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                mFabModelSwitch.visibility = View.GONE
+//                mFabModelSwitch.setOnClickListener(null)
+
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+//                mFabModelSwitch.setOnClickListener(null)
+                mFabModelSwitch.visibility = View.GONE
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+                mFabModelSwitch.visibility = View.VISIBLE
+            }
+
+        })
         hideSet!!.start()
     }
 
@@ -167,16 +261,21 @@ class HomePageActivity : BaseActivity(), HomePageView {
         when (it.id) {
             R.id.menu_movie -> showMoviePage()
             R.id.menu_spoof -> showSpoofPage()
-            R.id.login_tv -> presetner.loginOrQuit()
-            R.id.about_tv -> showAboutPage()
+//            R.id.layout_quit_login -> presetner.loginOrQuit()
+//            R.id.layout_about_us -> showAboutPage()
+//            R.id.layout_contact_us -> contactUs()
         }
+    }
+
+    fun contactUs() {
+        //显示联系方式页面，目前是跳转关于页面
     }
 
     /**
      * 跳转关于页面
      */
     fun showAboutPage() {
-        showToast("关于页面还在写~~")
+        showToast("关于页面还在完善中~~")
         //调用方法，Activity页面写一个launch的静态方法，传入context就可以跳转了，intent请在launcher方法中构建
         AboutActivity.launch(this)
     }
@@ -245,7 +344,7 @@ class HomePageActivity : BaseActivity(), HomePageView {
         if (null == userInfo) {
             //表示退出登录，这里视图效果还原
             mUserPhoto.setImageURI(null, null)
-            btnLogin.text = getText(R.string.menu_login)
+            btnLogin.find<TextView>(R.id.tv_quit_login).text = getText(R.string.menu_login)
             mUserName.text = getText(R.string.menu_no_login)
             return
         }
@@ -261,7 +360,7 @@ class HomePageActivity : BaseActivity(), HomePageView {
             mUserPhoto.setImageURI(Uri.parse(userInfo.photoUrl), null)
         }
 
-        btnLogin.text = getText(R.string.menu_quit_login)
+        btnLogin.find<TextView>(R.id.tv_quit_login).text = getText(R.string.menu_quit_login)
     }
 
     override fun updateModeSwitchUI(imageId: Int, hintStringId: Int) {

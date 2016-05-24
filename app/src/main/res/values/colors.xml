@@ -12,4 +12,6 @@
     <color name="comment_author">#000</color>
 
     <color name="login_bg_color">#FF434343</color>
+
+    <color name="left_menu_text_color">#9a000000</color>
 </resources>

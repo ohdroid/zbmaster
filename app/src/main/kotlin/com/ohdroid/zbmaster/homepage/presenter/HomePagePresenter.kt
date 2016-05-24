@@ -108,7 +108,7 @@ class HomePagePresenter : BasePresenter<HomePageView> {
             uiView.updateUserInfo(null)
             uiView.showMsgHint("已退出登录")
         } else {
-            uiView.showMsgHint("小弟正在找登陆页面，骚等~")
+//            uiView.showMsgHint("小弟正在找登陆页面，骚等~")
             LoginActivity.launch(activity)
         }
     }

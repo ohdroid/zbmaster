@@ -17,10 +17,11 @@
     <string name="hint_retry_get_data">重新获取数据中...</string>
 
     <!--侧滑菜单-->
-    <string name="menu_about">关于</string>
+    <string name="menu_about">关于我们</string>
     <string name="menu_quit_login">退出登录</string>
-    <string name="menu_login">叫你别点我！</string>
-    <string name="menu_no_login">未登录</string>
+    <string name="menu_login">我要登录,嗷~~</string>
+    <string name="menu_no_login">还未登录</string>
+    <string name="menu_contact_us">联系客服</string>
 
 
     <!--登录注册-->
