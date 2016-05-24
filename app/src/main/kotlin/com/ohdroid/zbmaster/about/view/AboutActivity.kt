@@ -50,9 +50,11 @@ class AboutActivity : BaseActivity() {
         val view = layoutInflater.inflate(R.layout.about_view_item_main, null)
         view.find<ImageView>(R.id.about_photo).setImageResource(imageId)
         view.find<TextView>(R.id.about_name).text = itemContent[0]
-        view.find<TextView>(R.id.about_position).text = itemContent[1]
-        view.find<TextView>(R.id.about_descrtipion).text = itemContent[2]
+        view.find<TextView>(R.id.about_nick_name).text = itemContent[1]
+        view.find<TextView>(R.id.about_position).text = itemContent[2]
         view.find<TextView>(R.id.about_qq).text = itemContent[3]
+        view.find<TextView>(R.id.about_description).text = itemContent[4]
+
         mViews.add(view)
     }
 

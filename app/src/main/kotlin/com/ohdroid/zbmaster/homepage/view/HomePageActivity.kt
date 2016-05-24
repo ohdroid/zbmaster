@@ -261,9 +261,6 @@ class HomePageActivity : BaseActivity(), HomePageView {
         when (it.id) {
             R.id.menu_movie -> showMoviePage()
             R.id.menu_spoof -> showSpoofPage()
-//            R.id.layout_quit_login -> presetner.loginOrQuit()
-//            R.id.layout_about_us -> showAboutPage()
-//            R.id.layout_contact_us -> contactUs()
         }
     }
 

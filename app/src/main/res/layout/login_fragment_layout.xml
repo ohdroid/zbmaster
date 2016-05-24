@@ -10,7 +10,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="40dp"
         android:src="@mipmap/icon_nobg" />
 
     <LinearLayout
@@ -89,17 +89,25 @@
         android:hint="@string/account_pwd_hint"
         android:inputType="textPassword" />
 
-    <Button
-        android:id="@+id/btn_login"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/shape_login_btn"
-        android:text="@string/login_btn"
-        android:textColor="#fff"
-        android:textSize="20sp" />
+        android:layout_height="match_parent"
+        android:background="@mipmap/mount_bg">
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/shape_login_btn"
+            android:text="@string/login_btn"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+
+
+    </FrameLayout>
 
     <!--<TextView-->
     <!--android:id="@+id/btn_register"-->

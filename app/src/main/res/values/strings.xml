@@ -76,24 +76,27 @@
 
     <!--about-->
     <string-array name="coder_one">
-        <item>ohdroid</item>
-        <item>Android攻城狮</item>
-        <item>代码小妖</item>
-        <item>QQ:617989237</item>
+        <item>姓名:贺小田</item>
+        <item>法号:代码小妖</item>
+        <item>任务:Android代码编写</item>
+        <item>企鹅:617989237</item>
+        <item>描述:本人芳龄(/偷笑)20几,打算把有限的生命投入到无限的代码中去</item>
     </string-array>
 
     <string-array name="coder_two">
-        <item>name</item>
-        <item>position</item>
-        <item>description</item>
-        <item>QQ</item>
+        <item>姓名:孙浩Xing</item>
+        <item>法号:代码牛屎</item>
+        <item>任务:Android编写</item>
+        <item>企鹅:103378499X</item>
+        <item>描述:俺没啥事儿做，唯一喜欢的就是踩牛屎，嗯，这一段明显是"小妖"同学在孙本人不知情的情况下写下来的,没有别的目的就是黑一下孙。/邪恶的笑</item>
     </string-array>
 
     <string-array name="designer">
-        <item>name</item>
-        <item>position</item>
-        <item>description</item>
-        <item>QQ</item>
+        <item>姓名:周Yang</item>
+        <item>法号:设计小喵</item>
+        <item>任务:界面设计</item>
+        <item>企鹅:18506039X</item>
+        <item>描述:嗯，这是我们唯一的设计喵,这里还是不乱写了,要是不给设计图那就玩完了。</item>
     </string-array>
 
 </resources>

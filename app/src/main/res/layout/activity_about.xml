@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/login_bg_color"
     tools:context="com.ohdroid.zbmaster.about.view.AboutActivity">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:src="@mipmap/mount_bg" />
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/about_content"
@@ -12,4 +20,4 @@
         android:layout_height="match_parent" />
 
 
-</LinearLayout>
+</FrameLayout>
