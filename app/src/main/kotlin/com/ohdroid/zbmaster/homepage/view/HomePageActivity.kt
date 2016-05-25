@@ -23,6 +23,7 @@ import android.view.View
 import android.view.WindowManager
 import android.view.animation.DecelerateInterpolator
 import android.widget.*
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.facebook.drawee.view.SimpleDraweeView
 import com.ohdroid.zbmaster.R
 import com.ohdroid.zbmaster.about.view.AboutActivity
@@ -399,6 +400,18 @@ class HomePageActivity : BaseActivity(), HomePageView {
 
     override fun showMsgHint(msg: String) {
         showToast(msg)
+    }
+
+    override fun showQuitLoginConfirmDialog() {
+        SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("确定退出?")
+                .setContentText("退出登录后老司机无法开车哦!")
+                .setCancelText("不,取消退出!")
+                .setConfirmText("对,退出登录!")
+                .setConfirmClickListener { presetner.quitLogin() }
+                .showCancelButton(true)
+                .setCancelClickListener { it.cancel() }
+                .show();
     }
 
 }

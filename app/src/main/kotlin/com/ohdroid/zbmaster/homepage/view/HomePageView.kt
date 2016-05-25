@@ -28,4 +28,9 @@ interface HomePageView : BaseView {
      * 显示提示
      */
     fun showMsgHint(msg: String)
+
+    /**
+     * 显示退出登录确认对话框
+     */
+    fun showQuitLoginConfirmDialog()
 }

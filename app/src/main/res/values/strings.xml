@@ -44,6 +44,7 @@
     <string name="login_upload">骚等</string>
     <string name="login_error">很明显登陆失败</string>
     <string name="login_waiting">不无聊君耕耘中,请骚等...</string>
+    <string name="quit_login">成功退出登录</string>
 
 
     <string name="hint_load_more">加载更多污妖之力中...</string>

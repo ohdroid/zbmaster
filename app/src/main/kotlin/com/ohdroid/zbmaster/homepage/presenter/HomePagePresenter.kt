@@ -104,13 +104,23 @@ class HomePagePresenter : BasePresenter<HomePageView> {
 
         //如果目前已经登录那么退出登录
         if (null != dataManager.loginManger.getUserAccount()) {
-            dataManager.loginManger.exit()
-            uiView.updateUserInfo(null)
-            uiView.showMsgHint("已退出登录")
+//            dataManager.loginManger.exit()
+//            uiView.updateUserInfo(null)
+//            uiView.showMsgHint("已退出登录")
+            uiView.showQuitLoginConfirmDialog()
         } else {
 //            uiView.showMsgHint("小弟正在找登陆页面，骚等~")
             LoginActivity.launch(activity)
         }
+    }
+
+    /**
+     * 退出登录
+     */
+    fun quitLogin() {
+        dataManager.loginManger.exit()
+        uiView.updateUserInfo(null)
+        uiView.showMsgHint(activity.resources.getString(R.string.quit_login))
     }
 
 }
