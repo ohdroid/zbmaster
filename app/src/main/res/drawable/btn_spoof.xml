@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@mipmap/ic_launcher" android:state_enabled="true" android:state_focused="true" android:state_pressed="false" />
+    <item android:drawable="@mipmap/icon_launcher" android:state_enabled="true" android:state_focused="true" android:state_pressed="false" />
     <item android:drawable="@mipmap/sproof_icon" android:state_enabled="true" android:state_pressed="true" />
     <item android:drawable="@mipmap/sproof_icon" android:state_checked="true" android:state_enabled="true" />
-    <item android:drawable="@mipmap/ic_launcher" />
+    <item android:drawable="@mipmap/icon_launcher" />
 </selector>

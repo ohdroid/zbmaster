@@ -367,8 +367,6 @@ class HomePageActivity : BaseActivity(), HomePageView {
     }
 
 
-    val PERMISSION_REQEUST_CODE: Int = 123
-
     //----------------------------------presneter层操作接口--------------
     override fun updateUserInfo(userInfo: AccountInfo?) {
         if (null == userInfo) {
@@ -404,11 +402,14 @@ class HomePageActivity : BaseActivity(), HomePageView {
 
     override fun showQuitLoginConfirmDialog() {
         SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
-                .setTitleText("确定退出?")
-                .setContentText("退出登录后老司机无法开车哦!")
-                .setCancelText("不,取消退出!")
-                .setConfirmText("对,退出登录!")
-                .setConfirmClickListener { presetner.quitLogin() }
+                .setTitleText(resources.getString(R.string.quit_dialog_title))
+                .setContentText(resources.getString(R.string.quit_dialog_content))
+                .setCancelText(resources.getString(R.string.quit_dialog_no))
+                .setConfirmText(resources.getString(R.string.quit_dialog_yes))
+                .setConfirmClickListener {
+                    it.cancel()
+                    presetner.quitLogin()
+                }
                 .showCancelButton(true)
                 .setCancelClickListener { it.cancel() }
                 .show();

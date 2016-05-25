@@ -11,7 +11,7 @@
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="80dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/icon_launcher" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/et_name"
