@@ -93,7 +93,7 @@
         <item>法号: Jucsin</item>
         <item>职责: Android撸码师</item>
         <item>企鹅: 103378499X</item>
-        <item>座右铭：最爽的事情就是打篮球和看别人打篮球</item>
+        <item>座右铭：</item>
     </string-array>
 
     <string-array name="designer">
@@ -113,5 +113,7 @@
     <!--hint-->
     <string name="pop_view_hint">从左边向右滑动,拉出侧边菜单</string>
     <string name="pop_button_view">知道了</string>
+
+    <string name="app_slogan">不无聊，让生活更有趣！</string>
 
 </resources>

@@ -29,7 +29,8 @@
    void set*(***);
    *** get*();
 }
-
+#sweet dialog
+-keep class cn.pedant.SweetAlert.** { *; }
 
 -keep public class * extends android.app.Activity
 -keep public class * extends android.app.Application
