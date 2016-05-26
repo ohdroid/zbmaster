@@ -1,4 +1,7 @@
 # **不无聊APP:GIF分享类的app,只为博君一笑**
+* 下载地址:[点我][7]
+* 下载二维码:<br/>
+![下载二维码][8]
 
 ## **引用库**
 * kotlin-大部分使用kotlin语言编写
@@ -55,3 +58,5 @@ qq_app_id = "XXXXXXXXXXXXXX"<br/>
   [4]: http://67.media.tumblr.com/51e747b66b06ab7809d04005bb703510/tumblr_o6jyzoy4As1vtu5g9o1_1280.jpg
   [5]: https://github.com/pedrovgs/EffectiveAndroidUI
   [6]: https://github.com/damianpetla/kotlin-dagger-example
+  [7]: http://zbmaster.bmob.cn
+  [8]: http://c.hiphotos.baidu.com/image/pic/item/d53f8794a4c27d1e98808f1f1cd5ad6edcc43842.jpg
