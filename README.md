@@ -1,5 +1,6 @@
 # **不无聊APP:GIF分享类的app,只为博君一笑**
-* 下载地址:[点我][7]
+* 市场下载地址:[点我][9]
+* 网站下载地址:[点我][7]
 * 下载二维码:<br/>
 ![下载二维码][8]
 
@@ -60,3 +61,4 @@ qq_app_id = "XXXXXXXXXXXXXX"<br/>
   [6]: https://github.com/damianpetla/kotlin-dagger-example
   [7]: http://zbmaster.bmob.cn
   [8]: http://c.hiphotos.baidu.com/image/pic/item/d53f8794a4c27d1e98808f1f1cd5ad6edcc43842.jpg
+  [9]: http://app.mi.com/detail/394024
