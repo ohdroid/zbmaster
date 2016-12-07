@@ -51,7 +51,7 @@ qq_app_id = "XXXXXXXXXXXXXX"<br/>
 2. 引入性能分析框架
 3. 实现更复杂的功能(自动升级,增量更新,划分更多的功能专区)
 4. 插件化框架引入
-5. 忽悠更多有兴趣的朋友参与开发
+5. 吸引更多有兴趣的朋友参与开发
 
   [1]: https://github.com/ribot/android-boilerplate
   [2]: https://github.com/glomadrian/MvpCleanArchitecture
