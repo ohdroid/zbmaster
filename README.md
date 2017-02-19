@@ -57,7 +57,7 @@ qq_app_id = "XXXXXXXXXXXXXX"<br/>
   [1]: https://github.com/ribot/android-boilerplate
   [2]: https://github.com/glomadrian/MvpCleanArchitecture
   [3]: https://github.com/JorgeCastilloPrz/EasyMVP
-  [4]: http://67.media.tumblr.com/51e747b66b06ab7809d04005bb703510/tumblr_o6jyzoy4As1vtu5g9o1_1280.jpg
+  [4]: https://github.com/ohdroid/zbmaster/blob/master/mvp_image.jpg?raw=true
   [5]: https://github.com/pedrovgs/EffectiveAndroidUI
   [6]: https://github.com/damianpetla/kotlin-dagger-example
   [7]: http://zbmaster.bmob.cn
